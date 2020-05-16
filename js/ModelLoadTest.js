@@ -9,6 +9,8 @@ var mDirectionalLight;    // SunLight
 var mMeshGrid;
 var mAxis;
 var mMeshLineMaterial;
+// FBX load
+var mMixer;
 
 function onKeyPress(event) {
     var key;
@@ -104,6 +106,47 @@ function initObjects() {
         line.rotation.y = 90 * Math.PI / 180;
         mScene.add(line);
     }
+
+    // load FBX
+    var fbxLoader = new THREE.FBXLoader();
+    fbxLoader.setCrossOrigin("Anonymous");
+    fbxLoader.load("/model/shark.fbx", function(mesh) {
+        mesh.scale.x *= 0.05;
+        mesh.scale.y *= 0.05;
+        mesh.scale.z *= 0.05;
+        mScene.add(mesh);
+
+        mMixer = new THREE.AnimationMixer(mesh);
+        console.log(mesh.animations.length);
+        mMixer.clipAction(mesh.animations[0]).play();
+    });
+
+    // // load OBJ
+    // var onProgress = function(xhr) {
+    //     if (xhr.lengthComputable) {
+    //         var percentComplete = xhr.loaded / xhr.total * 100;
+    //         console.log(Math.round(percentComplete, 2) + '% loading');
+    //     }
+    // };
+    // var onError = function(error) {
+    //     console.log('load error!' + error.getWebGLErrorMessage());
+    // };
+    
+    // var mtlLoader = new THREE.MTLLoader();
+    // mtlLoader.setPath('model/CaptainAmerica/');
+    // mtlLoader.load('CaptainAmerica.mtl', function(material) {
+    //     material.preload();
+    //     var objLoader = new THREE.OBJLoader();
+    //     objLoader.setMaterials(material);
+    //     objLoader.setPath('model/CaptainAmerica/');
+    //     objLoader.load('CaptainAmerica.obj', function(object) {
+    //         // object.position.x += 10;
+    //         // object.scale.x *= 100;
+    //         // object.scale.y *= 100;
+    //         // object.scale.z *= 100;
+    //         mScene.add(object);
+    //     }, onProgress, onError);
+    // });
 }
 
 function render() {
@@ -114,15 +157,18 @@ function render() {
     mRenderer.clear();
     mRenderer.render(mScene, mCamera);
 
-    updateScene();
+    var time = clock.getDelta();
+    updateScene(time);
 
     mStats.update();
 
     requestAnimationFrame(render);
 }
 
-function updateScene() {
-    
+function updateScene(time) {
+    if (mMixer) {
+        mMixer.update(time);
+    }
 }
 
 function main() {
