@@ -86,7 +86,7 @@ function initScene() {
 
     // 创建控件并绑定在相机上
     mOrbitControl = new THREE.OrbitControls(mCamera, mRenderer.domElement);
-    mOrbitControl.target = new THREE.Vector3(0, 0, 0);
+    mOrbitControl.target = new THREE.Vector3(0, 100, 0);
     mOrbitControl.autoRotate = false;
     mOrbitControl.minDistance = 1;
     mOrbitControl.maxDistance = 1000;
@@ -110,8 +110,8 @@ function initLight() {
     mScene.add(mDirectionalLight);
 
     mSpotLight = new THREE.SpotLight(0xffffff);
-    mSpotLight.position.set(0, 100, 0);
-    // mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
+    mSpotLight.position.set(0, 120, 0);
+    mSpotLight.angle = Math.PI / 3; // 设置聚光光源发散角度
     mSpotLight.castShadow = true;
     mSpotLight.receiveShadow = true;
     mSpotLight.shadow.camera.near = 0.5;
@@ -156,20 +156,6 @@ function initObjects() {
     // mScene.add(cube);
     // cube.position.set(50, 25, 0);
 
-    // load FBX
-    var fbxLoader = new THREE.FBXLoader();
-    fbxLoader.setCrossOrigin("Anonymous");
-    fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
-        object.castShadow = true;
-        object.receiveShadow = true; // 接收阴影
-        mScene.add(object);
-
-        object.mixer = new THREE.AnimationMixer(object);
-        mMixers.push(object.mixer);
-        console.log(object.animations.length);
-        object.mixer.clipAction(object.animations[0]).play();
-    });
-
     // load OBJ
     var onProgress = function(xhr) {
         if (xhr.lengthComputable) {
@@ -205,6 +191,45 @@ function initObjects() {
         mScene.add(object);
     }, onProgress, onError);
     // });
+
+    // load FBX
+    var fbxLoader = new THREE.FBXLoader();
+    fbxLoader.setCrossOrigin("Anonymous");
+    fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
+        object.traverse(function(child) {
+            if (child.isMesh) {    //  instanceof THREE.Mesh
+                child.castShadow = true;
+                child.receiveShadow = true; // 接收阴影
+            }
+        });
+        mScene.add(object);
+
+        object.mixer = new THREE.AnimationMixer(object);
+        mMixers.push(object.mixer);
+        console.log(object.animations.length);
+        object.mixer.clipAction(object.animations[0]).play();
+    });
+
+    // load dustbin FBX
+    var dustbinPBRMaterial = new THREE.MeshPhysicalMaterial({
+        map: THREE.ImageUtils.loadTexture('/model/PBR_Dustbin/lajitong_Material _47_BaseColor.jpg', null, function(t){}),
+        metalness: 0.1, 
+        roughness: 0.2
+    });
+    fbxLoader.load("/model/PBR_Dustbin/dustbin.fbx", function(object) {
+        object.traverse(function(child) {
+            if (child.isMesh) {    //  instanceof THREE.Mesh
+                child.material = dustbinPBRMaterial;
+                child.castShadow = true;
+                child.receiveShadow = true; // 接收阴影
+            }
+        });
+        object.position.x -= 10;
+        object.scale.x = 0.1;
+        object.scale.y = 0.1;
+        object.scale.z = 0.1;
+        mScene.add(object);
+    });
 }
 
 function render() {
