@@ -41,6 +41,12 @@ function initThree() {
     mRenderer = new THREE.WebGLRenderer({
         antialias : true
     });
+    mRenderer.shadowMap.enable = true;
+    mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
+    mRenderer.shadowCameraNear = 0.5;
+    mRenderer.shadowCameraFar = 100000;
+    mRenderer.shadowMapWidth = 4096;
+    mRenderer.shadowMapHeight = 4096;
     mRenderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('canvas-frame').appendChild(mRenderer.domElement);
     mRenderer.setClearColor(0xffffff, 1.0);
@@ -74,7 +80,7 @@ function initCamera() {
 function initScene() {
     mScene = new THREE.Scene();
 
-    mAxis = new THREE.AxesHelper(50);
+    mAxis = new THREE.AxesHelper(500);
     mAxis.material.visible = mShowAssist;
     mScene.add(mAxis);
 
@@ -90,16 +96,28 @@ function initLight() {
     mAmbientLight = new THREE.AmbientLight(0x777777);
     mScene.add(mAmbientLight);
 
-    mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    mDirectionalLight.position.set(0, 10, 10);
-    mDirectionalLight.target.position.set(0, 0, 0);
-    // mDirectionalLight.shadowCameraVisible = true;
-    mDirectionalLight.castShadow = true;
-    mScene.add(mDirectionalLight);
+    // mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    // mDirectionalLight.position.set(500, 500, 500);
+    // mDirectionalLight.target.position.set(0, 0, 0);
+    // // mDirectionalLight.shadowCameraVisible = true;
+    // mDirectionalLight.castShadow = true;
+    // mDirectionalLight.shadow.camera.near = 0.5;
+    // mDirectionalLight.shadow.camera.far = 3000;
+    // mDirectionalLight.shadow.camera.top = 1800;
+    // mDirectionalLight.shadow.camera.bottom = -1000;
+    // mDirectionalLight.shadow.camera.left = -1200;
+    // mDirectionalLight.shadow.camera.right = 1200;
+    // mScene.add(mDirectionalLight);
 
     mSpotLight = new THREE.SpotLight(0xffffff);
-    mSpotLight.position.set(0, 10, 0);
+    mSpotLight.position.set(50, 100, 50);
+    // mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
     mSpotLight.castShadow = true;
+    mSpotLight.receiveShadow = true;
+    mSpotLight.shadow.camera.near = 0.5;
+    mSpotLight.shadow.camera.far = 1000;
+    mSpotLight.shadow.camera.width = 1000;
+    mSpotLight.shadow.camera.height = 1000;
     mScene.add(mSpotLight);
 }
 
@@ -123,17 +141,18 @@ function initObjects() {
 
     // plane
     var planeGeo = new THREE.PlaneGeometry(1000, 1000);
-    var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc}); // , side: THREE.DoubleSide
+    var planeMaterial = new THREE.MeshStandardMaterial({color: 0xcccccc}); // , side: THREE.DoubleSide
     var planeMesh = new THREE.Mesh(planeGeo, planeMaterial);
-    planeMesh.rotateX(-Math.PI/2);
+    planeMesh.rotateX(-Math.PI / 2);
     planeMesh.receiveShadow = true; // 接收阴影
     mScene.add(planeMesh);
 
     // Cube
     var cubeGeo = new THREE.CubeGeometry(50, 50, 50);
-    var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+    var cubeMaterial = new THREE.MeshStandardMaterial({color: 0xff0000});
     var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
     cube.castShadow = true;
+    cube.receiveShadow = true; // 接收阴影
     mScene.add(cube);
     cube.position.set(100, 25, 0);
 
@@ -142,6 +161,7 @@ function initObjects() {
     fbxLoader.setCrossOrigin("Anonymous");
     fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
         object.castShadow = true;
+        object.receiveShadow = true; // 接收阴影
         mScene.add(object);
 
         object.mixer = new THREE.AnimationMixer(object);
@@ -177,9 +197,10 @@ function initObjects() {
         object.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
                 child.material = pbrMaterial;
+                child.castShadow = true;
+                child.receiveShadow = true; // 接收阴影
             }
         });
-        object.castShadow = true;
         object.position.z -= 100;
         mScene.add(object);
     }, onProgress, onError);
@@ -192,7 +213,6 @@ function render() {
     mOrbitControl.update(delta);
 
     mRenderer.clear();
-    mRenderer.shadowMap.enable = true;
     mRenderer.render(mScene, mCamera);
 
     var deltaTime = clock.getDelta();
