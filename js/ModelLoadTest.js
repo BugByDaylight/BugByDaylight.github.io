@@ -41,7 +41,7 @@ function initThree() {
     mRenderer = new THREE.WebGLRenderer({
         antialias : true
     });
-    mRenderer.shadowMap.enable = true;
+    mRenderer.shadowMap.enabled = true; // 麻痹的这一个d搞了我一下午，为什么编译器不会报错，引擎的问题还是js的问题
     mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
     mRenderer.shadowCameraNear = 0.5;
     mRenderer.shadowCameraFar = 100000;
@@ -96,21 +96,21 @@ function initLight() {
     mAmbientLight = new THREE.AmbientLight(0x777777);
     mScene.add(mAmbientLight);
 
-    // mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    // mDirectionalLight.position.set(500, 500, 500);
-    // mDirectionalLight.target.position.set(0, 0, 0);
-    // // mDirectionalLight.shadowCameraVisible = true;
-    // mDirectionalLight.castShadow = true;
-    // mDirectionalLight.shadow.camera.near = 0.5;
-    // mDirectionalLight.shadow.camera.far = 3000;
-    // mDirectionalLight.shadow.camera.top = 1800;
-    // mDirectionalLight.shadow.camera.bottom = -1000;
-    // mDirectionalLight.shadow.camera.left = -1200;
-    // mDirectionalLight.shadow.camera.right = 1200;
-    // mScene.add(mDirectionalLight);
+    mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    mDirectionalLight.position.set(500, 500, 500);
+    mDirectionalLight.target.position.set(0, 0, 0);
+    // mDirectionalLight.shadowCameraVisible = true;
+    mDirectionalLight.castShadow = true;
+    mDirectionalLight.shadow.camera.near = 0.5;
+    mDirectionalLight.shadow.camera.far = 3000;
+    mDirectionalLight.shadow.camera.top = 1800;
+    mDirectionalLight.shadow.camera.bottom = -1000;
+    mDirectionalLight.shadow.camera.left = -1200;
+    mDirectionalLight.shadow.camera.right = 1200;
+    mScene.add(mDirectionalLight);
 
     mSpotLight = new THREE.SpotLight(0xffffff);
-    mSpotLight.position.set(50, 100, 50);
+    mSpotLight.position.set(0, 100, 0);
     // mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
     mSpotLight.castShadow = true;
     mSpotLight.receiveShadow = true;
@@ -148,13 +148,13 @@ function initObjects() {
     mScene.add(planeMesh);
 
     // Cube
-    var cubeGeo = new THREE.CubeGeometry(50, 50, 50);
-    var cubeMaterial = new THREE.MeshStandardMaterial({color: 0xff0000});
-    var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
-    cube.castShadow = true;
-    cube.receiveShadow = true; // 接收阴影
-    mScene.add(cube);
-    cube.position.set(100, 25, 0);
+    // var cubeGeo = new THREE.CubeGeometry(50, 50, 50);
+    // var cubeMaterial = new THREE.MeshStandardMaterial({color: 0xff0000});
+    // var cube = new THREE.Mesh(cubeGeo, cubeMaterial);
+    // cube.castShadow = true;
+    // cube.receiveShadow = true; // 接收阴影
+    // mScene.add(cube);
+    // cube.position.set(50, 25, 0);
 
     // load FBX
     var fbxLoader = new THREE.FBXLoader();
