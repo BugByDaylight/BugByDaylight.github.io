@@ -237,8 +237,11 @@ function initObjects() {
     // load J-15 material
     var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
         map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
+        emissive:0x111111,
         normalMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_n.jpg'),
-        metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg')
+        metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg'), 
+        roughnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_r.jpg'), 
+        emissiveMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_s.jpg')
     });
     objLoader.setPath('model/J-15/');
     objLoader.load('J-15.obj', function(object) {
