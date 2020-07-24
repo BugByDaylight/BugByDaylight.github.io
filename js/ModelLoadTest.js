@@ -110,7 +110,7 @@ function initLight() {
     mScene.add(mDirectionalLight);
 
     mSpotLight = new THREE.SpotLight(0xffffff);
-    mSpotLight.position.set(0, 120, 0);
+    mSpotLight.position.set(0, 200, 0);
     mSpotLight.angle = Math.PI / 3; // 设置聚光光源发散角度
     mSpotLight.castShadow = true;
     mSpotLight.receiveShadow = true;
@@ -187,12 +187,13 @@ function initObjects() {
                 child.receiveShadow = true; // 接收阴影
             }
         });
+        object.position.x -= 300;
         object.position.z -= 100;
         mScene.add(object);
     }, onProgress, onError);
     // });
 
-    // load FBX
+    // load FBX nurse
     var fbxLoader = new THREE.FBXLoader();
     fbxLoader.setCrossOrigin("Anonymous");
     fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
@@ -203,7 +204,7 @@ function initObjects() {
             }
         });
         mScene.add(object);
-
+        object.position.x -= 290;
         object.mixer = new THREE.AnimationMixer(object);
         mMixers.push(object.mixer);
         console.log(object.animations.length);
@@ -216,7 +217,9 @@ function initObjects() {
         metalness: 0.1, 
         roughness: 0.2
     });
-    fbxLoader.load("/model/PBR_Dustbin/dustbin.fbx", function(object) {
+    var dustbinLoader = new THREE.FBXLoader();
+    dustbinLoader.setCrossOrigin("Anonymous");
+    dustbinLoader.load("/model/PBR_Dustbin/dustbin.fbx", function(object) {
         object.traverse(function(child) {
             if (child.isMesh) {    //  instanceof THREE.Mesh
                 child.material = dustbinPBRMaterial;
@@ -224,12 +227,31 @@ function initObjects() {
                 child.receiveShadow = true; // 接收阴影
             }
         });
-        object.position.x -= 10;
+        object.position.x -= 300;
         object.scale.x = 0.1;
         object.scale.y = 0.1;
         object.scale.z = 0.1;
         mScene.add(object);
     });
+
+    // load J-15 material
+    var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
+        map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
+        normalMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_n.jpg'),
+        metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg')
+    });
+    objLoader.setPath('model/J-15/');
+    objLoader.load('J-15.obj', function(object) {
+        object.traverse(function(child) {
+            if (child instanceof THREE.Mesh) {
+                child.material = j15PBRMaterial;
+                child.castShadow = true;
+                child.receiveShadow = true; // 接收阴影
+            }
+        });
+        object.scale.set(50, 50, 50)
+        mScene.add(object);
+    }, onProgress, onError);
 }
 
 function render() {
