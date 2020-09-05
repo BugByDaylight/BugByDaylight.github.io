@@ -11,7 +11,9 @@ var mMeshGrid;
 var mAxis;
 var mMeshLineMaterial;
 // FBX load
-var mMixers = [];
+var mFbxAnimMixers;
+var mFbxAnimations = ["idle", "run", "attack", "death"];
+var mFbxActions = [];
 
 function onKeyPress(event) {
     var key;
@@ -27,6 +29,14 @@ function onKeyPress(event) {
             mMeshLineMaterial.visible = mShowAssist;
             mAxis.material.visible = mShowAssist;
             break;
+        case '1':
+            playAnimation(1);
+        case '2':
+            playAnimation(2);
+        case '3':
+            playAnimation(3);
+        case '4':
+            playAnimation(4);
         default:
             break;
     }
@@ -205,10 +215,11 @@ function initObjects() {
         });
         mScene.add(object);
         object.position.x -= 290;
-        object.mixer = new THREE.AnimationMixer(object);
-        mMixers.push(object.mixer);
+        mFbxAnimMixers = new THREE.AnimationMixer(object);
         console.log(object.animations.length);
-        object.mixer.clipAction(object.animations[0]).play();
+        mFbxAnimMixers.clipAction(object.animations[0]).play();
+
+        loadNextAnim(fbxLoader);
     });
 
     // load dustbin FBX
@@ -257,6 +268,39 @@ function initObjects() {
     }, onProgress, onError);
 }
 
+function loadNextAnim(loader) {
+    const anim = mFbxAnimations.pop();
+
+    loader.load(`/model/zombienurse/${anim}.fbx`, function (object) {
+        const action = mFbxAnimMixers.clipAction(object.animations[0]);
+        mFbxActions.push(action);
+
+        object.traverse(function (child) {
+            if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = false;
+            }
+        } );
+        // mScene.add(object);
+        
+        if (mFbxAnimations.length > 0) {
+            loadNextAnim(loader);
+        }
+    } );
+}
+
+function stopAnimation() {
+    mFbxAnimMixers.stopAllAction();    
+}
+
+function playAnimation(index) {
+    mFbxAnimMixers.stopAllAction();
+    const action = mFbxActions[index];
+    action.weight = 1;
+    action.fadeIn(0.5);
+    action.play();
+}
+
 function render() {
     var clock = new THREE.Clock();
     var delta = clock.getDelta();
@@ -274,10 +318,8 @@ function render() {
 }
 
 function updateScene(deltaTime) {
-    if (mMixers.length > 0) {
-        for (let i = 0; i < mMixers.length; i++) {
-            mMixers[i].update(deltaTime);
-        }
+    if (null != mFbxAnimMixers) {
+        mFbxAnimMixers.update(deltaTime);
     }
 }
 
