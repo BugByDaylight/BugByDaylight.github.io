@@ -14,6 +14,7 @@ var mMeshLineMaterial;
 var mFbxAnimMixers;
 var mFbxAnimations = ["idle", "run", "attack", "death"];
 var mFbxActions = [];
+var mClock = new THREE.Clock();
 
 function onKeyPress(event) {
     var key;
@@ -302,15 +303,12 @@ function playAnimation(index) {
 }
 
 function render() {
-    var clock = new THREE.Clock();
-    var delta = clock.getDelta();
+    var delta = mClock.getDelta();
     mOrbitControl.update(delta);
 
     mRenderer.clear();
     mRenderer.render(mScene, mCamera);
-
-    var deltaTime = clock.getDelta();
-    updateScene(deltaTime);
+    updateScene(delta);
 
     mStats.update();
 

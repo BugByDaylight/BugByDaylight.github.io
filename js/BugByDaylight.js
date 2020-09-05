@@ -150,7 +150,6 @@ class BugByDaylight {
                     child.receiveShadow = true; // 接收阴影
                 }
             });
-            object.position.x -= 300;
             object.position.z -= 100;
             self.mScene.add(object);
         }, onProgress, onError);
@@ -170,11 +169,29 @@ class BugByDaylight {
                 }
             });
             self.mScene.add(object);
-            object.position.x -= 290;
+            object.position.x -= 200;
             console.log(object.animations.length);
             self.mFbxAnimMixers.clipAction(object.animations[0]).play();
 
             self.loadNextAnim(fbxLoader);
+        });
+
+        // load FBX woman sophia
+        var sophiaLoader = new THREE.FBXLoader();
+        sophiaLoader.setCrossOrigin("Anonymous");
+        sophiaLoader.load("/model/sophia/rp_sophia_animated_003_idling.fbx", function(object) {
+            self.mFbxSophiaMixers = new THREE.AnimationMixer(object);
+
+            object.traverse(function(child) {
+                if (child.isMesh) {    //  instanceof THREE.Mesh
+                    child.castShadow = true;
+                    child.receiveShadow = true; // 接收阴影
+                }
+            });
+            self.mScene.add(object);
+            object.rotateX(-Math.PI / 2);
+            console.log(object.animations.length);
+            self.mFbxSophiaMixers.clipAction(object.animations[0]).play();
         });
 
         // load dustbin FBX
@@ -193,34 +210,34 @@ class BugByDaylight {
                     child.receiveShadow = true; // 接收阴影
                 }
             });
-            object.position.x -= 300;
+            object.position.x -= 220;
             object.scale.x = 0.1;
             object.scale.y = 0.1;
             object.scale.z = 0.1;
             self.mScene.add(object);
         });
 
-        // load J-15 material
-        var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
-            map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
-            emissive:0x111111,
-            normalMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_n.jpg'),
-            metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg'), 
-            roughnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_r.jpg'), 
-            emissiveMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_s.jpg')
-        });
-        objLoader.setPath('model/J-15/');
-        objLoader.load('J-15.obj', function(object) {
-            object.traverse(function(child) {
-                if (child instanceof THREE.Mesh) {
-                    child.material = j15PBRMaterial;
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            object.scale.set(50, 50, 50)
-            self.mScene.add(object);
-        }, onProgress, onError);
+        // // load J-15 material
+        // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
+        //     map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
+        //     emissive:0x111111,
+        //     normalMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_n.jpg'),
+        //     metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg'), 
+        //     roughnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_r.jpg'), 
+        //     emissiveMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_s.jpg')
+        // });
+        // objLoader.setPath('model/J-15/');
+        // objLoader.load('J-15.obj', function(object) {
+        //     object.traverse(function(child) {
+        //         if (child instanceof THREE.Mesh) {
+        //             child.material = j15PBRMaterial;
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     object.scale.set(50, 50, 50)
+        //     self.mScene.add(object);
+        // }, onProgress, onError);
     }
 
     loadNextAnim(loader) {
@@ -242,6 +259,7 @@ class BugByDaylight {
             if (self.mNurseAnims.length > 0) {
                 self.loadNextAnim(loader);
             } else {
+                self.playAnimation(0);
                 self.render();
             }
         } );
@@ -268,6 +286,9 @@ class BugByDaylight {
         
         if (null != this.mFbxAnimMixers) {
             this.mFbxAnimMixers.update(delta);
+        }
+        if (null != this.mFbxSophiaMixers) {
+            this.mFbxSophiaMixers.update(delta);
         }
 
         this.mStats.update();
