@@ -20,10 +20,17 @@
             }
 
         </style>
-        <script src="js/ModelLoadTest.js"></script>
     </head>
 
-    <body onload="main();" onkeypress="onKeyPress(event)">
-        <div id="canvas-frame"></div>
+    <body onkeypress="game.playAnimation.call(game, 1)">
+        <script src="js/BugByDaylight.js"></script>
+        <script>
+            var game;
+            
+            document.addEventListener("DOMContentLoaded", function(){
+                game = new BugByDaylight(); 
+                window.game = game;
+            });
+        </script>
     </body>
 </html>
