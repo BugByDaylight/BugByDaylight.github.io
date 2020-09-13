@@ -190,7 +190,7 @@ class BugByDaylight {
                 }
             });
             self.mScene.add(object);
-            object.position.x += 200;
+            object.position.x += 400;
             object.rotateX(-Math.PI / 2);
             console.log(object.animations.length);
             self.mHyenaAnimMixers.clipAction(object.animations[0]).play();
@@ -209,6 +209,7 @@ class BugByDaylight {
                 }
             });
             self.mScene.add(object);
+            object.position.x += 200;
             object.rotateX(-Math.PI / 2);
             console.log(object.animations.length);
             self.mFbxSophiaMixers.clipAction(object.animations[0]).play();
@@ -239,16 +240,29 @@ class BugByDaylight {
 
         // load mmd model
         var fengminLoader = new THREE.MMDLoader();
+        var helper = new THREE.MMDHelper();
+        var motionFiles = ["http://file.niuini.com/motion/201904202121169044.vmd"];
         // fengminLoader.setCrossOrigin("Anonymous");
-        fengminLoader.load("/model/fengmin/Feng.pmx", function(object) {
-            object.traverse(function(child) {
-                if (child.isMesh) {    //  instanceof THREE.Mesh
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
+        fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
+            object.castShadow = true;
+            object.receiveShadow = true;
+
+            helper.add(object);
+            helper.setAnimation(object);
+
+            // 骨骼辅助显示
+            var ikHelper = new THREE.CCDIKHelper(object);
+            ikHelper.visible = false;
+            self.mScene.add(ikHelper);
+
+            // 物理刚体辅助显示
+            helper.setPhysics(object);
+            var physicsHelper = new THREE.MMDPhysicsHelper(object);
+            physicsHelper.visible = false;
+            self.mScene.add(physicsHelper);
+
             self.mScene.add(object);
-            object.position.x += 250;
+            object.scale.set(10, 10, 10)
         });
 
         // // load J-15 material
