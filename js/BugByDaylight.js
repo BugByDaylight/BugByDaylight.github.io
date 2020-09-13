@@ -159,7 +159,7 @@ class BugByDaylight {
         // load FBX nurse
         var fbxLoader = new THREE.FBXLoader();
         fbxLoader.setCrossOrigin("Anonymous");
-        fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
+        fbxLoader.load("/model/zombienurse/zombienurse_Rig.FBX", function(object) {
             self.mNurseAnimMixers = new THREE.AnimationMixer(object);
             self.mNurseActions = [];
 
@@ -306,7 +306,7 @@ class BugByDaylight {
         const self = this;
         const anim = names.pop();
     
-        loader.load(rootPath + anim + '.fbx', function (object) {
+        loader.load(rootPath + anim + '.FBX', function (object) {
             const action = mixers.clipAction(object.animations[0]);
             actions.push(action);
     
