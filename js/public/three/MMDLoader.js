@@ -2047,9 +2047,9 @@ THREE.MMDAudioManager.prototype = {
 	},
 	//**add 实现播放音频的暂停
 	checkIfPauseAudio: function () {
-		// if( pause ){
-		// 	return true;
-		// }
+		if( pause ){
+			return true;
+		}
 		return false;
 	},
 
@@ -2556,7 +2556,7 @@ THREE.MMDHelper.prototype = {
 		
 		
 		
-		if(this.audioManager.audio.isPlaying) { //  || pause
+		if(this.audioManager.audio.isPlaying || pause){
 
 			//贴图更新
 			for ( var i = 0; i < this.meshes.length; i++ ) {

@@ -65,7 +65,7 @@ class BugByDaylight {
     }
 
     initLight() {
-        this.mAmbientLight = new THREE.AmbientLight(0x777777);
+        this.mAmbientLight = new THREE.AmbientLight(0x777777, 1);
         this.mScene.add(this.mAmbientLight);
 
         this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -81,7 +81,7 @@ class BugByDaylight {
         this.mDirectionalLight.shadow.camera.right = 1200;
         this.mScene.add(this.mDirectionalLight);
 
-        this.mSpotLight = new THREE.SpotLight(0xffffff);
+        this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.5);
         this.mSpotLight.position.set(0, 200, 0);
         this.mSpotLight.angle = Math.PI / 3; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
@@ -177,24 +177,24 @@ class BugByDaylight {
             self.loadNextAnim(fbxLoader, '/model/zombienurse/', self.mNurseAnims, self.mNurseAnimMixers, self.mNurseActions);
         });
 
-        // load FBX hyena
-        var hyenaLoader = new THREE.FBXLoader();
-        hyenaLoader.setCrossOrigin("Anonymous");
-        hyenaLoader.load("/model/hyena/hyena.FBX", function(object) {
-            self.mHyenaAnimMixers = new THREE.AnimationMixer(object);
+        // // load FBX hyena 这个模型自带环境光会叠加上导致环境光太亮
+        // var hyenaLoader = new THREE.FBXLoader();
+        // hyenaLoader.setCrossOrigin("Anonymous");
+        // hyenaLoader.load("/model/hyena/hyena.FBX", function(object) {
+        //     self.mHyenaAnimMixers = new THREE.AnimationMixer(object);
 
-            object.traverse(function(child) {
-                if (child.isMesh) {    //  instanceof THREE.Mesh
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            self.mScene.add(object);
-            object.position.x += 400;
-            object.rotateX(-Math.PI / 2);
-            console.log(object.animations.length);
-            self.mHyenaAnimMixers.clipAction(object.animations[0]).play();
-        });
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {    //  instanceof THREE.Mesh
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     self.mScene.add(object);
+        //     object.position.x += 400;
+        //     object.rotateX(-Math.PI / 2);
+        //     console.log(object.animations.length);
+        //     self.mHyenaAnimMixers.clipAction(object.animations[0]).play();
+        // });
 
         // load FBX woman sophia
         var sophiaLoader = new THREE.FBXLoader();
@@ -240,15 +240,17 @@ class BugByDaylight {
 
         // load mmd model
         var fengminLoader = new THREE.MMDLoader();
-        var helper = new THREE.MMDHelper();
+        this.mFengminAnimHelper = new THREE.MMDHelper();
         var motionFiles = ["http://file.niuini.com/motion/201904202121169044.vmd"];
+        var cameraFiles = ["http://file.niuini.com/camera/201904202121539841.vmd"];
+        var audioFile =    "http://file.niuini.com/audio/201904202132351044.mp3";
         // fengminLoader.setCrossOrigin("Anonymous");
         fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
             object.castShadow = true;
             object.receiveShadow = true;
 
-            helper.add(object);
-            helper.setAnimation(object);
+            self.mFengminAnimHelper.add(object);
+            self.mFengminAnimHelper.setAnimation(object);
 
             // 骨骼辅助显示
             var ikHelper = new THREE.CCDIKHelper(object);
@@ -256,10 +258,22 @@ class BugByDaylight {
             self.mScene.add(ikHelper);
 
             // 物理刚体辅助显示
-            helper.setPhysics(object);
+            self.mFengminAnimHelper.setPhysics(object);
             var physicsHelper = new THREE.MMDPhysicsHelper(object);
             physicsHelper.visible = false;
             self.mScene.add(physicsHelper);
+
+            fengminLoader.loadVmds(cameraFiles, function (vmd) {
+                fengminLoader.pourVmdIntoCamera(self.mCamera, vmd);
+                fengminLoader.loadAudio(audioFile, function (audio, listener) {
+                    var audioParams ={delayTime: 0};
+                    self.mFengminAnimHelper.setAudio(audio, listener, audioParams);
+                    // 该函数作用:查找摄像机 音频 动作数据 模块 中最长的时间 当到达最最长时间 所有都停止 如果未设置 则模块到达自己结束时间停止 不会同步
+                    self.mFengminAnimHelper.unifyAnimationDuration();
+                    
+                    self.mFengminReady = true;
+                });
+            });
 
             self.mScene.add(object);
             object.scale.set(10, 10, 10)
@@ -346,6 +360,10 @@ class BugByDaylight {
         }
         if (null != this.mHyenaAnimMixers) {
             this.mHyenaAnimMixers.update(delta);
+        }
+
+        if (null != this.mFengminAnimHelper && this.mFengminReady) {
+            this.mFengminAnimHelper.animate(delta);
         }
 
         this.mStats.update();
