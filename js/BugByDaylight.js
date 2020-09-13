@@ -241,9 +241,9 @@ class BugByDaylight {
         // load mmd model
         var fengminLoader = new THREE.MMDLoader();
         this.mFengminAnimHelper = new THREE.MMDHelper();
-        var motionFiles = ["http://file.niuini.com/motion/201904202121169044.vmd"];
-        var cameraFiles = ["http://file.niuini.com/camera/201904202121539841.vmd"];
-        var audioFile =    "http://file.niuini.com/audio/201904202132351044.mp3";
+        var motionFiles = ["/js/public/mmd/motion_dance_1.vmd"];
+        var cameraFiles = ["/js/public/mmd/motion_camera.vmd"];
+        var audioFile =    "/js/public/mmd/201904202132351044.mp3";
         // fengminLoader.setCrossOrigin("Anonymous");
         fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
             object.castShadow = true;
