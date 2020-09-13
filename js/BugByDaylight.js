@@ -2,6 +2,7 @@ class BugByDaylight {
     constructor() {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
+        this.mKoreaAnims = ["walk", "tidy"];
 
 		this.init();
     }
@@ -159,8 +160,8 @@ class BugByDaylight {
         var fbxLoader = new THREE.FBXLoader();
         fbxLoader.setCrossOrigin("Anonymous");
         fbxLoader.load("/model/zombienurse/zombienurse_Rig.fbx", function(object) {
-            self.mFbxAnimMixers = new THREE.AnimationMixer(object);
-            self.mFbxActions = [];
+            self.mNurseAnimMixers = new THREE.AnimationMixer(object);
+            self.mNurseActions = [];
 
             object.traverse(function(child) {
                 if (child.isMesh) {    //  instanceof THREE.Mesh
@@ -171,9 +172,28 @@ class BugByDaylight {
             self.mScene.add(object);
             object.position.x -= 200;
             console.log(object.animations.length);
-            self.mFbxAnimMixers.clipAction(object.animations[0]).play();
+            self.mNurseAnimMixers.clipAction(object.animations[0]).play();
 
-            self.loadNextAnim(fbxLoader);
+            self.loadNextAnim(fbxLoader, '/model/zombienurse/', self.mNurseAnims, self.mNurseAnimMixers, self.mNurseActions);
+        });
+
+        // load FBX hyena
+        var hyenaLoader = new THREE.FBXLoader();
+        hyenaLoader.setCrossOrigin("Anonymous");
+        hyenaLoader.load("/model/hyena/hyena.FBX", function(object) {
+            self.mHyenaAnimMixers = new THREE.AnimationMixer(object);
+
+            object.traverse(function(child) {
+                if (child.isMesh) {    //  instanceof THREE.Mesh
+                    child.castShadow = true;
+                    child.receiveShadow = true; // 接收阴影
+                }
+            });
+            self.mScene.add(object);
+            object.position.x += 200;
+            object.rotateX(-Math.PI / 2);
+            console.log(object.animations.length);
+            self.mHyenaAnimMixers.clipAction(object.animations[0]).play();
         });
 
         // load FBX woman sophia
@@ -217,6 +237,20 @@ class BugByDaylight {
             self.mScene.add(object);
         });
 
+        // load mmd model
+        var fengminLoader = new THREE.MMDLoader();
+        // fengminLoader.setCrossOrigin("Anonymous");
+        fengminLoader.load("/model/fengmin/Feng.pmx", function(object) {
+            object.traverse(function(child) {
+                if (child.isMesh) {    //  instanceof THREE.Mesh
+                    child.castShadow = true;
+                    child.receiveShadow = true; // 接收阴影
+                }
+            });
+            self.mScene.add(object);
+            object.position.x += 250;
+        });
+
         // // load J-15 material
         // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
         //     map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
@@ -240,13 +274,13 @@ class BugByDaylight {
         // }, onProgress, onError);
     }
 
-    loadNextAnim(loader) {
+    loadNextAnim(loader, rootPath, names, mixers, actions) {
         const self = this;
-        const anim = this.mNurseAnims.pop();
+        const anim = names.pop();
     
-        loader.load(`/model/zombienurse/${anim}.fbx`, function (object) {
-            const action = self.mFbxAnimMixers.clipAction(object.animations[0]);
-            self.mFbxActions.push(action);
+        loader.load(rootPath + anim + '.fbx', function (object) {
+            const action = mixers.clipAction(object.animations[0]);
+            actions.push(action);
     
             object.traverse(function (child) {
                 if (child.isMesh) {
@@ -256,8 +290,8 @@ class BugByDaylight {
             });
             // self.mScene.add(object); // do not add repeat
             
-            if (self.mNurseAnims.length > 0) {
-                self.loadNextAnim(loader);
+            if (names.length > 0) {
+                self.loadNextAnim(loader, rootPath, names, mixers, actions);
             } else {
                 self.playAnimation(0);
                 self.render();
@@ -266,15 +300,21 @@ class BugByDaylight {
     }
 
     stopAnimation() {
-        this.mFbxAnimMixers.stopAllAction();
+        if (null != this.mNurseAnimMixers) 
+            this.mNurseAnimMixers.stopAllAction();
+        if (null != this.mHyenaAnimMixers)
+            this.mHyenaAnimMixers.stopAllAction();
     }
     
     playAnimation(index) {
-        this.mFbxAnimMixers.stopAllAction();
-        const action = this.mFbxActions[index];
-        action.weight = 1;
-        action.fadeIn(0.5);
-        action.play();
+        if (null != this.mNurseAnimMixers) 
+            this.mNurseAnimMixers.stopAllAction();
+        if (null != this.mNurseActions) {
+            const action1 = this.mNurseActions[index];
+            action1.weight = 1;
+            action1.fadeIn(0.5);
+            action1.play();
+        }
     }
 
     render() {
@@ -284,11 +324,14 @@ class BugByDaylight {
         this.mRenderer.clear();
         this.mRenderer.render(this.mScene, this.mCamera);
         
-        if (null != this.mFbxAnimMixers) {
-            this.mFbxAnimMixers.update(delta);
+        if (null != this.mNurseAnimMixers) {
+            this.mNurseAnimMixers.update(delta);
         }
         if (null != this.mFbxSophiaMixers) {
             this.mFbxSophiaMixers.update(delta);
+        }
+        if (null != this.mHyenaAnimMixers) {
+            this.mHyenaAnimMixers.update(delta);
         }
 
         this.mStats.update();
