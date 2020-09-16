@@ -42,14 +42,14 @@ class BugByDaylight {
     }
 
     initCamera() {
-        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
+        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
         this.mCamera.position.set(300, 300, 300);
     }
 
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        this.mScene.fog = new THREE.Fog(0xa0a0a0, 1000, 2000);
+        this.mScene.fog = new THREE.Fog(0xa0a0a0, 5000, 7000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
@@ -60,15 +60,17 @@ class BugByDaylight {
         this.mOrbitControl.target = new THREE.Vector3(0, 100, 0);
         this.mOrbitControl.autoRotate = false;
         this.mOrbitControl.minDistance = 1;
-        this.mOrbitControl.maxDistance = 1000;
+        this.mOrbitControl.maxDistance = 3000;
         this.mOrbitControl.update();
+
+        this.mTextureLoader = new THREE.TextureLoader();
     }
 
     initLight() {
         this.mAmbientLight = new THREE.AmbientLight(0x777777, 1);
         this.mScene.add(this.mAmbientLight);
 
-        this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
         this.mDirectionalLight.position.set(500, 500, 500);
         this.mDirectionalLight.target.position.set(0, 0, 0);
         // this.mDirectionalLight.shadowCameraVisible = true;
@@ -81,13 +83,13 @@ class BugByDaylight {
         this.mDirectionalLight.shadow.camera.right = 1200;
         this.mScene.add(this.mDirectionalLight);
 
-        this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.5);
-        this.mSpotLight.position.set(0, 200, 0);
+        this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.8);
+        this.mSpotLight.position.set(0, 250, 0);
         this.mSpotLight.angle = Math.PI / 3; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
         this.mSpotLight.receiveShadow = true;
         this.mSpotLight.shadow.camera.near = 0.5;
-        this.mSpotLight.shadow.camera.far = 1000;
+        this.mSpotLight.shadow.camera.far = 2000;
         this.mSpotLight.shadow.camera.width = 1000;
         this.mSpotLight.shadow.camera.height = 1000;
         this.mScene.add(this.mSpotLight);
@@ -113,69 +115,69 @@ class BugByDaylight {
         }
 
         // plane
-        var planeGeo = new THREE.PlaneGeometry(1000, 1000);
+        var planeGeo = new THREE.PlaneGeometry(700, 700);
         var planeMaterial = new THREE.MeshStandardMaterial({color: 0xcccccc}); // , side: THREE.DoubleSide
         var planeMesh = new THREE.Mesh(planeGeo, planeMaterial);
         planeMesh.rotateX(-Math.PI / 2);
         planeMesh.receiveShadow = true; // 接收阴影
         this.mScene.add(planeMesh);
 
-        // load OBJ
-        var onProgress = function(xhr) {
-            if (xhr.lengthComputable) {
-                var percentComplete = xhr.loaded / xhr.total * 100;
-                console.log(Math.round(percentComplete, 2) + '% loading');
-            }
-        };
-        var onError = function(error) {
-            console.log('load error!' + error.getWebGLErrorMessage());
-        };
-        // PBR Material
-        var pbrMaterial = new THREE.MeshPhysicalMaterial({
-            map: THREE.ImageUtils.loadTexture('/model/PBR_Safa/C501_1_1_lambert1_AlbedoTransparency.jpg', null, function(t){}), 
-            normalMap: new THREE.ImageUtils.loadTexture('/model/PBR_Safa/C501_1_1_lambert1_Normal.jpg'),
-            metalnessMap: new THREE.ImageUtils.loadTexture('/model/PBR_Safa/C501_1_1_lambert1_MetallicSmoothness.jpg')
-        });
-        // var mtlLoader = new THREE.MTLLoader();
-        // mtlLoader.setPath('model/PBR_Safa/');
-        // mtlLoader.load('shafa_obj.mtl', function(material) {
-        //     material.preload();
-        var objLoader = new THREE.OBJLoader();
-        // objLoader.setMaterials(material);
-        objLoader.setPath('model/PBR_Safa/');
-        objLoader.load('shafa_obj.obj', function(object) {
-            object.traverse(function(child) {
-                if (child instanceof THREE.Mesh) {
-                    child.material = pbrMaterial;
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            object.position.z -= 100;
-            self.mScene.add(object);
-        }, onProgress, onError);
+        // // load OBJ
+        // var onProgress = function(xhr) {
+        //     if (xhr.lengthComputable) {
+        //         var percentComplete = xhr.loaded / xhr.total * 100;
+        //         console.log(Math.round(percentComplete, 2) + '% loading');
+        //     }
+        // };
+        // var onError = function(error) {
+        //     console.log('load error!' + error.getWebGLErrorMessage());
+        // };
+        // // PBR Material
+        // var pbrMaterial = new THREE.MeshPhysicalMaterial({
+        //     map: THREE.ImageUtils.loadTexture('/model/PBR_Safa/C501_1_1_lambert1_AlbedoTransparency.jpg', null, function(t){}), 
+        //     normalMap: this.mTextureLoader.load('/model/PBR_Safa/C501_1_1_lambert1_Normal.jpg'),
+        //     metalnessMap: this.mTextureLoader.load('/model/PBR_Safa/C501_1_1_lambert1_MetallicSmoothness.jpg')
         // });
+        // // var mtlLoader = new THREE.MTLLoader();
+        // // mtlLoader.setPath('model/PBR_Safa/');
+        // // mtlLoader.load('shafa_obj.mtl', function(material) {
+        // //     material.preload();
+        // var objLoader = new THREE.OBJLoader();
+        // // objLoader.setMaterials(material);
+        // objLoader.setPath('model/PBR_Safa/');
+        // objLoader.load('shafa_obj.obj', function(object) {
+        //     object.traverse(function(child) {
+        //         if (child instanceof THREE.Mesh) {
+        //             child.material = pbrMaterial;
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     object.position.x += 320;
+        //     self.mScene.add(object);
+        // }, onProgress, onError);
+        // // });
 
-        // load FBX nurse
-        var fbxLoader = new THREE.FBXLoader();
-        fbxLoader.setCrossOrigin("Anonymous");
-        fbxLoader.load("/model/zombienurse/zombienurse_Rig.FBX", function(object) {
-            self.mNurseAnimMixers = new THREE.AnimationMixer(object);
-            self.mNurseActions = [];
+        // // load FBX nurse
+        // var fbxLoader = new THREE.FBXLoader();
+        // fbxLoader.setCrossOrigin("Anonymous");
+        // fbxLoader.load("/model/zombienurse/zombienurse_Rig.FBX", function(object) {
+        //     self.mNurseAnimMixers = new THREE.AnimationMixer(object);
+        //     self.mNurseActions = [];
 
-            object.traverse(function(child) {
-                if (child.isMesh) {    //  instanceof THREE.Mesh
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            self.mScene.add(object);
-            object.position.x -= 200;
-            console.log(object.animations.length);
-            self.mNurseAnimMixers.clipAction(object.animations[0]).play();
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {    //  instanceof THREE.Mesh
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     self.mScene.add(object);
+        //     object.position.x -= 200;
+        //     console.log(object.animations.length);
+        //     self.mNurseAnimMixers.clipAction(object.animations[0]).play();
 
-            self.loadNextAnim(fbxLoader, '/model/zombienurse/', self.mNurseAnims, self.mNurseAnimMixers, self.mNurseActions);
-        });
+        //     self.loadNextAnim(fbxLoader, '/model/zombienurse/', self.mNurseAnims, self.mNurseAnimMixers, self.mNurseActions);
+        // });
 
         // // load FBX hyena 这个模型自带环境光会叠加上导致环境光太亮
         // var hyenaLoader = new THREE.FBXLoader();
@@ -196,54 +198,95 @@ class BugByDaylight {
         //     self.mHyenaAnimMixers.clipAction(object.animations[0]).play();
         // });
 
-        // load FBX woman sophia
-        var sophiaLoader = new THREE.FBXLoader();
-        sophiaLoader.setCrossOrigin("Anonymous");
-        sophiaLoader.load("/model/sophia/rp_sophia_animated_003_idling.fbx", function(object) {
-            self.mFbxSophiaMixers = new THREE.AnimationMixer(object);
+        // // load FBX woman sophia
+        // var sophiaLoader = new THREE.FBXLoader();
+        // sophiaLoader.setCrossOrigin("Anonymous");
+        // sophiaLoader.load("/model/sophia/rp_sophia_animated_003_idling.fbx", function(object) {
+        //     self.mFbxSophiaMixers = new THREE.AnimationMixer(object);
 
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {    //  instanceof THREE.Mesh
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     self.mScene.add(object);
+        //     object.position.x += 200;
+        //     object.rotateX(-Math.PI / 2);
+        //     console.log(object.animations.length);
+        //     self.mFbxSophiaMixers.clipAction(object.animations[0]).play();
+        // });
+
+        // // load dustbin FBX
+        // var dustbinPBRMaterial = new THREE.MeshPhysicalMaterial({
+        //     map: THREE.ImageUtils.loadTexture('/model/PBR_Dustbin/lajitong_Material _47_BaseColor.jpg', null, function(t){}),
+        //     metalness: 0.1, 
+        //     roughness: 0.2
+        // });
+        // var dustbinLoader = new THREE.FBXLoader();
+        // dustbinLoader.setCrossOrigin("Anonymous");
+        // dustbinLoader.load("/model/PBR_Dustbin/dustbin.fbx", function(object) {
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {    //  instanceof THREE.Mesh
+        //             child.material = dustbinPBRMaterial;
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     object.position.x -= 220;
+        //     object.scale.x = 0.1;
+        //     object.scale.y = 0.1;
+        //     object.scale.z = 0.1;
+        //     self.mScene.add(object);
+        // });
+
+        // load xilou FBX
+        var xilouMaterials = [
+            new THREE.MeshPhysicalMaterial({
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_C.jpg', null, null), 
+                normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_N.jpg'),
+                metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_Ao.jpg'),
+                specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_S.tga')
+            }), 
+            new THREE.MeshPhysicalMaterial({
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_C.jpg', null, null), 
+                normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_N.jpg'),
+                metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_Ao.jpg'),
+                specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_S.tga')
+            }),
+            null,
+            new THREE.MeshPhysicalMaterial({
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_C.jpg', null, null), 
+                normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_N.jpg'),
+                metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_Ao.jpg'),
+                specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_S.tga')
+            })
+        ];
+
+        var xilouLoader = new THREE.FBXLoader();
+        xilouLoader.setCrossOrigin("Anonymous");
+        xilouLoader.load("/model/PBR_XiLou/XiLou.fbx", function(object) {
             object.traverse(function(child) {
                 if (child.isMesh) {    //  instanceof THREE.Mesh
+                    child.material = xilouMaterials;
                     child.castShadow = true;
                     child.receiveShadow = true; // 接收阴影
                 }
             });
-            self.mScene.add(object);
-            object.position.x += 200;
-            object.rotateX(-Math.PI / 2);
-            console.log(object.animations.length);
-            self.mFbxSophiaMixers.clipAction(object.animations[0]).play();
-        });
+            object.position.y -= 465;
+            object.position.z -= 50;
+            object.scale.set(1.5, 1.5, 1.5);
+            object.rotateY(-Math.PI / 2);
 
-        // load dustbin FBX
-        var dustbinPBRMaterial = new THREE.MeshPhysicalMaterial({
-            map: THREE.ImageUtils.loadTexture('/model/PBR_Dustbin/lajitong_Material _47_BaseColor.jpg', null, function(t){}),
-            metalness: 0.1, 
-            roughness: 0.2
-        });
-        var dustbinLoader = new THREE.FBXLoader();
-        dustbinLoader.setCrossOrigin("Anonymous");
-        dustbinLoader.load("/model/PBR_Dustbin/dustbin.fbx", function(object) {
-            object.traverse(function(child) {
-                if (child.isMesh) {    //  instanceof THREE.Mesh
-                    child.material = dustbinPBRMaterial;
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            object.position.x -= 220;
-            object.scale.x = 0.1;
-            object.scale.y = 0.1;
-            object.scale.z = 0.1;
             self.mScene.add(object);
-        });
+        })
 
         // load mmd model
         var fengminLoader = new THREE.MMDLoader();
         this.mFengminAnimHelper = new THREE.MMDHelper();
-        var motionFiles = ["/js/public/mmd/motion_dance_1.vmd"];
-        var cameraFiles = ["/js/public/mmd/motion_camera.vmd"];
-        var audioFile =    "/js/public/mmd/201904202132351044.mp3";
+        var motionFiles = ["/motion/QianSiXianMotion.vmd"];
+        var cameraFiles = ["/motion/HongZhaoYuanCamera.vmd"];
+        var audioFile =    "/music/QianSiXian.mp3";
         // fengminLoader.setCrossOrigin("Anonymous");
         fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
             object.castShadow = true;
@@ -272,6 +315,7 @@ class BugByDaylight {
                     self.mFengminAnimHelper.unifyAnimationDuration();
                     
                     self.mFengminReady = true;
+                    self.render();
                 });
             });
 
@@ -283,10 +327,10 @@ class BugByDaylight {
         // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
         //     map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
         //     emissive:0x111111,
-        //     normalMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_n.jpg'),
-        //     metalnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_g.jpg'), 
-        //     roughnessMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_r.jpg'), 
-        //     emissiveMap: new THREE.ImageUtils.loadTexture('/model/J-15/mat0_s.jpg')
+        //     normalMap: this.mTextureLoader.load('/model/J-15/mat0_n.jpg'),
+        //     metalnessMap: this.mTextureLoader.load('/model/J-15/mat0_g.jpg'), 
+        //     roughnessMap: this.mTextureLoader.load('/model/J-15/mat0_r.jpg'), 
+        //     emissiveMap: this.mTextureLoader.load('/model/J-15/mat0_s.jpg')
         // });
         // objLoader.setPath('model/J-15/');
         // objLoader.load('J-15.obj', function(object) {
