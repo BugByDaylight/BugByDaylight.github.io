@@ -42,14 +42,14 @@ class BugByDaylight {
     }
 
     initCamera() {
-        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
+        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 50000);
         this.mCamera.position.set(300, 300, 300);
     }
 
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        this.mScene.fog = new THREE.Fog(0xa0a0a0, 5000, 7000);
+        // this.mScene.fog = new THREE.Fog(0xa0a0a0, 5000, 7000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
@@ -62,12 +62,28 @@ class BugByDaylight {
         this.mOrbitControl.minDistance = 1;
         this.mOrbitControl.maxDistance = 3000;
         this.mOrbitControl.update();
+        this.mOrbitControl.maxPolarAngle = Math.PI / 2;
 
         this.mTextureLoader = new THREE.TextureLoader();
+
+        // skybox
+        // var skyBoxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
+        // this.mSkyBox = new THREE.Mesh(skyBoxGeo);
+        // this.mScene.add(this.mSkyBox);
+        const cubeTextureLoader = new THREE.CubeTextureLoader();
+        const skyboxTexture = cubeTextureLoader.load([
+            '/texture/SkyBox/posx.jpg', 
+            '/texture/SkyBox/negx.jpg', 
+            '/texture/SkyBox/posy.jpg', 
+            '/texture/SkyBox/negy.jpg', 
+            '/texture/SkyBox/posz.jpg', 
+            '/texture/SkyBox/negz.jpg', 
+        ]);
+        this.mScene.background = skyboxTexture;
     }
 
     initLight() {
-        this.mAmbientLight = new THREE.AmbientLight(0x777777, 1);
+        this.mAmbientLight = new THREE.AmbientLight(0xaaaaaa, 1);
         this.mScene.add(this.mAmbientLight);
 
         this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -76,7 +92,7 @@ class BugByDaylight {
         // this.mDirectionalLight.shadowCameraVisible = true;
         this.mDirectionalLight.castShadow = true;
         this.mDirectionalLight.shadow.camera.near = 0.5;
-        this.mDirectionalLight.shadow.camera.far = 3000;
+        this.mDirectionalLight.shadow.camera.far = 50000;
         this.mDirectionalLight.shadow.camera.top = 1800;
         this.mDirectionalLight.shadow.camera.bottom = -1000;
         this.mDirectionalLight.shadow.camera.left = -1200;
@@ -115,8 +131,12 @@ class BugByDaylight {
         }
 
         // plane
-        var planeGeo = new THREE.PlaneGeometry(700, 700);
-        var planeMaterial = new THREE.MeshStandardMaterial({color: 0xcccccc}); // , side: THREE.DoubleSide
+        var planeGeo = new THREE.PlaneGeometry(50000, 50000);
+        var planeTexture = this.mTextureLoader.load('/texture/ground/grass2.jpg');
+        planeTexture.wrapS = THREE.RepeatWrapping;
+        planeTexture.wrapT = THREE.RepeatWrapping;
+        planeTexture.repeat.set(100, 100);
+        var planeMaterial = new THREE.MeshStandardMaterial({map: planeTexture, side: THREE.DoubleSide}); 
         var planeMesh = new THREE.Mesh(planeGeo, planeMaterial);
         planeMesh.rotateX(-Math.PI / 2);
         planeMesh.receiveShadow = true; // 接收阴影
@@ -273,9 +293,7 @@ class BugByDaylight {
                     child.receiveShadow = true; // 接收阴影
                 }
             });
-            object.position.y -= 465;
-            object.position.z -= 50;
-            object.scale.set(1.5, 1.5, 1.5);
+            object.position.z -= 700;
             object.rotateY(-Math.PI / 2);
 
             self.mScene.add(object);
@@ -302,9 +320,9 @@ class BugByDaylight {
 
             // 物理刚体辅助显示
             self.mFengminAnimHelper.setPhysics(object);
-            var physicsHelper = new THREE.MMDPhysicsHelper(object);
-            physicsHelper.visible = false;
-            self.mScene.add(physicsHelper);
+            self.mPhysicsHelper = new THREE.MMDPhysicsHelper(object);
+            self.mPhysicsHelper.visible = true;
+            self.mScene.add(self.mPhysicsHelper);
 
             fengminLoader.loadVmds(cameraFiles, function (vmd) {
                 fengminLoader.pourVmdIntoCamera(self.mCamera, vmd);
@@ -409,6 +427,8 @@ class BugByDaylight {
         if (null != this.mFengminAnimHelper && this.mFengminReady) {
             this.mFengminAnimHelper.animate(delta);
         }
+        if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
+            this.mPhysicsHelper.update();
 
         this.mStats.update();
 
