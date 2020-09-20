@@ -31,8 +31,8 @@ class BugByDaylight {
         document.body.appendChild(container);
         container.appendChild(this.mRenderer.domElement);
         this.mRenderer.setClearColor(0xffffff, 1.0);
-        this.mRenderer.gammaInput = true;
-        this.mRenderer.gammaOutput = true;
+        // this.mRenderer.gammaInput = true;
+        // this.mRenderer.gammaOutput = true;
     
         this.mStats = new Stats();
         this.mStats.domElement.style.position = 'absolute';
@@ -97,10 +97,10 @@ class BugByDaylight {
     }
 
     initLight() {
-        this.mAmbientLight = new THREE.AmbientLight(0x666666, 1);
+        this.mAmbientLight = new THREE.AmbientLight(0xaaaaaa, 1);
         this.mScene.add(this.mAmbientLight);
 
-        this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        this.mDirectionalLight = new THREE.DirectionalLight(0x777777, 1.0);
         this.mDirectionalLight.position.set(4000, 4000, 4000);
         this.mDirectionalLight.target.position.set(0, 0, 0);
         // this.mDirectionalLight.shadowCameraVisible = true;
