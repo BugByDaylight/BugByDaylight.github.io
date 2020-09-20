@@ -18,7 +18,7 @@ class BugByDaylight {
     initThree() {
         const self = this;
         this.mRenderer = new THREE.WebGLRenderer({
-            antialias : true
+            antialias : true, alpha: true
         });
         this.mRenderer.shadowMap.enabled = true; // 麻痹的这一个d搞了我一下午，为什么编译器不会报错，引擎的问题还是js的问题
         this.mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
@@ -31,6 +31,8 @@ class BugByDaylight {
         document.body.appendChild(container);
         container.appendChild(this.mRenderer.domElement);
         this.mRenderer.setClearColor(0xffffff, 1.0);
+        this.mRenderer.gammaInput = true;
+        this.mRenderer.gammaOutput = true;
     
         this.mStats = new Stats();
         this.mStats.domElement.style.position = 'absolute';
@@ -49,7 +51,7 @@ class BugByDaylight {
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        // this.mScene.fog = new THREE.Fog(0xa0a0a0, 5000, 7000);
+        // this.mScene.fog = new THREE.Fog(0xa0a0a0, 1000, 9000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
@@ -67,19 +69,31 @@ class BugByDaylight {
         this.mTextureLoader = new THREE.TextureLoader();
 
         // skybox
-        // var skyBoxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
-        // this.mSkyBox = new THREE.Mesh(skyBoxGeo);
-        // this.mScene.add(this.mSkyBox);
-        const cubeTextureLoader = new THREE.CubeTextureLoader();
-        const skyboxTexture = cubeTextureLoader.load([
-            '/texture/SkyBox/posx.jpg', 
-            '/texture/SkyBox/negx.jpg', 
-            '/texture/SkyBox/posy.jpg', 
-            '/texture/SkyBox/negy.jpg', 
-            '/texture/SkyBox/posz.jpg', 
-            '/texture/SkyBox/negz.jpg', 
-        ]);
-        this.mScene.background = skyboxTexture;
+        var skyBoxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
+        // const cubeTextureLoader = new THREE.CubeTextureLoader();
+        // const skyBoxTexture = cubeTextureLoader.load([
+        //     '/texture/SkyBox/posx.jpg', 
+        //     '/texture/SkyBox/negx.jpg', 
+        //     '/texture/SkyBox/posy.jpg', 
+        //     '/texture/SkyBox/negy.jpg', 
+        //     '/texture/SkyBox/posz.jpg', 
+        //     '/texture/SkyBox/negz.jpg', 
+        // ]);
+        var materialArray = [];
+        const path = "/texture/SkyBox/";
+        var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"]; 
+        var format = ".jpg";
+        for (var i = 0; i < 6; i++)
+            materialArray.push(new THREE.MeshBasicMaterial({
+                map: this.mTextureLoader.load(path + directions[i] + format, null, null),
+                side: THREE.BackSide  // 设置镜像翻转
+            }));
+        const skyBoxMaterial = new THREE.MeshFaceMaterial(materialArray);
+        this.mSkyBox = new THREE.Mesh(skyBoxGeo, skyBoxMaterial);
+        this.mSkyBox.rotateY(-Math.PI / 2);
+        // this.mSkyBox.position.set(0, 5000, 0);
+        this.mScene.add(this.mSkyBox);
+        // this.mScene.background = skyBoxTexture;
     }
 
     initLight() {
@@ -87,7 +101,7 @@ class BugByDaylight {
         this.mScene.add(this.mAmbientLight);
 
         this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        this.mDirectionalLight.position.set(500, 500, 500);
+        this.mDirectionalLight.position.set(4000, 4000, 4000);
         this.mDirectionalLight.target.position.set(0, 0, 0);
         // this.mDirectionalLight.shadowCameraVisible = true;
         this.mDirectionalLight.castShadow = true;
@@ -109,6 +123,34 @@ class BugByDaylight {
         this.mSpotLight.shadow.camera.width = 1000;
         this.mSpotLight.shadow.camera.height = 1000;
         this.mScene.add(this.mSpotLight);
+
+        // lens flare
+        var textureLoader = new THREE.TextureLoader();
+        var lensFlareTex0 = textureLoader.load("/texture/LensFlare/lensflare0.png");
+        var lensFlareTex2 = textureLoader.load("/texture/LensFlare/lens_flare2.png");
+        var lensFlareTex3 = textureLoader.load("/texture/LensFlare/lens_flare3.png");
+        const flareColor = new THREE.Color(0xffffff);
+        flareColor.setHSL(0.55, 0.9, 1.0);
+        // need new version of Lensflare and three.js
+        // var lensFlare = new Lensflare();
+        // lensFlare.addElement(new LensflareElement(lensFlareTex1, 512, 0));
+        // lensFlare.addElement(new LensflareElement(lensFlareTex2, 512, 0));
+        // lensFlare.addElement(new LensflareElement(lensFlareTex3, 60, 0.6));
+        // this.mDirectionalLight.add(lensFlare);
+
+        var lensFlare = new THREE.Lensflare();
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex0, 500, 0.0, flareColor));
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 60, 0.6) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 70, 0.7) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 120, 0.9) );
+        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 70, 1.0) );
+        lensFlare.position.copy(this.mDirectionalLight.position);
+        // this.mDirectionalLight.add(lensFlare);
+
+        this.mScene.add(lensFlare);
     }
 
     initModel() {
@@ -132,11 +174,16 @@ class BugByDaylight {
 
         // plane
         var planeGeo = new THREE.PlaneGeometry(50000, 50000);
-        var planeTexture = this.mTextureLoader.load('/texture/ground/grass2.jpg');
+        var planeTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big.jpg');
+        var planeNormalTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big-nm.jpg');
         planeTexture.wrapS = THREE.RepeatWrapping;
         planeTexture.wrapT = THREE.RepeatWrapping;
         planeTexture.repeat.set(100, 100);
-        var planeMaterial = new THREE.MeshStandardMaterial({map: planeTexture, side: THREE.DoubleSide}); 
+        var planeMaterial = new THREE.MeshStandardMaterial({
+            map: planeTexture, 
+            normalMap: planeNormalTexture,
+            side: THREE.DoubleSide
+        }); 
         var planeMesh = new THREE.Mesh(planeGeo, planeMaterial);
         planeMesh.rotateX(-Math.PI / 2);
         planeMesh.receiveShadow = true; // 接收阴影
@@ -409,7 +456,6 @@ class BugByDaylight {
 
     render() {
         var delta = this.mClock.getDelta();
-        // this.mOrbitControl.update(delta);
 
         this.mRenderer.clear();
         this.mRenderer.render(this.mScene, this.mCamera);
@@ -476,3 +522,5 @@ class BugByDaylight {
         // }
     }
 }
+
+export {BugByDaylight};

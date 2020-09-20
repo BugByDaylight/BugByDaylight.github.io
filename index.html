@@ -5,8 +5,10 @@
         <title>BugByDaylight</title>
         <script src="js/public/three/three.js" data-ke-src="public/three/three.js"></script>
         <script src="js/public/three/stats.min.js"></script>
+        <script src="js/public/three/three.module.js"></script>
         <script src="js/public/three/OrbitControls.js"></script>
         <script src="js/public/three/SceneUtils.js"></script>
+        <script src="js/public/three/Lensflare.js"></script>
         <script src="js/public/three/loaders/FBXLoader.js"></script>
         <script src="js/public/three/loaders/MTLLoader.js"></script>
         <script src="js/public/three/loaders/OBJLoader.js"></script>
@@ -36,10 +38,11 @@
     </head>
 
     <body onkeypress="game.playAnimation.call(game, 1)">
-        <script src="js/BugByDaylight.js"></script>
-        <script>
+        <script type="module" src="js/BugByDaylight.js"></script>
+        <script type="module" >
+            import {BugByDaylight} from "./js/BugByDaylight.js";
+
             var game;
-            
             document.addEventListener("DOMContentLoaded", function(){
                 game = new BugByDaylight(); 
                 window.game = game;
