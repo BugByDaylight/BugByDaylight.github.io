@@ -3,6 +3,7 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
+        this.mDebug = false;
 
 		this.init();
     }
@@ -27,17 +28,23 @@ class BugByDaylight {
         this.mRenderer.shadowMapWidth = 4096;
         this.mRenderer.shadowMapHeight = 4096;
         this.mRenderer.setSize(window.innerWidth, window.innerHeight);
-        const container = document.createElement('div');
-        document.body.appendChild(container);
-        container.appendChild(this.mRenderer.domElement);
+        // add layout
+        this.mContainer = document.createElement('div');
+        document.body.appendChild(this.mContainer);
+        this.mContainer.appendChild(this.mRenderer.domElement);
         this.mRenderer.setClearColor(0xffffff, 1.0);
         // this.mRenderer.gammaInput = true;
         // this.mRenderer.gammaOutput = true;
     
-        this.mStats = new Stats();
-        this.mStats.domElement.style.position = 'absolute';
-        this.mStats.domElement.style.left = '5px';
-        this.mStats.domElement.style.top = '5px';
+        if (this.mDebug) {
+            this.mStats = new Stats();
+            this.mStats.domElement.style.position = 'absolute';
+            this.mStats.domElement.style.left = '5px';
+            this.mStats.domElement.style.top = '5px';
+            this.mContainer.appendChild(this.mStats.dom);
+        }
+
+        this.mContinuous = false;
     
         // onSurfaceChanged
         window.addEventListener('resize', function(){self.onWindowResize();}, false);
@@ -347,14 +354,16 @@ class BugByDaylight {
             object.rotateY(-Math.PI / 2);
 
             self.mScene.add(object);
+
+            self.render();
         })
 
         // load mmd model
         var fengminLoader = new THREE.MMDLoader();
         this.mFengminAnimHelper = new THREE.MMDHelper();
-        var motionFiles = ["/motion/QianSiXianMotion.vmd"];
+        var motionFiles = ["/motion/QianSiXiMotion.vmd"];
         var cameraFiles = ["/motion/HongZhaoYuanCamera.vmd"];
-        var audioFile =    "/music/QianSiXian.mp3";
+        var audioFile =    "/music/QianSiXi.mp3";
         // fengminLoader.setCrossOrigin("Anonymous");
         fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
             object.castShadow = true;
@@ -373,6 +382,7 @@ class BugByDaylight {
             self.mPhysicsHelper = new THREE.MMDPhysicsHelper(object);
             self.mPhysicsHelper.visible = true;
             self.mScene.add(self.mPhysicsHelper);
+            self.render();
 
             fengminLoader.loadVmds(cameraFiles, function (vmd) {
                 fengminLoader.pourVmdIntoCamera(self.mCamera, vmd);
@@ -383,6 +393,7 @@ class BugByDaylight {
                     self.mFengminAnimHelper.unifyAnimationDuration();
                     
                     self.mFengminReady = true;
+                    self.mContinuous = true;
                     self.render();
                 }, self.onProgress, self.onError);
             }, self.onProgress, self.onError);
@@ -479,12 +490,15 @@ class BugByDaylight {
         if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
             this.mPhysicsHelper.update();
 
-        this.mStats.update();
+        if (null != this.mStats)
+            this.mStats.update();
 
         const self = this;
-        requestAnimationFrame(function(){ 
-            self.render(); 
-        });
+        if (this.mContinuous) {
+            requestAnimationFrame(function(){ 
+                self.render(); 
+            });
+        }
     }
 
     onError(xhr) {
@@ -520,12 +534,15 @@ class BugByDaylight {
         if (xhr.lengthComputable) {
             if (xhr.loaded == xhr.total) {
                 $("#progressBar").attr("class","progress-bar progress-bar-success");
+                console.log(fileType+": " + fileName + "加载完成");
                 $("#progressTitle").html("");
+                if (fileType == "音频文件")
+                    console.log("所有文件已加载" + "</br>" + "处理文件中...");   
             } else {
                 var percentComplete = Math.round((xhr.loaded / xhr.total * 100), 2);
                 var progressBarStyleValue = percentComplete + "%";
-                $("#progressTitle").html(fileType + ":" + fileName + "已加载" + progressBarStyleValue 
-                    + '<span class="glyphicon glyphicon-arrow-down" style="color: rgb(0, 255, 255); font-size: 9px;"></span>');
+                $("#progressTitle").html(fileType + ": " + fileName + "已加载 " + progressBarStyleValue 
+                    + '<span class="glyphicon glyphicon-arrow-down" style="color: rgb(0, 255, 255); font-size: 15px;"></span>');
                 $("#progressBar").attr("style", "width:" + progressBarStyleValue + ";");
                 $("#progressBar").attr("class", "progress-bar progress-bar-info") 
             }
