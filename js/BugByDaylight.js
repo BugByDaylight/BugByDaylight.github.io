@@ -23,7 +23,7 @@ class BugByDaylight {
         this.mRenderer.shadowMap.enabled = true; // 麻痹的这一个d搞了我一下午，为什么编译器不会报错，引擎的问题还是js的问题
         this.mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
         this.mRenderer.shadowCameraNear = 0.5;
-        this.mRenderer.shadowCameraFar = 100000;
+        this.mRenderer.shadowCameraFar = 10000;
         this.mRenderer.shadowMapWidth = 4096;
         this.mRenderer.shadowMapHeight = 4096;
         this.mRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -51,7 +51,7 @@ class BugByDaylight {
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        // this.mScene.fog = new THREE.Fog(0xa0a0a0, 1000, 9000);
+        this.mScene.fog = new THREE.Fog(0xa0a0a0, 1000, 10000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
@@ -97,7 +97,7 @@ class BugByDaylight {
     }
 
     initLight() {
-        this.mAmbientLight = new THREE.AmbientLight(0xaaaaaa, 1);
+        this.mAmbientLight = new THREE.AmbientLight(0x666666, 1);
         this.mScene.add(this.mAmbientLight);
 
         this.mDirectionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -114,8 +114,8 @@ class BugByDaylight {
         this.mScene.add(this.mDirectionalLight);
 
         this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.8);
-        this.mSpotLight.position.set(0, 250, 0);
-        this.mSpotLight.angle = Math.PI / 3; // 设置聚光光源发散角度
+        this.mSpotLight.position.set(0, 750, -350);
+        this.mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
         this.mSpotLight.receiveShadow = true;
         this.mSpotLight.shadow.camera.near = 0.5;
@@ -127,8 +127,8 @@ class BugByDaylight {
         // lens flare
         var textureLoader = new THREE.TextureLoader();
         var lensFlareTex0 = textureLoader.load("/texture/LensFlare/lensflare0.png");
-        var lensFlareTex2 = textureLoader.load("/texture/LensFlare/lens_flare2.png");
-        var lensFlareTex3 = textureLoader.load("/texture/LensFlare/lens_flare3.png");
+        var lensFlareTex2 = textureLoader.load("/texture/LensFlare/lensflare2.png");
+        var lensFlareTex3 = textureLoader.load("/texture/LensFlare/lensflare3.png");
         const flareColor = new THREE.Color(0xffffff);
         flareColor.setHSL(0.55, 0.9, 1.0);
         // need new version of Lensflare and three.js
@@ -139,15 +139,15 @@ class BugByDaylight {
         // this.mDirectionalLight.add(lensFlare);
 
         var lensFlare = new THREE.Lensflare();
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex0, 500, 0.0, flareColor));
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex2, 512, 0.0) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 60, 0.6) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 70, 0.7) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 120, 0.9) );
-        lensFlare.addElement( new THREE.LensflareElement(lensFlareTex3, 70, 1.0) );
-        lensFlare.position.copy(this.mDirectionalLight.position);
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex0, 500, 0.0, flareColor));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 60, 0.6));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 0.7));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 120, 0.9));
+        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 1.0));
+        lensFlare.position.copy(this.mSpotLight.position);
         // this.mDirectionalLight.add(lensFlare);
 
         this.mScene.add(lensFlare);
@@ -175,10 +175,13 @@ class BugByDaylight {
         // plane
         var planeGeo = new THREE.PlaneGeometry(50000, 50000);
         var planeTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big.jpg');
-        var planeNormalTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big-nm.jpg');
         planeTexture.wrapS = THREE.RepeatWrapping;
         planeTexture.wrapT = THREE.RepeatWrapping;
         planeTexture.repeat.set(100, 100);
+        var planeNormalTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big-nm.jpg');
+        planeNormalTexture.wrapS = THREE.RepeatWrapping;
+        planeNormalTexture.wrapT = THREE.RepeatWrapping;
+        planeNormalTexture.repeat.set(100, 100);
         var planeMaterial = new THREE.MeshStandardMaterial({
             map: planeTexture, 
             normalMap: planeNormalTexture,
@@ -381,12 +384,12 @@ class BugByDaylight {
                     
                     self.mFengminReady = true;
                     self.render();
-                });
-            });
+                }, self.onProgress, self.onError);
+            }, self.onProgress, self.onError);
 
             self.mScene.add(object);
             object.scale.set(10, 10, 10)
-        });
+        }, self.onProgress, self.onError);
 
         // // load J-15 material
         // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
@@ -482,6 +485,53 @@ class BugByDaylight {
         requestAnimationFrame(function(){ 
             self.render(); 
         });
+    }
+
+    onError(xhr) {
+        var url = decodeURI(xhr.target.responseURL);
+        fileName = url.substr(url.lastIndexOf("/") + 1) 
+        console.log("加载失败" + "\n" + "失败地址：" + fileName);
+    }
+
+    onProgress(xhr) {
+        var url = decodeURI(xhr.target.responseURL);
+        var fileName = url.substr(url.lastIndexOf("/") + 1);
+        var fileType = url.substr(url.lastIndexOf(".") + 1);
+        switch(fileType) {
+            case "pmx":
+                fileType = "模型文件";
+                break;
+            case "vmd":
+                fileType = "动作文件";
+                break;
+            case "tga":
+                fileType = "tga文件";
+                break;
+            case "mp3":
+                fileType = "音频文件";
+                break;
+            case "wav":
+                fileType = "音频文件";
+                break;
+            default:
+                fileType = "其他文件";
+        }
+
+        if (xhr.lengthComputable) {
+            if (xhr.loaded == xhr.total) {
+                $("#progressBar").attr("class","progress-bar progress-bar-success");
+                $("#progressTitle").html("");
+            } else {
+                var percentComplete = Math.round((xhr.loaded / xhr.total * 100), 2);
+                var progressBarStyleValue = percentComplete + "%";
+                $("#progressTitle").html(fileType + ":" + fileName + "已加载" + progressBarStyleValue 
+                    + '<span class="glyphicon glyphicon-arrow-down" style="color: rgb(0, 255, 255); font-size: 9px;"></span>');
+                $("#progressBar").attr("style", "width:" + progressBarStyleValue + ";");
+                $("#progressBar").attr("class", "progress-bar progress-bar-info") 
+            }
+        } else {
+            console.log(fileType+":" + fileName + "加载未进行，请检查网络");
+        }
     }
 
     onWindowResize() {
