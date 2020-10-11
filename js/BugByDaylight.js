@@ -3,12 +3,18 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
-        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", "/model/amanda/Amanda.pmx", "/model/jill/Jill.pmx"];
-        this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"]];
-        this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"]];
-        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3"];
+        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", 
+            "/model/amanda/Amanda.pmx", "/model/jill1/Jill.pmx", "/model/jill5/Jill.pmx"];
+        this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"], 
+            ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"]];
+        this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"], 
+            ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]];
+        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", "/music/BarBarBar.wav", 
+            "/music/WhatYouWaitingFor.wav"];
         this.mDebug = false;
         this.mAbortLoader = false;
+        this.mLastModelIndex = 0;
+        this.mLastMotionIndex = 0;
 
 		this.init();
     }
@@ -436,6 +442,23 @@ class BugByDaylight {
         }, self.onProgress.bind(self), self.onError);
     }
 
+    motionSelect(motion) {
+        const self = this;
+        if (!self.mMMDModelReady) {
+            self.mAbortLoader = true;
+        }
+        self.mScene.remove(self.mPhysicsHelper);
+        self.mScene.remove(self.mLastModel);
+        self.mMMDAnimHelper.audioManager.audio.stop();
+        self.mMMDAnimHelper = null;
+
+        self.mLastMotionIndex = motion;
+        self.mMMDReady = false;
+        self.mContinuous = false;
+        self.loadMMD(self.mModelFiles[self.mLastModelIndex], 1, this.mMotionFiles[motion], 
+            this.mCameraFiles[motion], this.mMusicFiles[motion]);
+    }
+
     characterSelect(character) {
         const self = this;
         if (!self.mMMDModelReady) {
@@ -446,9 +469,11 @@ class BugByDaylight {
         self.mMMDAnimHelper.audioManager.audio.stop();
         self.mMMDAnimHelper = null;
 
+        self.mLastModelIndex = character;
         self.mMMDReady = false;
         self.mContinuous = false;
-        self.loadMMD(self.mModelFiles[character], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
+        self.loadMMD(self.mModelFiles[character], 1, this.mMotionFiles[self.mLastMotionIndex], 
+            this.mCameraFiles[self.mLastMotionIndex], this.mMusicFiles[self.mLastMotionIndex]);
     }
 
     loadNextAnim(loader, rootPath, names, mixers, actions) {

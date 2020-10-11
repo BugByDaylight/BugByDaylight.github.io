@@ -45,7 +45,7 @@
                 width: 0%;
                 height: 28px;
                 margin-top: 1px;
-                background: purple;
+                background: yellow;
             }
             div#text-progress {
                 float: left;
@@ -79,16 +79,25 @@
                         🐖妹
                     </option>
                     <option value="3" id="jill">
-                        Jill
+                        Jill RE1
                     </option>
+                    <!-- <option value="4" id="jil5">
+                        Jill RE5
+                    </option> -->
                 </select>
                 <h4 style="width: 70px; height: 15px; margin: 5px;">动作：</h4>
-                <select id="motion_select" name="motion" style="margin: 5px" onchange="motionSelect(this)">
-                    <option value="qiansixi" id="qiansixi">
+                <select id="motion_select" name="motion" style="margin: 5px" onchange="game.motionSelect.call(game, value)">
+                    <option value="0" id="qiansixi">
                         牵丝戏
                     </option>
-                    <option value="hongzhaoyuan" id="hongzhaoyuan">
+                    <option value="1" id="hongzhaoyuan">
                         红昭愿
+                    </option>
+                    <option value="2" id="barbarbar">
+                        Bar Bar Bar
+                    </option>
+                    <option value="3" id="WhatYouWaitingFor">
+                        WhatYouWaitingFor
                     </option>
                 </select>
 
