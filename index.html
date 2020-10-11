@@ -68,11 +68,11 @@
         <div id="main-container">
             <div id="horizontal">
                 <h4 style="width: 70px; height: 15px; margin: 5px;">模型：</h4>
-                <select id="character_select" name="character" style="margin: 5px" onchange="characterSelect(this)">
-                    <option value="feng_min" id="feng_min">
+                <select id="character_select" name="character" style="margin: 5px" onchange="game.characterSelect.call(game, 1)">
+                    <option value="0" id="feng_min">
                         凤敏
                     </option>
-                    <option value="meg_thomas" id="meg_thomas">
+                    <option value="1" id="meg_thomas">
                         Meg Thomas
                     </option>
                 </select>
@@ -90,18 +90,6 @@
                 <div><h4 id="text-progress" style="width: 70px; height: 15px; margin: 5px">0%</h3></div>
                 <div id="progress">
                     <div id="bar"></div>
-                </div>
-            </div>
-
-            <div id="text-progress">
-                <div class="row foot">
-                    <div id="progressModular" class="col-lg-offset-4 col-md-offset-4 col-md-offset-3 col-sm-offset-3 col-xs-offset-1 col-xs-10 col-sm-6 col-md-4 ">
-                        <p id="progressTitle"></p>
-                        <div id="progressBarF" class="progress progress-striped  active">
-                            <div id="progressBar" class="progress-bar progress-bar-info " style="width: 0%">
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div id="canvas-frame"></div>

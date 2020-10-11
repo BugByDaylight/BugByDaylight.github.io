@@ -3,7 +3,12 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
+        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx"];
+        this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"]];
+        this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"]];
+        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3"];
         this.mDebug = false;
+        this.mAbortLoader = false;
 
 		this.init();
     }
@@ -360,48 +365,9 @@ class BugByDaylight {
         })
 
         // load mmd model
-        var fengminLoader = new THREE.MMDLoader();
-        this.mFengminAnimHelper = new THREE.MMDHelper();
-        var motionFiles = ["/motion/QianSiXiMotion.vmd"];
-        var cameraFiles = ["/motion/HongZhaoYuanCamera.vmd"];
-        var audioFile =    "/music/QianSiXi.mp3";
-        // fengminLoader.setCrossOrigin("Anonymous");
-        fengminLoader.load("/model/fengmin/Feng.pmx", motionFiles, function(object) {
-            object.castShadow = true;
-            object.receiveShadow = true;
-
-            self.mFengminAnimHelper.add(object);
-            self.mFengminAnimHelper.setAnimation(object);
-
-            // 骨骼辅助显示
-            var ikHelper = new THREE.CCDIKHelper(object);
-            ikHelper.visible = false;
-            self.mScene.add(ikHelper);
-
-            // 物理刚体辅助显示
-            self.mFengminAnimHelper.setPhysics(object);
-            self.mPhysicsHelper = new THREE.MMDPhysicsHelper(object);
-            self.mPhysicsHelper.visible = true;
-            self.mScene.add(self.mPhysicsHelper);
-            self.render();
-
-            fengminLoader.loadVmds(cameraFiles, function (vmd) {
-                fengminLoader.pourVmdIntoCamera(self.mCamera, vmd);
-                fengminLoader.loadAudio(audioFile, function (audio, listener) {
-                    var audioParams ={delayTime: 0};
-                    self.mFengminAnimHelper.setAudio(audio, listener, audioParams);
-                    // 该函数作用:查找摄像机 音频 动作数据 模块 中最长的时间 当到达最最长时间 所有都停止 如果未设置 则模块到达自己结束时间停止 不会同步
-                    self.mFengminAnimHelper.unifyAnimationDuration();
-                    
-                    self.mFengminReady = true;
-                    self.mContinuous = true;
-                    self.render();
-                }, self.onProgress, self.onError);
-            }, self.onProgress, self.onError);
-
-            self.mScene.add(object);
-            object.scale.set(10, 10, 10)
-        }, self.onProgress, self.onError);
+        this.mMmdLoader = new THREE.MMDLoader();
+        // this.mMmdLoader.setCrossOrigin("Anonymous");
+        this.loadMMD(this.mModelFiles[1], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
 
         // // load J-15 material
         // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
@@ -424,6 +390,63 @@ class BugByDaylight {
         //     object.scale.set(50, 50, 50)
         //     self.mScene.add(object);
         // }, onProgress, onError);
+    }
+
+    loadMMD(modelPath, scale, motionPath, cameraPath, musicPath) {
+        const self = this;
+        self.mMMDAnimHelper = new THREE.MMDHelper();
+        self.mMmdLoaderRequest = this.mMmdLoader.load(modelPath, motionPath, function(object) {
+            object.castShadow = true;
+            object.receiveShadow = true;
+
+            self.mMMDAnimHelper.add(object);
+            self.mMMDAnimHelper.setAnimation(object);
+            self.mLastModel = object
+            self.mMMDModelReady = true
+
+            // // 骨骼辅助显示
+            // self.mIkHelper = new THREE.CCDIKHelper(object);
+            // self.mIkHelper.visible = false;
+            // self.mScene.add(self.mIkHelper);
+
+            // 物理刚体辅助显示
+            self.mMMDAnimHelper.setPhysics(object);
+            self.mPhysicsHelper = new THREE.MMDPhysicsHelper(object);
+            self.mPhysicsHelper.visible = false;
+            self.mScene.add(self.mPhysicsHelper);
+            self.render();
+
+            self.mMmdLoader.loadVmds(cameraPath, function (vmd) {
+                self.mMmdLoader.pourVmdIntoCamera(self.mCamera, vmd);
+                self.mMmdLoader.loadAudio(musicPath, function (audio, listener) {
+                    var audioParams ={delayTime: 0};
+                    self.mMMDAnimHelper.setAudio(audio, listener, audioParams);
+                    // 该函数作用:查找摄像机 音频 动作数据 模块 中最长的时间 当到达最最长时间 所有都停止 如果未设置 则模块到达自己结束时间停止 不会同步
+                    self.mMMDAnimHelper.unifyAnimationDuration();
+                    
+                    self.mMMDReady = true;
+                    self.mContinuous = true;
+                    self.render();
+                }, self.onProgress.bind(self), self.onError);
+            }, self.onProgress.bind(self), self.onError);
+
+            self.mScene.add(object);
+            object.scale.set(scale, scale, scale)
+        }, self.onProgress.bind(self), self.onError);
+    }
+
+    characterSelect(character) {
+        const self = this;
+        if (!self.mMMDModelReady) {
+            self.mAbortLoader = true;
+        }
+        self.mScene.remove(self.mPhysicsHelper);
+        self.mScene.remove(self.mLastModel);
+        self.mMMDAnimHelper = null;
+
+        self.mMMDReady = false;
+        self.mContinuous = false;
+        self.loadMMD(self.mModelFiles[character], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
     }
 
     loadNextAnim(loader, rootPath, names, mixers, actions) {
@@ -485,8 +508,8 @@ class BugByDaylight {
             this.mHyenaAnimMixers.update(delta);
         }
 
-        if (null != this.mFengminAnimHelper && this.mFengminReady) {
-            this.mFengminAnimHelper.animate(delta);
+        if (null != this.mMMDAnimHelper && this.mMMDReady) {
+            this.mMMDAnimHelper.animate(delta);
         }
         if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
             this.mPhysicsHelper.update();
@@ -504,11 +527,15 @@ class BugByDaylight {
 
     onError(xhr) {
         var url = decodeURI(xhr.target.responseURL);
-        fileName = url.substr(url.lastIndexOf("/") + 1) 
-        console.log("加载失败" + "\n" + "失败地址：" + fileName);
+        if (undefined != url && -1 != url.indexOf("/")) {
+            fileName = url.substr(url.lastIndexOf("/") + 1) 
+            console.log("加载失败" + "\n" + "失败地址：" + fileName);
+        }
     }
 
     onProgress(xhr) {
+        if (this.mAbortLoader)
+            xhr.currentTarget.abort();
         var url = decodeURI(xhr.target.responseURL);
         var fileName = url.substr(url.lastIndexOf("/") + 1);
         var fileType = url.substr(url.lastIndexOf(".") + 1);
