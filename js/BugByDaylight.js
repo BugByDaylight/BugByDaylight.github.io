@@ -3,7 +3,7 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
-        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx"];
+        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", "/model/amanda/Amanda.pmx", "/model/jill/Jill.pmx"];
         this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"]];
         this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"]];
         this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3"];
@@ -29,7 +29,7 @@ class BugByDaylight {
         this.mRenderer.shadowMap.enabled = true; // 麻痹的这一个d搞了我一下午，为什么编译器不会报错，引擎的问题还是js的问题
         this.mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
         this.mRenderer.shadowCameraNear = 0.5;
-        this.mRenderer.shadowCameraFar = 10000;
+        this.mRenderer.shadowCameraFar = 1000;
         this.mRenderer.shadowMapWidth = 4096;
         this.mRenderer.shadowMapHeight = 4096;
         this.mRenderer.setSize(window.innerWidth, window.innerHeight);
@@ -57,14 +57,14 @@ class BugByDaylight {
     }
 
     initCamera() {
-        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 50000);
-        this.mCamera.position.set(300, 300, 300);
+        this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
+        this.mCamera.position.set(30, 30, 30);
     }
 
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        this.mScene.fog = new THREE.Fog(0xa0a0a0, 1000, 10000);
+        this.mScene.fog = new THREE.Fog(0xa0a0a0, 100, 1000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
@@ -72,17 +72,17 @@ class BugByDaylight {
 
         // 创建控件并绑定在相机上
         this.mOrbitControl = new THREE.OrbitControls(this.mCamera, this.mRenderer.domElement);
-        this.mOrbitControl.target = new THREE.Vector3(0, 100, 0);
+        this.mOrbitControl.target = new THREE.Vector3(0, 10, 0);
         this.mOrbitControl.autoRotate = false;
         this.mOrbitControl.minDistance = 1;
-        this.mOrbitControl.maxDistance = 3000;
+        this.mOrbitControl.maxDistance = 300;
         this.mOrbitControl.update();
         this.mOrbitControl.maxPolarAngle = Math.PI / 2;
 
         this.mTextureLoader = new THREE.TextureLoader();
 
         // skybox
-        var skyBoxGeo = new THREE.BoxGeometry(10000, 10000, 10000);
+        var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
         // const cubeTextureLoader = new THREE.CubeTextureLoader();
         // const skyBoxTexture = cubeTextureLoader.load([
         //     '/texture/SkyBox/posx.jpg', 
@@ -104,7 +104,7 @@ class BugByDaylight {
         const skyBoxMaterial = new THREE.MeshFaceMaterial(materialArray);
         this.mSkyBox = new THREE.Mesh(skyBoxGeo, skyBoxMaterial);
         this.mSkyBox.rotateY(-Math.PI / 2);
-        // this.mSkyBox.position.set(0, 5000, 0);
+        // this.mSkyBox.position.set(0, 500, 0);
         this.mScene.add(this.mSkyBox);
         // this.mScene.background = skyBoxTexture;
     }
@@ -114,12 +114,12 @@ class BugByDaylight {
         this.mScene.add(this.mAmbientLight);
 
         this.mDirectionalLight = new THREE.DirectionalLight(0x777777, 1.0);
-        this.mDirectionalLight.position.set(4000, 4000, 4000);
+        this.mDirectionalLight.position.set(400, 400, 400);
         this.mDirectionalLight.target.position.set(0, 0, 0);
         // this.mDirectionalLight.shadowCameraVisible = true;
         this.mDirectionalLight.castShadow = true;
         this.mDirectionalLight.shadow.camera.near = 0.5;
-        this.mDirectionalLight.shadow.camera.far = 50000;
+        this.mDirectionalLight.shadow.camera.far = 5000;
         this.mDirectionalLight.shadow.camera.top = 1800;
         this.mDirectionalLight.shadow.camera.bottom = -1000;
         this.mDirectionalLight.shadow.camera.left = -1200;
@@ -127,12 +127,12 @@ class BugByDaylight {
         this.mScene.add(this.mDirectionalLight);
 
         this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.8);
-        this.mSpotLight.position.set(0, 750, -350);
+        this.mSpotLight.position.set(0, 75, -35);
         this.mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
         this.mSpotLight.receiveShadow = true;
         this.mSpotLight.shadow.camera.near = 0.5;
-        this.mSpotLight.shadow.camera.far = 2000;
+        this.mSpotLight.shadow.camera.far = 200;
         this.mSpotLight.shadow.camera.width = 1000;
         this.mSpotLight.shadow.camera.height = 1000;
         this.mScene.add(this.mSpotLight);
@@ -186,7 +186,7 @@ class BugByDaylight {
         }
 
         // plane
-        var planeGeo = new THREE.PlaneGeometry(50000, 50000);
+        var planeGeo = new THREE.PlaneGeometry(5000, 5000);
         var planeTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big.jpg');
         planeTexture.wrapS = THREE.RepeatWrapping;
         planeTexture.wrapT = THREE.RepeatWrapping;
@@ -356,7 +356,8 @@ class BugByDaylight {
                     child.receiveShadow = true; // 接收阴影
                 }
             });
-            object.position.z -= 700;
+            object.position.z -= 70;
+            object.scale.set(0.1, 0.1, 0.1)
             object.rotateY(-Math.PI / 2);
 
             self.mScene.add(object);
@@ -367,7 +368,7 @@ class BugByDaylight {
         // load mmd model
         this.mMmdLoader = new THREE.MMDLoader();
         // this.mMmdLoader.setCrossOrigin("Anonymous");
-        this.loadMMD(this.mModelFiles[1], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
+        this.loadMMD(this.mModelFiles[0], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
 
         // // load J-15 material
         // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
@@ -442,6 +443,7 @@ class BugByDaylight {
         }
         self.mScene.remove(self.mPhysicsHelper);
         self.mScene.remove(self.mLastModel);
+        self.mMMDAnimHelper.audioManager.audio.stop();
         self.mMMDAnimHelper = null;
 
         self.mMMDReady = false;
