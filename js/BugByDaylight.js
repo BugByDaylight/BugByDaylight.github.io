@@ -4,13 +4,14 @@ class BugByDaylight {
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
         this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", 
-            "/model/amanda/Amanda.pmx", "/model/jill1/Jill.pmx", "/model/jill5/Jill.pmx"];
+            "/model/amanda/Amanda.pmx", "/model/jill1/Jill.pmx", "/model/jill3/JillRE3remake.pmx", 
+            "/model/Tifa/Tifa.pmx", "/model/yuna/pmx/yuna.pmx"];
         this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"], 
             ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"]];
         this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"], 
             ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]];
-        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", "/music/BarBarBar.wav", 
-            "/music/WhatYouWaitingFor.wav"];
+        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", "/music/BarBarBar.mp3", 
+            "/music/WhatYouWaitingFor.mp3"];
         this.mDebug = false;
         this.mAbortLoader = false;
         this.mLastModelIndex = 0;
