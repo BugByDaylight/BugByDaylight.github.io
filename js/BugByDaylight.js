@@ -29,8 +29,9 @@ class BugByDaylight {
         this.mRenderer.shadowMapHeight = 4096;
         this.mRenderer.setSize(window.innerWidth, window.innerHeight);
         // add layout
-        this.mContainer = document.createElement('div');
-        document.body.appendChild(this.mContainer);
+        // this.mContainer = document.createElement('div');
+        // document.body.appendChild(this.mContainer);
+        this.mContainer = document.getElementById('canvas-frame')
         this.mContainer.appendChild(this.mRenderer.domElement);
         this.mRenderer.setClearColor(0xffffff, 1.0);
         // this.mRenderer.gammaInput = true;
@@ -519,7 +520,13 @@ class BugByDaylight {
                 fileType = "动作文件";
                 break;
             case "tga":
-                fileType = "tga文件";
+                fileType = "贴图文件";
+                break;
+            case "png":
+                fileType = "贴图文件";
+                break;
+            case "jpg":
+                fileType = "贴图文件";
                 break;
             case "mp3":
                 fileType = "音频文件";
@@ -533,18 +540,24 @@ class BugByDaylight {
 
         if (xhr.lengthComputable) {
             if (xhr.loaded == xhr.total) {
-                $("#progressBar").attr("class","progress-bar progress-bar-success");
+                // $("#progressBar").attr("class","progress-bar progress-bar-success");
                 console.log(fileType+": " + fileName + "加载完成");
-                $("#progressTitle").html("");
-                if (fileType == "音频文件")
-                    console.log("所有文件已加载" + "</br>" + "处理文件中...");   
+                // $("#progressTitle").html("");
+                if (fileType == "音频文件") {
+                    // $("#progressTitle").html("当前音乐：" + fileName);
+                    console.log("所有文件已加载" + "</br>" + "处理文件中...");
+                    document.getElementById('text-progress').innerHTML = "加载完成";
+                }
             } else {
+                // var percentComplete = Math.round((xhr.loaded / xhr.total * 100), 2);
+                // var progressBarStyleValue = percentComplete + "%";
+                // $("#progressTitle").html(fileType + ": " + fileName + "已加载 " + progressBarStyleValue 
+                //     + '<span class="glyphicon glyphicon-arrow-down" style="color: rgb(0, 255, 255); font-size: 15px;"></span>');
+                // $("#progressBar").attr("style", "width:" + progressBarStyleValue + ";");
+                // $("#progressBar").attr("class", "progress-bar progress-bar-info") 
                 var percentComplete = Math.round((xhr.loaded / xhr.total * 100), 2);
-                var progressBarStyleValue = percentComplete + "%";
-                $("#progressTitle").html(fileType + ": " + fileName + "已加载 " + progressBarStyleValue 
-                    + '<span class="glyphicon glyphicon-arrow-down" style="color: rgb(0, 255, 255); font-size: 15px;"></span>');
-                $("#progressBar").attr("style", "width:" + progressBarStyleValue + ";");
-                $("#progressBar").attr("class", "progress-bar progress-bar-info") 
+                document.getElementById('text-progress').innerHTML = percentComplete + '%';
+                bar.style.width = percentComplete + '%'
             }
         } else {
             console.log(fileType+":" + fileName + "加载未进行，请检查网络");
