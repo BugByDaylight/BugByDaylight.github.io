@@ -3,15 +3,34 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mNurseAnims = ["death", "attack", "run", "idle"]; 
         this.mKoreaAnims = ["walk", "tidy"];
-        this.mModelFiles = ["/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", 
+        this.mModelFiles = [
+            "/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", 
             "/model/amanda/Amanda.pmx", "/model/jill1/Jill.pmx", "/model/jill3/JillRE3remake.pmx", 
-            "/model/Tifa/Tifa.pmx", "/model/yuna/pmx/yuna.pmx"];
-        this.mMotionFiles = [["/motion/QianSiXiMotion.vmd"], ["/motion/HongZhaoYuanMotion.vmd"], 
-            ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"]];
-        this.mCameraFiles = [["/motion/QianSiXiCamera.vmd"], ["/motion/HongZhaoYuanCamera.vmd"], 
-            ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]];
-        this.mMusicFiles =   ["/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", "/music/BarBarBar.mp3", 
-            "/music/WhatYouWaitingFor.mp3"];
+            "/model/jill5/Jill.pmx", "/model/claire/ClaireCasual.pmx", "/model/Tifa/Tifa.pmx", 
+            "/model/yuna/pmx/yuna.pmx", "/model/sherry/Sherry.pmx"
+        ];
+        this.mMotionFiles = [
+            ["/motion/LuoHuaQinMotion.vmd"], ["/motion/QianSiXiMotion.vmd"], 
+            ["/motion/HongZhaoYuanMotion.vmd"], ["/motion/ZuiLinMotion.vmd"], 
+            ["/motion/LianRenXinMotion.vmd"], 
+            ["/motion/LearnCatMotion.vmd"], ["/motion/HaiCaoMotion.vmd"], 
+            ["/motion/LittleAppleMotion.vmd"], 
+            ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"]
+        ];
+        this.mCameraFiles = [
+            ["/motion/LuoHuaQinCamera.vmd"], ["/motion/QianSiXiCamera.vmd"], 
+            ["/motion/HongZhaoYuanCamera.vmd"], , ["/motion/ZuiLinCamera.vmd"], 
+            ["/motion/LianRenXinCamera.vmd"],
+            ["/motion/LearnCatCamera.vmd"], ["/motion/JiLeCamera.vmd"], 
+            ["/motion/LittleAppleCamera.vmd"], 
+            ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]
+        ];
+        this.mMusicFiles = [
+            "/music/LuoHuaQin.wav", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
+            "/music/ZuiLin.wav", "/music/LianRenXin.wav", 
+            "/music/LearnCatCut.wav", "/music/HaiCaoCut.wav", "/music/LittleApple.wav", 
+            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3"
+        ];
         this.mDebug = false;
         this.mAbortLoader = false;
         this.mLastModelIndex = 0;
@@ -376,32 +395,11 @@ class BugByDaylight {
         this.mMmdLoader = new THREE.MMDLoader();
         // this.mMmdLoader.setCrossOrigin("Anonymous");
         this.loadMMD(this.mModelFiles[0], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
-
-        // // load J-15 material
-        // var j15PBRMaterial = new THREE.MeshPhysicalMaterial({
-        //     map: THREE.ImageUtils.loadTexture('/model/J-15/mat0_c.jpg', null, function(t){}), 
-        //     emissive:0x111111,
-        //     normalMap: this.mTextureLoader.load('/model/J-15/mat0_n.jpg'),
-        //     metalnessMap: this.mTextureLoader.load('/model/J-15/mat0_g.jpg'), 
-        //     roughnessMap: this.mTextureLoader.load('/model/J-15/mat0_r.jpg'), 
-        //     emissiveMap: this.mTextureLoader.load('/model/J-15/mat0_s.jpg')
-        // });
-        // objLoader.setPath('model/J-15/');
-        // objLoader.load('J-15.obj', function(object) {
-        //     object.traverse(function(child) {
-        //         if (child instanceof THREE.Mesh) {
-        //             child.material = j15PBRMaterial;
-        //             child.castShadow = true;
-        //             child.receiveShadow = true; // 接收阴影
-        //         }
-        //     });
-        //     object.scale.set(50, 50, 50)
-        //     self.mScene.add(object);
-        // }, onProgress, onError);
     }
 
     loadMMD(modelPath, scale, motionPath, cameraPath, musicPath) {
         const self = this;
+        self.mAbortLoader = false;
         self.mMMDAnimHelper = new THREE.MMDHelper();
         self.mMmdLoaderRequest = this.mMmdLoader.load(modelPath, motionPath, function(object) {
             object.castShadow = true;
@@ -429,7 +427,8 @@ class BugByDaylight {
                 self.mMmdLoader.loadAudio(musicPath, function (audio, listener) {
                     var audioParams ={delayTime: 0};
                     self.mMMDAnimHelper.setAudio(audio, listener, audioParams);
-                    // 该函数作用:查找摄像机 音频 动作数据 模块 中最长的时间 当到达最最长时间 所有都停止 如果未设置 则模块到达自己结束时间停止 不会同步
+                    // 该函数作用:查找摄像机 音频 动作数据 模块 中最长的时间 当到达最最长时间 
+                    // 所有都停止 如果未设置 则模块到达自己结束时间停止 不会同步
                     self.mMMDAnimHelper.unifyAnimationDuration();
                     
                     self.mMMDReady = true;
@@ -441,16 +440,21 @@ class BugByDaylight {
             self.mScene.add(object);
             object.scale.set(scale, scale, scale)
         }, self.onProgress.bind(self), self.onError);
+        self.mMmdLoaderRequest.onabort = function () {
+            alert("testOnAbort");
+        }
     }
 
     motionSelect(motion) {
         const self = this;
-        if (!self.mMMDModelReady) {
-            self.mAbortLoader = true;
-        }
-        self.mScene.remove(self.mPhysicsHelper);
-        self.mScene.remove(self.mLastModel);
-        self.mMMDAnimHelper.audioManager.audio.stop();
+        self.mAbortLoader = true;
+        if (undefined != self.mPhysicsHelper)
+            self.mScene.remove(self.mPhysicsHelper);
+        if (undefined != self.mLastModel)
+            self.mScene.remove(self.mLastModel);
+        if (null != self.mMMDAnimHelper && null != self.mMMDAnimHelper.audioManager 
+            && null != self.mMMDAnimHelper.audioManager.audio)
+            self.mMMDAnimHelper.audioManager.audio.stop();
         self.mMMDAnimHelper = null;
 
         self.mLastMotionIndex = motion;
@@ -462,12 +466,14 @@ class BugByDaylight {
 
     characterSelect(character) {
         const self = this;
-        if (!self.mMMDModelReady) {
-            self.mAbortLoader = true;
-        }
-        self.mScene.remove(self.mPhysicsHelper);
-        self.mScene.remove(self.mLastModel);
-        self.mMMDAnimHelper.audioManager.audio.stop();
+        self.mAbortLoader = true;
+        if (undefined != self.mPhysicsHelper)
+            self.mScene.remove(self.mPhysicsHelper);
+        if (undefined != self.mLastModel)
+            self.mScene.remove(self.mLastModel);
+        if (null != self.mMMDAnimHelper && null != self.mMMDAnimHelper.audioManager 
+            && null != self.mMMDAnimHelper.audioManager.audio)
+            self.mMMDAnimHelper.audioManager.audio.stop();
         self.mMMDAnimHelper = null;
 
         self.mLastModelIndex = character;
@@ -562,8 +568,12 @@ class BugByDaylight {
     }
 
     onProgress(xhr) {
-        if (this.mAbortLoader)
+        if (this.mAbortLoader) {
             xhr.currentTarget.abort();
+            xhr.onabort = function(error) {
+                alert("abort");
+            };
+        }
         var url = decodeURI(xhr.target.responseURL);
         var fileName = url.substr(url.lastIndexOf("/") + 1);
         var fileType = url.substr(url.lastIndexOf(".") + 1);

@@ -67,16 +67,16 @@
         <!--fixed Row 进度条-->
         <div id="main-container">
             <div id="horizontal">
-                <h4 style="width: 70px; height: 15px; margin: 5px;">模型：</h4>
+                <h4 style="width: 70px; height: 15px; margin: 5px;">模型</h4>
                 <select id="character_select" name="character" style="margin: 5px" onchange="game.characterSelect.call(game, value)">
                     <option value="0" id="feng_min">
-                        凤敏
+                        凤敏 DBD
                     </option>
                     <option value="1" id="huntress">
-                        🐰妈
+                        🐰妈 DBD
                     </option>
                     <option value="2" id="amanda">
-                        🐷妹
+                        🐷妹 DBD
                     </option>
                     <option value="3" id="jill1">
                         Jill RE1
@@ -84,33 +84,57 @@
                     <option value="4" id="jill3">
                         Jill RE3
                     </option>
-                    <option value="5" id="tifa">
+                    <option value="5" id="jill5">
+                        Jill RE5
+                    </option>
+                    <option value="6" id="claire">
+                        Claire RE2
+                    </option>
+                    <option value="7" id="tifa">
                         Tifa FF7
                     </option>
-                    <option value="6" id="yuna">
+                    <option value="8" id="yuna">
                         Yuna FF7
                     </option>
+                    <option value="9" id="ryza">
+                        Sherry RE6
+                    </option>
                 </select>
-                <h4 style="width: 70px; height: 15px; margin: 5px;">动作：</h4>
+                <h4 style="width: 70px; height: 15px; margin: 5px;">动作</h4>
                 <select id="motion_select" name="motion" style="margin: 5px" onchange="game.motionSelect.call(game, value)">
-                    <!-- <option value="0" id="xiashan">
-                        下山
-                    </option> -->
-                    <option value="0" id="qiansixi">
+                    <option value="0" id="banhusha">
+                        落花情
+                    </option>
+                    <option value="1" id="qiansixi">
                         牵丝戏
                     </option>
-                    <option value="1" id="hongzhaoyuan">
+                    <option value="2" id="hongzhaoyuan">
                         红昭愿
                     </option>
-                    <option value="2" id="barbarbar">
+                    <option value="3" id="hongzhaoyuan">
+                        醉伶
+                    </option>
+                    <option value="4" id="hongzhaoyuan">
+                        恋人心
+                    </option>
+                    <option value="5" id="hongzhaoyuan">
+                        学猫叫
+                    </option>
+                    <option value="6" id="hongzhaoyuan">
+                        海草舞
+                    </option>
+                    <option value="7" id="hongzhaoyuan">
+                        小苹果
+                    </option>
+                    <option value="8" id="barbarbar">
                         Bar Bar Bar
                     </option>
-                    <option value="3" id="WhatYouWaitingFor">
-                        WhatYouWaitingFor
+                    <option value="9" id="WhatYouWaitingFor">
+                        WaitingFor
                     </option>
                 </select>
 
-                <h4 style="width: 70px; height: 15px; margin: 5px;">进度：</h4>
+                <h4 style="width: 70px; height: 15px; margin: 5px;">进度</h4>
                 <div><h4 id="text-progress" style="width: 70px; height: 15px; margin: 5px">0%</h3></div>
                 <div id="progress">
                     <div id="bar"></div>
