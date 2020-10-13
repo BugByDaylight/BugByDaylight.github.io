@@ -105,7 +105,11 @@ class BugByDaylight {
         this.mOrbitControl.update();
         this.mOrbitControl.maxPolarAngle = Math.PI / 2;
 
-        this.mTextureLoader = new THREE.TextureLoader();
+        this.mLoadingManager = new THREE.LoadingManager();
+        this.mLoadingManager.onLoad = function () {
+            // call back function when the texture gets loaded
+        }
+        this.mTextureLoader = new THREE.TextureLoader(this.mLoadingManager);
 
         // skybox
         var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
@@ -124,7 +128,7 @@ class BugByDaylight {
         var format = ".jpg";
         for (var i = 0; i < 6; i++)
             materialArray.push(new THREE.MeshBasicMaterial({
-                map: this.mTextureLoader.load(path + directions[i] + format, null, null),
+                map: this.mTextureLoader.load(path + directions[i] + format),
                 side: THREE.BackSide  // 设置镜像翻转
             }));
         const skyBoxMaterial = new THREE.MeshFaceMaterial(materialArray);
@@ -164,10 +168,9 @@ class BugByDaylight {
         this.mScene.add(this.mSpotLight);
 
         // lens flare
-        var textureLoader = new THREE.TextureLoader();
-        var lensFlareTex0 = textureLoader.load("/texture/LensFlare/lensflare0.png");
-        var lensFlareTex2 = textureLoader.load("/texture/LensFlare/lensflare2.png");
-        var lensFlareTex3 = textureLoader.load("/texture/LensFlare/lensflare3.png");
+        var lensFlareTex0 = this.mTextureLoader.load("/texture/LensFlare/lensflare0.png");
+        var lensFlareTex2 = this.mTextureLoader.load("/texture/LensFlare/lensflare2.png");
+        var lensFlareTex3 = this.mTextureLoader.load("/texture/LensFlare/lensflare3.png");
         const flareColor = new THREE.Color(0xffffff);
         flareColor.setHSL(0.55, 0.9, 1.0);
         // need new version of Lensflare and three.js
@@ -352,20 +355,20 @@ class BugByDaylight {
         // load xilou FBX
         var xilouMaterials = [
             new THREE.MeshPhysicalMaterial({
-                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_C.jpg', null, null), 
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_C.jpg'), 
                 normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_N.jpg'),
                 metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_Ao.jpg'),
                 specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m1_S.tga')
             }), 
             new THREE.MeshPhysicalMaterial({
-                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_C.jpg', null, null), 
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_C.jpg'), 
                 normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_N.jpg'),
                 metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_Ao.jpg'),
                 specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m3_S.tga')
             }),
             null,
             new THREE.MeshPhysicalMaterial({
-                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_C.jpg', null, null), 
+                map: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_C.jpg'), 
                 normalMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_N.jpg'),
                 metalnessMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_Ao.jpg'),
                 specularMap: this.mTextureLoader.load('/model/PBR_XiLou/XiLou_m2_S.tga')
