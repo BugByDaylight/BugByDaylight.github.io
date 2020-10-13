@@ -86,14 +86,16 @@ THREE.MMDLoader.prototype.load = function ( modelUrl, vmdUrls, callback, onProgr
 	var scope = this;
 
 	return this.loadModel( modelUrl, function ( mesh ) {
+		if (null != vmdUrls) {
+			scope.loadVmds( vmdUrls, function ( vmd ) {
 
-		scope.loadVmds( vmdUrls, function ( vmd ) {
+				scope.pourVmdIntoModel( mesh, vmd );
+				callback( mesh );
 
-			scope.pourVmdIntoModel( mesh, vmd );
+			}, onProgress, onError );
+		} else {	// for load MMD Scene
 			callback( mesh );
-
-		}, onProgress, onError );
-
+		}
 	}, onProgress, onError );
 
 };

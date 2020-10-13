@@ -50,10 +50,72 @@
             div#text-progress {
                 float: left;
             }
+            /* The switch - the box around the slider */
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 50px;
+                height: 20px;
+            }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            /* The slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 2px;
+                bottom: 2px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            input:focus + .slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked + .slider:before {
+                -webkit-transform: translateX(16px);
+                -ms-transform: translateX(16px);
+                transform: translateX(16px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+                border-radius: 20px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
         </style>
     </head>
 
-    <body onkeypress="game.playAnimation.call(game, 1)">
+    <body onkeypress="game.onKeyPress.call(game, event)">
         <script type="module" src="js/BugByDaylight.js"></script>
         <script type="module" >
             import {BugByDaylight} from "./js/BugByDaylight.js";
@@ -88,19 +150,25 @@
                         Jill RE5
                     </option>
                     <option value="6" id="claire">
-                        Claire RE2
+                        Claire Casual RE2
                     </option>
-                    <option value="7" id="tifa">
-                        Tifa FF7
+                    <option value="7" id="clairem">
+                        Claire Military RE2
                     </option>
-                    <option value="8" id="yuna">
-                        Yuna FF7
-                    </option>
-                    <option value="9" id="ryza">
+                    <option value="8" id="ryza">
                         Sherry RE6
                     </option>
-                    <option value="10" id="ryza">
+                    <option value="9" id="ryza">
                         Ada RE4
+                    </option>
+                    <option value="10" id="tifa">
+                        Tifa FF7
+                    </option>
+                    <option value="11" id="yuna">
+                        Yuna FF7
+                    </option>
+                    <option value="12" id="ironman">
+                        IronMan
                     </option>
                 </select>
                 <h4 style="width: 70px; height: 15px; margin: 2px">动作</h4>
@@ -136,6 +204,12 @@
                         WhatYouWaitingFor
                     </option>
                 </select>
+
+                <label style="margin: 5px">Debug</label>
+                <label class="switch" style="margin: 4px">
+                    <input id="debug_switch" type="checkbox" onchange="game.updateDebugStatus.call(game, checked)">
+                    <span class="slider round"></span>
+                </label>
 
                 <h4 style="width: 70px; height: 15px; margin: 5px;">进度</h4>
                 <div><h4 id="text-progress" style="width: 130px; height: 15px; margin: 5px">0%</h3></div>
