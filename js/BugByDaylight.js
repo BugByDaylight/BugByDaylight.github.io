@@ -7,7 +7,7 @@ class BugByDaylight {
             "/model/fengmin/Feng.pmx", "/model/huntress/Huntress.pmx", 
             "/model/amanda/Amanda.pmx", "/model/jill1/Jill.pmx", "/model/jill3/JillRE3remake.pmx", 
             "/model/jill5/Jill.pmx", "/model/claire/ClaireCasual.pmx", "/model/Tifa/Tifa.pmx", 
-            "/model/yuna/pmx/yuna.pmx", "/model/sherry/Sherry.pmx"
+            "/model/yuna/pmx/yuna.pmx", "/model/sherry/Sherry.pmx", "/model/ada/Ada.pmx"
         ];
         this.mMotionFiles = [
             ["/motion/LuoHuaQinMotion.vmd"], ["/motion/QianSiXiMotion.vmd"], 
@@ -440,9 +440,12 @@ class BugByDaylight {
             self.mScene.add(object);
             object.scale.set(scale, scale, scale)
         }, self.onProgress.bind(self), self.onError);
-        self.mMmdLoaderRequest.onabort = function () {
-            alert("testOnAbort");
-        }
+        // self.mMmdLoaderRequest.onabort = function () {
+        //     alert("testOnAbort");
+        //     self.mAbortLoader = false;
+        //     self.loadMMD(self.mModelFiles[self.mLastModelIndex], 1, this.mMotionFiles[self.mLastMotionIndex], 
+        //         this.mCameraFiles[self.mLastMotionIndex], this.mMusicFiles[self.mLastMotionIndex]);
+        // }
     }
 
     motionSelect(motion) {
@@ -568,11 +571,13 @@ class BugByDaylight {
     }
 
     onProgress(xhr) {
+        // if (null == xhr.currentTarget.onabort) {
+        //     xhr.currentTarget.onabort = function() {
+        //         alert("testXhrOnAbort");
+        //     }
+        // }
         if (this.mAbortLoader) {
             xhr.currentTarget.abort();
-            xhr.onabort = function(error) {
-                alert("abort");
-            };
         }
         var url = decodeURI(xhr.target.responseURL);
         var fileName = url.substr(url.lastIndexOf("/") + 1);
