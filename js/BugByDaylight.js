@@ -26,9 +26,9 @@ class BugByDaylight {
             ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]
         ];
         this.mMusicFiles = [
-            "/music/LuoHuaQin.wav", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
-            "/music/ZuiLin.wav", "/music/LianRenXin.wav", 
-            "/music/LearnCatCut.wav", "/music/HaiCaoCut.wav", "/music/LittleApple.wav", 
+            "/music/LuoHuaQin.mp3", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
+            "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", 
+            "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", 
             "/music/BarBarBar.mp3", "/music/WaitingFor.mp3"
         ];
         this.mDebug = false;
@@ -621,7 +621,7 @@ class BugByDaylight {
                 // $("#progressBar").attr("style", "width:" + progressBarStyleValue + ";");
                 // $("#progressBar").attr("class", "progress-bar progress-bar-info") 
                 var percentComplete = Math.round((xhr.loaded / xhr.total * 100), 2);
-                document.getElementById('text-progress').innerHTML = percentComplete + '%';
+                document.getElementById('text-progress').innerHTML = fileType + ": " + percentComplete + '%';
                 bar.style.width = percentComplete + '%'
             }
         } else {
