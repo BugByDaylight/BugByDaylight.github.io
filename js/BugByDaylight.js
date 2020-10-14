@@ -3,10 +3,11 @@ class BugByDaylight {
         this.mClock = new THREE.Clock();
         this.mModelFiles = [
             // 黎明Bug
-            "/model/DBD/fengmin/Feng.pmx", "/model/DBD/huntress/Huntress.pmx", "/model/DBD/amanda/Amanda.pmx", 
+            "/model/DBD/fengmin/Feng.pmx", "/model/DBD/meg/meg.pmx", "/model/DBD/huntress/Huntress.pmx", 
+            "/model/DBD/amanda/Amanda.pmx", 
             // 卡婊危机
             "/model/RE/jill1/Jill.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", 
-            "/model/RE/claire/ClaireCasual.pmx", "/model/RE/claire_military/claire.pmx", "/model/RE/sherry/Sherry.pmx", 
+            "/model/RE/claire/ClaireCasual.pmx", "/model/RE/helena/Helena_TallOaks.pmx", "/model/RE/sherry/Sherry.pmx", 
             "/model/RE/ada/Ada.pmx", 
             // 最终幻想
             "/model/FF/Tifa/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
@@ -14,7 +15,7 @@ class BugByDaylight {
             "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", 
             "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx", 
             // 漫威
-            "/model/Marvel/Ironman/Ironman.pmx"
+            "/model/Marvel/Ironman/Ironman.pmx", "/model/Marvel/Black_Widow_FF/FF.pmx", "/model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx"
         ];
         this.mMotionFiles = [
             ["/motion/LuoHuaQinMotion.vmd"], ["/motion/QianSiXiMotion.vmd"], 
@@ -526,7 +527,7 @@ class BugByDaylight {
 
     updateAutoCameraStatus(checked) {
         this.mAutoCamera = checked;
-        onAutoCameraStatusChanged();
+        this.onAutoCameraStatusChanged();
     }
 
     onAutoCameraStatusChanged() {
