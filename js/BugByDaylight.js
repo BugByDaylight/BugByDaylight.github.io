@@ -10,6 +10,8 @@ class BugByDaylight {
             "/model/RE/ada/Ada.pmx", 
             // 最终幻想
             "/model/FF/Tifa/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
+            // 绝地求生
+            "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx",
             // 漫威
             "/model/Marvel/Ironman/Ironman.pmx"
         ];
@@ -112,32 +114,32 @@ class BugByDaylight {
         }
         this.mTextureLoader = new THREE.TextureLoader(this.mLoadingManager);
 
-        // // skybox
-        // var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
-        // // const cubeTextureLoader = new THREE.CubeTextureLoader();
-        // // const skyBoxTexture = cubeTextureLoader.load([
-        // //     '/texture/SkyBox/posx.jpg', 
-        // //     '/texture/SkyBox/negx.jpg', 
-        // //     '/texture/SkyBox/posy.jpg', 
-        // //     '/texture/SkyBox/negy.jpg', 
-        // //     '/texture/SkyBox/posz.jpg', 
-        // //     '/texture/SkyBox/negz.jpg', 
-        // // ]);
-        // var materialArray = [];
-        // const path = "/texture/SkyBox/";
-        // var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"]; 
-        // var format = ".jpg";
-        // for (var i = 0; i < 6; i++)
-        //     materialArray.push(new THREE.MeshBasicMaterial({
-        //         map: this.mTextureLoader.load(path + directions[i] + format),
-        //         side: THREE.BackSide  // 设置镜像翻转
-        //     }));
-        // const skyBoxMaterial = new THREE.MeshFaceMaterial(materialArray);
-        // this.mSkyBox = new THREE.Mesh(skyBoxGeo, skyBoxMaterial);
-        // this.mSkyBox.rotateY(-Math.PI / 2);
-        // // this.mSkyBox.position.set(0, 500, 0);
-        // this.mScene.add(this.mSkyBox);
-        // // this.mScene.background = skyBoxTexture;
+        // skybox
+        var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
+        // const cubeTextureLoader = new THREE.CubeTextureLoader();
+        // const skyBoxTexture = cubeTextureLoader.load([
+        //     '/texture/SkyBox/posx.jpg', 
+        //     '/texture/SkyBox/negx.jpg', 
+        //     '/texture/SkyBox/posy.jpg', 
+        //     '/texture/SkyBox/negy.jpg', 
+        //     '/texture/SkyBox/posz.jpg', 
+        //     '/texture/SkyBox/negz.jpg', 
+        // ]);
+        var materialArray = [];
+        const path = "/texture/SkyBox/";
+        var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"]; 
+        var format = ".jpg";
+        for (var i = 0; i < 6; i++)
+            materialArray.push(new THREE.MeshBasicMaterial({
+                map: this.mTextureLoader.load(path + directions[i] + format),
+                side: THREE.BackSide  // 设置镜像翻转
+            }));
+        const skyBoxMaterial = new THREE.MeshFaceMaterial(materialArray);
+        this.mSkyBox = new THREE.Mesh(skyBoxGeo, skyBoxMaterial);
+        this.mSkyBox.rotateY(-Math.PI / 2);
+        // this.mSkyBox.position.set(0, 500, 0);
+        this.mScene.add(this.mSkyBox);
+        // this.mScene.background = skyBoxTexture;
     }
 
     initLight() {
@@ -279,7 +281,7 @@ class BugByDaylight {
 
         // load mmd scene
         this.mMmdSceneLoader = new THREE.MMDLoader();
-        this.loadMMDScene("/model/Scene/chinese_night/merge.pmx", 1);
+        this.loadMMDScene("/model/Scene/ancient_garden/stage.pmx", 1);
 
         // load mmd model
         this.mMmdLoader = new THREE.MMDLoader();
@@ -548,6 +550,7 @@ class BugByDaylight {
         this.mShowAssist = checked;
         this.mMeshLineMaterial.visible = checked;
         this.mAxis.material.visible = checked;
+        this.onDebugStatusChanged();
     }
 
     onDebugStatusChanged() {
