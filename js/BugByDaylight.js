@@ -11,7 +11,8 @@ class BugByDaylight {
             // 最终幻想
             "/model/FF/Tifa/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
             // 绝地求生
-            "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx",
+            "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", 
+            "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx", 
             // 漫威
             "/model/Marvel/Ironman/Ironman.pmx"
         ];
@@ -38,6 +39,7 @@ class BugByDaylight {
             "/music/BarBarBar.mp3", "/music/WaitingFor.mp3"
         ];
         this.mDebug = false;
+        this.mAutoCamera = true;
         this.mAbortLoader = false;
         this.mLastModelIndex = 0;
         this.mLastMotionIndex = 0;
@@ -315,10 +317,10 @@ class BugByDaylight {
             self.mLastModel = object
             self.mMMDModelReady = true
 
-            // // 骨骼辅助显示
-            // self.mIkHelper = new THREE.CCDIKHelper(object);
-            // self.mIkHelper.visible = false;
-            // self.mScene.add(self.mIkHelper);
+            // 骨骼辅助显示
+            self.mIkHelper = new THREE.CCDIKHelper(object);
+            self.mIkHelper.visible = false;
+            self.mScene.add(self.mIkHelper);
 
             // 物理刚体辅助显示
             self.mMMDAnimHelper.setPhysics(object);
@@ -328,7 +330,10 @@ class BugByDaylight {
             self.render();
 
             self.mMmdLoader.loadVmds(cameraPath, function (vmd) {
+                self.mMMDAnimHelper.setCamera(self.mCamera);
                 self.mMmdLoader.pourVmdIntoCamera(self.mCamera, vmd);
+                self.mMMDAnimHelper.setCameraAnimation(self.mCamera);
+                self.mMMDAnimHelper.doCameraAnimation = self.mAutoCamera;
                 self.mMmdLoader.loadAudio(musicPath, function (audio, listener) {
                     var audioParams ={delayTime: 0};
                     self.mMMDAnimHelper.setAudio(audio, listener, audioParams);
@@ -389,31 +394,6 @@ class BugByDaylight {
         self.mContinuous = false;
         self.loadMMD(self.mModelFiles[character], 1, this.mMotionFiles[self.mLastMotionIndex], 
             this.mCameraFiles[self.mLastMotionIndex], this.mMusicFiles[self.mLastMotionIndex]);
-    }
-
-    loadNextAnim(loader, rootPath, names, mixers, actions) {
-        const self = this;
-        const anim = names.pop();
-    
-        loader.load(rootPath + anim + '.FBX', function (object) {
-            const action = mixers.clipAction(object.animations[0]);
-            actions.push(action);
-    
-            object.traverse(function (child) {
-                if (child.isMesh) {
-                    child.castShadow = true;
-                    child.receiveShadow = false;
-                }
-            });
-            // self.mScene.add(object); // do not add repeat
-            
-            if (names.length > 0) {
-                self.loadNextAnim(loader, rootPath, names, mixers, actions);
-            } else {
-                self.playAnimation(0);
-                self.render();
-            }
-        } );
     }
 
     render() {
@@ -531,19 +511,26 @@ class BugByDaylight {
                 this.mMeshLineMaterial.visible = this.mShowAssist;
                 this.mAxis.material.visible = this.mShowAssist;
                 document.getElementById("debug_switch").checked = this.mShowAssist;
+                this.onDebugStatusChanged();
                 break;
-            case '1':
-                    playAnimation(1);
-            case '2':
-                playAnimation(2);
-            case '3':
-                playAnimation(3);
-            case '4':
-                playAnimation(4);
+            case 'C':
+            case 'c':
+                this.mAutoCamera = !this.mAutoCamera;
+                document.getElementById("auto_camera_switch").checked = this.mAutoCamera;
+                this.onAutoCameraStatusChanged();
+                break;
             default:
                 break;
         }
-        this.onDebugStatusChanged();
+    }
+
+    updateAutoCameraStatus(checked) {
+        this.mAutoCamera = checked;
+        onAutoCameraStatusChanged();
+    }
+
+    onAutoCameraStatusChanged() {
+        this.mMMDAnimHelper.doCameraAnimation = this.mAutoCamera;
     }
 
     updateDebugStatus(checked) {
@@ -559,6 +546,8 @@ class BugByDaylight {
         } else {
             this.mContainer.removeChild(this.mStats.domElement);
         }
+        this.mPhysicsHelper.visible = this.mShowAssist;
+        this.mIkHelper.visible = this.mShowAssist;
     }
 }
 

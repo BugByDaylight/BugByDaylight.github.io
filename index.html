@@ -99,9 +99,9 @@
             }
 
             input:checked + .slider:before {
-                -webkit-transform: translateX(16px);
-                -ms-transform: translateX(16px);
-                transform: translateX(16px);
+                -webkit-transform: translateX(14px);
+                -ms-transform: translateX(14px);
+                transform: translateX(14px);
             }
 
             /* Rounded sliders */
@@ -173,7 +173,16 @@
                     <option value="13" id="pubg_female">
                         吃鸡女 PUBG
                     </option>
-                    <option value="14" id="ironman">
+                    <option value="14" id="cf_suzy">
+                        Suzy CF
+                    </option>
+                    <option value="15" id="cs02_707">
+                        707 CS02
+                    </option>
+                    <option value="16" id="benedict">
+                        Benedict FEAROnline
+                    </option>
+                    <option value="17" id="ironman">
                         IronMan
                     </option>
                 </select>
@@ -210,6 +219,12 @@
                         WhatYouWaitingFor
                     </option>
                 </select>
+
+                <label style="width: 130px; margin: 2px">自动镜头</label>
+                <label class="switch" style="margin: 4px">
+                    <input id="auto_camera_switch" type="checkbox" checked onchange="game.updateAutoCameraStatus.call(game, checked)">
+                    <span class="slider round"></span>
+                </label>
 
                 <label style="margin: 5px">Debug</label>
                 <label class="switch" style="margin: 4px">
