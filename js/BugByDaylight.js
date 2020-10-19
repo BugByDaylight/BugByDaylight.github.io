@@ -15,7 +15,9 @@ class BugByDaylight {
             "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", 
             "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx", 
             // 漫威
-            "/model/Marvel/Ironman/Ironman.pmx", "/model/Marvel/Black_Widow_FF/FF.pmx", "/model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx"
+            "/model/Marvel/Ironman/Ironman.pmx", "/model/Marvel/Black_Widow_FF/FF.pmx", "/model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx",
+            // 动画
+            "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", 
         ];
         this.mMotionFiles = [
             ["/motion/LuoHuaQinMotion.vmd"], ["/motion/QianSiXiMotion.vmd"], 
@@ -23,7 +25,8 @@ class BugByDaylight {
             ["/motion/LianRenXinMotion.vmd"], 
             ["/motion/LearnCatMotion.vmd"], ["/motion/HaiCaoMotion.vmd"], 
             ["/motion/LittleAppleMotion.vmd"], 
-            ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"]
+            ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"], 
+            ["/motion/CoffinDance/CORONA-CHAN.vmd"]
         ];
         this.mCameraFiles = [
             ["/motion/LuoHuaQinCamera.vmd"], ["/motion/QianSiXiCamera.vmd"], 
@@ -31,13 +34,14 @@ class BugByDaylight {
             ["/motion/LianRenXinCamera.vmd"],
             ["/motion/LearnCatCamera.vmd"], ["/motion/JiLeCamera.vmd"], 
             ["/motion/LittleAppleCamera.vmd"], 
-            ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"]
+            ["/motion/BarBarBarCamera.vmd"], ["/motion/WhatYouWaitingForCamera.vmd"], 
+            ["/motion/CoffinDance/CAMERA.vmd"]
         ];
         this.mMusicFiles = [
             "/music/LuoHuaQin.mp3", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
             "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", 
             "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", 
-            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3"
+            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3", "/music/CoffinDance.wav"
         ];
         this.mDebug = false;
         this.mAutoCamera = true;
@@ -96,7 +100,7 @@ class BugByDaylight {
     initScene() {
         this.mScene = new THREE.Scene();
         this.mScene.background = new THREE.Color(0xa0a0a0);
-        this.mScene.fog = new THREE.Fog(0xa0a0a0, 100, 1000);
+        // this.mScene.fog = new THREE.Fog(0xa0a0a0, 100, 1000);
 
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
