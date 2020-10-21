@@ -1,5 +1,6 @@
 class BugByDaylight {
     constructor() {
+        this.COFFIN_DANCE_INDEX = 10;
         this.mClock = new THREE.Clock();
         this.mModelFiles = [
             // 黎明Bug
@@ -8,17 +9,38 @@ class BugByDaylight {
             // 卡婊危机
             "/model/RE/jill1/Jill.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", 
             "/model/RE/claire/ClaireCasual.pmx", "/model/RE/helena/Helena_TallOaks.pmx", "/model/RE/sherry/Sherry.pmx", 
-            "/model/RE/ada/Ada.pmx", 
+            "/model/RE/ada/Ada.pmx", "/model/RE/Rebecca/Rebecca_Chambers.pmx", 
             // 最终幻想
             "/model/FF/Tifa/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
+            // 铁拳
+            "/model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx", 
             // 绝地求生
             "/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", 
             "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx", 
             // 漫威
             "/model/Marvel/Ironman/Ironman.pmx", "/model/Marvel/Black_Widow_FF/FF.pmx", "/model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx",
+            "/model/Marvel/Supergirl/Hitomi_Supergirl.pmx", "/model/Marvel/Doctor_Strange/Doctor_Strange.pmx", "/model/Marvel/Antman/Antman.pmx",
+            "/model/Marvel/Superman/Superman.pmx",
+            // 古墓丽影
+            "/model/TR/Lara_Croft/Lara_Croft.pmx",
+            // Sim4
+            "/model/Sim/Petra/Petra.pmx",
             // 动画
-            "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", 
+            "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
+            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx", 
+            // DOA 6
+            "/model/DOA/Leifang/Leifang.pmx", "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", "/model/DOA/Honoka/honoka_c13.pmx", 
+            "/model/DOA/Marie/Marie_Rose_otaku.pmx", "/model/DOA/Marie_Rose_C/Marie_Rose_C.pmx", "/model/DOA/Marie_Rose/Marie_Rose.pmx",
+            "/model/DOA/Kasumi_Furisode/Kasumi_Furisode.pmx", "/model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", "/model/DOA/Momiji_Santa/Momiji_Santa.pmx",
         ];
+        this.mModelForCoffinDanceFiles = [
+            "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Leatherface/Leatherface.pmx", "/model/DBD/MichealMyers/MichealMyers.pmx", 
+            "/model/DBD/Freddy/Freddy.pmx", 
+        ];
+        this.mMotionForCoffinDanceFiles = [
+            ["/motion/CoffinDance/MAN1.vmd"], ["/motion/CoffinDance/MAN2.vmd"], ["/motion/CoffinDance/MAN3.vmd"], 
+            ["/motion/CoffinDance/MAN4.vmd"], 
+        ]
         this.mMotionFiles = [
             ["/motion/LuoHuaQinMotion.vmd"], ["/motion/QianSiXiMotion.vmd"], 
             ["/motion/HongZhaoYuanMotion.vmd"], ["/motion/ZuiLinMotion.vmd"], 
@@ -378,8 +400,13 @@ class BugByDaylight {
         self.mLastMotionIndex = motion;
         self.mMMDReady = false;
         self.mContinuous = false;
-        self.loadMMD(self.mModelFiles[self.mLastModelIndex], 1, this.mMotionFiles[motion], 
-            this.mCameraFiles[motion], this.mMusicFiles[motion]);
+        // if (motion == self.COFFIN_DANCE_INDEX) {
+        //     for (var i = 0; i < self.mModelForCoffinDanceFiles.length; i++) {
+        //         self.loadMMD(self.mModelForCoffinDanceFiles[i], 1, self.mMotionForCoffinDanceFiles[i], null, null);
+        //     }
+        // }
+        self.loadMMD(self.mModelFiles[self.mLastModelIndex], 1, self.mMotionFiles[motion], 
+            self.mCameraFiles[motion], self.mMusicFiles[motion]);
     }
 
     characterSelect(character) {
