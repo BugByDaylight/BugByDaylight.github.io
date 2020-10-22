@@ -30,6 +30,7 @@ class BugByDaylight {
             "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx", 
             // DOA 6
             "/model/DOA/Leifang/Leifang.pmx", "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", "/model/DOA/Honoka/honoka_c13.pmx", 
+            "/model/DOA/Honoka_Stu/honoka_c1.pmx", 
             "/model/DOA/Marie/Marie_Rose_otaku.pmx", "/model/DOA/Marie_Rose_C/Marie_Rose_C.pmx", "/model/DOA/Marie_Rose/Marie_Rose.pmx",
             "/model/DOA/Kasumi_Furisode/Kasumi_Furisode.pmx", "/model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", "/model/DOA/Momiji_Santa/Momiji_Santa.pmx",
         ];
