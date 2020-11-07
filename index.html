@@ -129,145 +129,73 @@
         <!--fixed Row 进度条-->
         <div id="main-container">
             <div id="horizontal">
-                <h4 style="width: 70px; height: 15px; margin: 2px">模型</h4>
-                <select id="character_select" name="character" style="width: 80px; height: 18px; margin: 5px" onchange="game.characterSelect.call(game, value)">
-                    <option value="0" id="feng_min">
-                        凤敏 DBD
+                <h4 style="width: 50px; height: 15px; margin: 2px">来源：</h4>
+                <select id="game_select" name="game_from" style="width: 80px; height: 18px; margin: 5px" onchange="game.gameSelect.call(game, value)">
+                    <option value="0" id="DeadByDaylight">
+                        黎明杀🐔
                     </option>
-                    <option value="1" id="meg_thomas">
-                        Meg Thomas DBD
+                    <option value="1" id="ResidentEvil">
+                        生化危机
                     </option>
-                    <option value="2" id="huntress">
-                        🐰妈 DBD
+                    <option value="2" id="FinalFantasy">
+                        最终幻想
                     </option>
-                    <option value="3" id="amanda">
-                        🐷妹 DBD
+                    <option value="3" id="IronFist">
+                        铁拳
                     </option>
-                    <option value="4" id="jill1">
-                        Jill RE1
+                    <option value="4" id="PUBG">
+                        绝地求生
                     </option>
-                    <option value="5" id="jill3">
-                        Jill RE3
+                    <option value="5" id="Marvel">
+                        漫威
                     </option>
-                    <option value="6" id="jill5">
-                        Jill RE5
+                    <option value="6" id="TombRaidor">
+                        古墓丽影
                     </option>
-                    <option value="7" id="claire">
-                        Claire RE2
+                    <option value="7" id="Sim">
+                        模拟人生
                     </option>
-                    <option value="8" id="helena">
-                        Helena RE6
+                    <option value="8" id="Cartoon">
+                        卡通人物
                     </option>
-                    <option value="9" id="ryza">
-                        Sherry RE6
+                    <option value="9" id="DOA">
+                        死或生
                     </option>
-                    <option value="10" id="amanda">
-                        Ada RE4
+                    <option value="10" id="Metroid">
+                        银河战士
                     </option>
-                    <option value="11" id="rebecca">
-                        Rebecca Chambers
-                    </option>
-                    <option value="12" id="tifa">
-                        Tifa FF7
-                    </option>
-                    <option value="13" id="yuna">
-                        Yuna FF7
-                    </option>
-                    <option value="14" id="tekken">
-                        Miharu_Hirano
-                    </option>
-                    <option value="15" id="pubg_male">
-                        吃鸡男 PUBG
-                    </option>
-                    <option value="16" id="pubg_female">
-                        吃鸡女 PUBG
-                    </option>
-                    <option value="17" id="cf_suzy">
-                        Suzy CF
-                    </option>
-                    <option value="18" id="cs02_707">
-                        707 CS02
-                    </option>
-                    <option value="19" id="benedict">
-                        Benedict FEAROnline
-                    </option>
-                    <option value="20" id="ironman">
-                        IronMan
-                    </option>
-                    <option value="21" id="bw">
-                        Black Widow FF
-                    </option>
-                    <option value="22" id="bwt">
-                        Black Widow TeamSuit
-                    </option>
-                    <option value="23" id="sg">
-                        Super Girl
-                    </option>
-                    <option value="24" id="doctor">
-                        Doctor Strange
-                    </option>
-                    <option value="25" id="Antman">
-                        Antman
-                    </option>
-                    <option value="26" id="superman">
-                        Superman
-                    </option>
-                    <option value="27" id="lara">
-                        Lara Croft
-                    </option>
-                    <option value="28" id="petra">
-                        Petra Sim4
-                    </option>
-                    <option value="29" id="alice">
-                        Alice KOFAS
-                    </option>
-                    <option value="30" id="athena">
-                        Athena KOFAS
-                    </option>
-                    <option value="31" id="reisalin">
-                        Reisalin Stout
-                    </option>
-                    <option value="32" id="helen">
-                        Helen_Parr
-                    </option>
-                    <option value="33" id="sly">
-                        Sly_Cooper
-                    </option>
-                    <option value="34" id="lisbeth">
-                        Lisbeth
-                    </option>
-                    <option value="35" id="leifang">
-                        Leifang DOA
-                    </option>
-                    <option value="36" id="luna">
-                        Luna_Pomelo DOA
-                    </option>
-                    <option value="37" id="honoka">
-                        Honoka_Jeans DOA6
-                    </option>
-                    <option value="38" id="honoka">
-                        Honoka_Stu DOA6
-                    </option>
-                    <option value="39" id="marie">
-                        Marie_Rose_otaku DOA6
-                    </option>
-                    <option value="40" id="marie_c">
-                        Marie_Rose_C DOA
-                    </option>
-                    <option value="41" id="marie_r">
-                        Marie_Rose DOA
-                    </option>
-                    <option value="42" id="kasumi">
-                        Kasumi_Furisode DOA6
-                    </option>
-                    <option value="43" id="mai">
-                        Mai_Shiranui DOA6
-                    </option>
-                    <option value="44" id="momiji">
-                        Momiji_Santa DOA6
+                    <option value="11" id="X-Men">
+                        X战警
                     </option>
                 </select>
-                <h4 style="width: 70px; height: 15px; margin: 2px">动作</h4>
+                <h4 style="width: 50px; height: 15px; margin: 2px">模型：</h4>
+                <select id="character_select" name="character" style="width: 80px; height: 18px; margin: 5px" onchange="game.characterSelect.call(game, value)">
+                    <option value="0" id="feng_min">
+                        凤敏
+                    </option>
+                    <option value="1" id="meg_thomas">
+                        梅格·托马斯
+                    </option>
+                    <option value="2" id="huntress">
+                        🐰妈
+                    </option>
+                    <option value="3" id="amanda">
+                        🐷妹（电锯惊魂）
+                    </option>
+                    <option value="4" id="ghost_face">
+                        鬼面（惊声尖叫）
+                    </option>
+                    <option value="5" id="freddy">
+                        佛莱迪（猛鬼街）
+                    </option>
+                    <option value="6" id="micheal_myers">
+                        迈克尔·迈尔斯（月光光心慌慌）
+                    </option>
+                    <option value="7" id="leather_face">
+                        皮脸（德州电锯杀人狂）
+                    </option>
+                </select>
+                <h4 style="width: 50px; height: 15px; margin: 2px; margin-left: 40px;">动作：</h4>
                 <select id="motion_select" name="motion" style="width: 70px; height: 18px; margin: 5px" onchange="game.motionSelect.call(game, value)">
                     <option value="0" id="banhusha">
                         落花情
@@ -304,20 +232,20 @@
                     </option>
                 </select>
 
-                <label style="width: 130px; margin: 2px">自动镜头</label>
+                <label style="width: 70px; margin: 2px; margin-left: 40px;">自动镜头</label>
                 <label class="switch" style="width: 33px; margin: 4px">
                     <input id="auto_camera_switch" type="checkbox" checked onchange="game.updateAutoCameraStatus.call(game, checked)">
                     <span class="slider round"></span>
                 </label>
 
-                <label style="margin: 5px">Debug</label>
+                <label style="margin: 5px; margin-left: 40px;">Debug</label>
                 <label class="switch" style="width: 33px; margin: 4px">
                     <input id="debug_switch" type="checkbox" onchange="game.updateDebugStatus.call(game, checked)">
                     <span class="slider round"></span>
                 </label>
 
-                <h4 style="width: 100px; height: 15px; margin: 2px;">加载进度：</h4>
-                <div><h4 id="text-progress" style="width: 130px; height: 15px; margin: 2px">0%</h3></div>
+                <h4 style="width: 80px; height: 15px; margin: 2px; margin-left: 40px;">加载进度：</h4>
+                <div><h4 id="text-progress" style="width: 150px; height: 15px; margin: 2px">0%</h3></div>
             </div>
             <div id="progress">
                 <div id="bar"></div>
