@@ -3,9 +3,11 @@ class BugByDaylight {
         this.COFFIN_DANCE_INDEX = 10;
         this.mClock = new THREE.Clock();
         this.mModelGames = [
-            "黎明杀🐔", "生化危机", "最终幻想", "铁拳", "绝地求生", "漫威", "古墓丽影", "模拟人生", "卡通人物", "死或生", "银河战士"
+            "游戏类型", "黎明杀🐔", "生化危机", "最终幻想", "铁拳", "绝地求生", "漫威", "古墓丽影", "模拟人生", "卡通人物", "死或生", "银河战士", "X-战警", "星际争霸"
         ];
         this.mModelNameFiles = [
+            // Test
+            ["默认角色"],
             // Dead by Bug
             ["凤敏", "梅格·托马斯", "🐰妈", "🐷妹（电锯惊魂）", "鬼面（惊声尖叫）", "佛莱迪（猛鬼街）","迈克尔·迈尔斯（月光光心慌慌）", "皮脸（德州电锯杀人狂）"], 
             // 卡婊危机
@@ -29,17 +31,34 @@ class BugByDaylight {
             ["Alice", "Athena", "Reisalin_Stout_Black", 
             "弹力女侠", "Sly_Cooper", "Lisbeth"], 
             // DOA 6
-            ["雷芳", "Luna_Pomelo", 
+            ["雷芳", 
+            "Luna_Pomelo", 
+            // 穂乃果
             "honoka（牛仔1）", "honoka（牛仔2）", "honoka（牛仔3）", "honoka_c1", 
+            // 玛丽·螺丝
             "Marie_Rose（otaku）", "Marie_Rose（旗袍）", "Marie_Rose",
             "Marie_Rose（粉旗袍）", "Marie_Rose（背带）", "Marie_Rose（圣诞）",
-            "Kasumi_Furisode", "Mai_Shiranui", "Momiji_Santa"],
+            // 霞
+            "Kasumi_Furisode(霞)", "Kasumi_Furisode(和服)", "Kasumi_Casual_Ponytail(牛仔马尾)", "Kasumi_Casual_Long_Hair(牛仔长发)", "Kasumi_Overall()", 
+            // 不知火舞
+            "Mai_Shiranui", 
+            // 红叶
+            "Momiji_Santa(红叶)", "Momiji_Santa(警服)", "Momiji_Santa(啦啦队)", 
+            // 绫音
+            "Ayane_SwimSuit(绫音)", "Ayane_SwimSuit(泳装)", "Ayane(皮衣)", "Ayane(和服)",
+            // 八田美咲
+            "Misaki(和服)",
+            // 环
+            "Tamaki(环)", "Tamaki(浴袍)",
+            ],
             // Metroid 银河战士
             ["萨姆丝·阿兰(便服)", "萨姆丝·阿兰"],
             // X战警
-            ["金刚狼(夹克)"],
+            ["金刚狼(夹克)"]
         ];
         this.mModelFiles = [
+            // Test
+            ["/model/DOA/Honoka/honoka_c13_Alt2.pmx"],
             // Dead by Bug
             ["/model/DBD/fengmin/Feng.pmx", "/model/DBD/meg/meg.pmx", "/model/DBD/huntress/Huntress.pmx", 
             "/model/DBD/amanda/Amanda.pmx", "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Freddy/Freddy.pmx", 
@@ -68,11 +87,28 @@ class BugByDaylight {
             ["/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
             "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx"], 
             // DOA 6
-            ["/model/DOA/Leifang/Leifang.pmx", "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", 
+            ["/model/DOA/Leifang/Leifang.pmx", 
+            "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", 
+            // DOA 穂乃果
             "/model/DOA/Honoka/honoka_c13.pmx", "/model/DOA/Honoka/honoka_c13_Alt2.pmx", "/model/DOA/Honoka/honoka_c13_Alt3.pmx", "/model/DOA/Honoka_Stu/honoka_c1.pmx", 
+            // DOA 玛丽·螺丝
             "/model/DOA/Marie/Marie_Rose_otaku.pmx", "/model/DOA/Marie_Rose_C/Marie_Rose_C.pmx", "/model/DOA/Marie_Rose/Marie_Rose.pmx",
             "/model/DOA/Marie_Rose_CP/Marie_Chinese_Dress.pmx", "/model/DOA/Marie_Rose_Jeans/MarieRose_Overalls.pmx", "/model/DOA/Marie_Rose_Fraise_Noel/Marie.pmx",
-            "/model/DOA/Kasumi_Furisode/Kasumi_Furisode.pmx", "/model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", "/model/DOA/Momiji_Santa/Momiji_Santa.pmx"],
+            // 霞
+            "/model/DOA/Kasumi/Kasumi.pmx", "/model/DOA/Kasumi_Furisode/Kasumi_Furisode.pmx", "/model/DOA/Kasumi_Casual/Kasumi_Casual_Ponytail.pmx", 
+            "/model/DOA/Kasumi_Casual/Kasumi_Casual_Long_Hair.pmx", "/model/DOA/Kasumi_Overall/Kasumi_Overall.pmx", 
+            // 不知火舞
+            "/model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", 
+            // 红叶
+            "/model/DOA/Momiji_Santa/Momiji_Santa.pmx", "/model/DOA/Momiji_Cheerleader/Momiji_Cheerleader.pmx", "/model/DOA/Momiji_Cop/Momiji.pmx", 
+            // 绫音
+            "/model/DOA/Ayane/Ayane.pmx", "/model/DOA/Ayane_c19_seaside_eden_swimsuit/Ayane_Seaside_Eden_Swimsuit.pmx","/model/DOA/Ayane_FF5/Ayane_FF5.pmx", 
+            "/model/DOA/Ayane_Furisode_Kimono_Twilight_Butterfly/Ayane_Furisode_Kimono_Twilight_Butterfly.pmx",
+            // 八田美咲
+            "/model/DOA/Misaki_Furisode_Kimono_Morning_Star/Misaki_Furisode_Kimono_Morning_Star.pmx", 
+            // 环
+            "/model/DOA/Tamaki_Mona_Costume/Tamaki_Mona_Costume.pmx", "/model/DOA/Tamaki_Indigo_Peacock/Tamaki_Indigo_Peacock.pmx", 
+            ],
             // Metroid 银河战士
             ["/model/Metroid/SamusAran/Samus_Casual.pmd", "/model/Metroid/SamusAran/ZeroSuitSamus.pmd"], 
             // X战警
