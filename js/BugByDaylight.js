@@ -396,7 +396,7 @@ class BugByDaylight {
 
         // load mmd scene
         this.mMmdSceneLoader = new THREE.MMDLoader();
-        this.loadMMDScene(this.mSceneFiles[1], 1);
+        this.loadMMDScene(this.mSceneFiles[0], 1);
 
         // load mmd model
         this.mMmdLoader = new THREE.MMDLoader();
