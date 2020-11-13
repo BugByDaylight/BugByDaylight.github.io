@@ -1,7 +1,7 @@
 class BugByDaylight {
     constructor() {
         this.COFFIN_DANCE_INDEX = 10;
-        this.mClock = new THREE.Clock();
+        this.mClock = undefined;
         this.mModelGames = [
             "游戏类型", "黎明杀🐔", "生化危机", "最终幻想", "铁拳", "绝地求生", "漫威", "古墓丽影", "模拟人生", "卡通人物", "死或生", "银河战士", "X-战警", "星际争霸"
         ];
@@ -131,6 +131,9 @@ class BugByDaylight {
             ["/motion/BarBarBarMotion3.vmd"], ["/motion/WhatYouWaitingForMotion.vmd"], 
             ["/motion/CoffinDance/CORONA-CHAN.vmd"]
         ];
+        this.mSceneFiles = [
+            "/model/Scene/ancient_garden/stage.pmx", "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx"
+        ];
         this.mCameraFiles = [
             ["/motion/LuoHuaQinCamera.vmd"], ["/motion/QianSiXiCamera.vmd"], 
             ["/motion/HongZhaoYuanCamera.vmd"], , ["/motion/ZuiLinCamera.vmd"], 
@@ -152,6 +155,7 @@ class BugByDaylight {
         this.mLastGameIndex = 0;
         this.mLastModelIndex = 0;
         this.mLastMotionIndex = 0;
+        this.mLastSceneIndex = 0;
 
 		this.init();
     }
@@ -392,7 +396,7 @@ class BugByDaylight {
 
         // load mmd scene
         this.mMmdSceneLoader = new THREE.MMDLoader();
-        this.loadMMDScene("/model/Scene/ancient_garden/stage.pmx", 1);
+        this.loadMMDScene(this.mSceneFiles[1], 1);
 
         // load mmd model
         this.mMmdLoader = new THREE.MMDLoader();
@@ -403,6 +407,7 @@ class BugByDaylight {
     loadMMDScene(path, scale) {
         const self = this;
         this.mMmdSceneLoader.load(path, null, function(object) {
+            self.mLastScene = object;
             object.castShadow = true;
             object.receiveShadow = true;
 
@@ -415,6 +420,9 @@ class BugByDaylight {
 
     loadMMD(modelPath, scale, motionPath, cameraPath, musicPath) {
         const self = this;
+        if (null == self.mCamera) {
+            self.initCamera();  // have to reinit camera since pourVmdIntoCamera
+        }
         self.mAbortLoader = false;
         self.mMMDAnimHelper = new THREE.MMDHelper();
         self.mMmdLoaderRequest = this.mMmdLoader.load(modelPath, motionPath, function(object) {
@@ -423,8 +431,7 @@ class BugByDaylight {
 
             self.mMMDAnimHelper.add(object);
             self.mMMDAnimHelper.setAnimation(object);
-            self.mLastModel = object
-            self.mMMDModelReady = true
+            self.mLastModel = object;
 
             // 骨骼辅助显示
             self.mIkHelper = new THREE.CCDIKHelper(object);
@@ -485,6 +492,8 @@ class BugByDaylight {
 
         self.mLastMotionIndex = motion;
         self.mMMDReady = false;
+        self.mClock = undefined;
+        self.mCamera = null;
         self.mContinuous = false;
         // if (motion == self.COFFIN_DANCE_INDEX) {
         //     for (var i = 0; i < self.mModelForCoffinDanceFiles.length; i++) {
@@ -493,6 +502,14 @@ class BugByDaylight {
         // }
         self.loadMMD(self.mModelFiles[self.mLastGameIndex][self.mLastModelIndex], 1, self.mMotionFiles[motion], 
             self.mCameraFiles[motion], self.mMusicFiles[motion]);
+    }
+
+    sceneSelect(sceneId) {
+        this.mLastSceneIndex = sceneId;
+        this.deleteGroup(this.mLastScene);
+        this.mScene.remove(this.mLastScene);
+
+        this.loadMMDScene(this.mSceneFiles[sceneId], 1);
     }
 
     gameSelect(gameId) {
@@ -524,22 +541,28 @@ class BugByDaylight {
 
         self.mLastModelIndex = character.value;
         self.mMMDReady = false;
+        self.mClock = undefined;
+        self.mCamera = null;
         self.mContinuous = false;
         self.loadMMD(self.mModelFiles[self.mLastGameIndex][character], 1, this.mMotionFiles[self.mLastMotionIndex], 
             this.mCameraFiles[self.mLastMotionIndex], this.mMusicFiles[self.mLastMotionIndex]);
     }
 
     render() {
-        var delta = this.mClock.getDelta();
+        if (this.mMMDReady) {
+            if (undefined == this.mClock)
+                this.mClock = new THREE.Clock();
+            var delta = this.mClock.getDelta();
+
+            if (null != this.mMMDAnimHelper) {
+                this.mMMDAnimHelper.animate(delta);
+            }
+            if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
+                this.mPhysicsHelper.update();
+        }
 
         this.mRenderer.clear();
         this.mRenderer.render(this.mScene, this.mCamera);
-
-        if (null != this.mMMDAnimHelper && this.mMMDReady) {
-            this.mMMDAnimHelper.animate(delta);
-        }
-        if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
-            this.mPhysicsHelper.update();
 
         if (null != this.mStats)
             this.mStats.update();
@@ -684,7 +707,14 @@ class BugByDaylight {
     }
 
     deleteGroup(group) {
-        if (!group) return;
+        if (!group) return ;
+        if (group instanceof THREE.Mesh) {
+            if (null != group.geometry) {
+                group.geometry.dispose();
+                group.geometry = null;
+            }
+            return ;
+        }
         // 删除掉所有的模型组内的mesh
         group.traverse(function (item) {
             if (item instanceof THREE.Mesh) {
