@@ -14,7 +14,7 @@ class BugByDaylight {
             ["吉尔-生化危机1", "吉尔-生化危机3重置版", "吉尔-生化危机5", "克莱尔（便装）", "Helena-生化危机6", "雪梨-生化危机6", 
             "挨打·王-生化危机4", "Rebecca-生化危机0", "Vector-浣熊市行动", "汉克（生化危机2）", "Iron_Maiden(生化危机4)"], 
             // 最终幻想
-            ["蒂法（旗袍）", "尤娜（婚纱）"], 
+            ["尤娜（婚纱）", "尤娜", "蒂法（旗袍）"], 
             // 铁拳
             ["Miharu_Hirano"], 
             // 绝地求生
@@ -28,8 +28,13 @@ class BugByDaylight {
             // Sim4
             ["Petra"],
             // 动画
-            ["Alice", "Athena", "Reisalin_Stout_Black", 
-            "弹力女侠", "Sly_Cooper", "Lisbeth"], 
+            [
+            // 泠鸢
+            "泠鸢-汉服", "泠鸢", "泠鸢-朋克",
+            "TDA", "Lulua", "Lulua_TypeA",
+            "Alice", "Athena", "Reisalin_Stout_Black", 
+            "弹力女侠", "Sly_Cooper", "Lisbeth"
+            ], 
             // DOA 6
             ["雷芳(李小龙)", "雷芳(辫子)", "雷芳(长发)", 
             "Luna_Pomelo", 
@@ -71,7 +76,7 @@ class BugByDaylight {
             "/model/RE/ada/Ada.pmx", "/model/RE/Rebecca/Rebecca_Chambers.pmx", "/model/RE/vector/Vector.pmd", 
             "/model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "/model/RE/RE4_Iron_Maiden/RE4_Iron_Maiden.pmx"], 
             // 最终幻想
-            ["/model/FF/Tifa/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx"], 
+            ["/model/FF/yuna/pmx/yuna.pmx", "/model/FF/yuna(Default)/yuna_gunner.pmd", "/model/FF/Tifa/Tifa.pmx"], 
             // 铁拳
             ["/model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx"], 
             // 绝地求生
@@ -86,8 +91,12 @@ class BugByDaylight {
             // Sim4
             ["/model/Sim/Petra/Petra.pmx"],
             // 动画
-            ["/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
-            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx"], 
+            [
+            "/model/Cartoon/Yousa/Yousa_v2/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa_punk.pmx", 
+            "/model/Cartoon/TDA_Twinkle_Party_Miku/Twinkle_Party.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1_TypeA.pmx",
+            "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
+            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx"
+            ], 
             // DOA 6
             // 雷芳
             ["/model/DOA/Leifang/Leifang_BruceLee/Leifang.pmx", "/model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_A.pmx", 
@@ -135,7 +144,7 @@ class BugByDaylight {
         ]
         this.mMotionFiles = [
             // ancient
-            ["/motion/Ancient/LuoHuaQinMotion.vmd"], ["/motion/Ancient//QianSiXiMotion.vmd"], 
+            ["/motion/Ancient/LuoHuaQinMotion.vmd"], ["/motion/Ancient/QianSiXiMotion.vmd"], 
             ["/motion/Ancient/HongZhaoYuanMotion.vmd"], ["/motion/Ancient/ZuiLinMotion.vmd"], 
             ["/motion/Ancient/LianRenXinMotion.vmd"],
             // Popular
@@ -152,7 +161,7 @@ class BugByDaylight {
         this.mCameraFiles = [
             // ancient
             ["/motion/Ancient/LuoHuaQinCamera.vmd"], ["/motion/Ancient/QianSiXiCamera.vmd"], 
-            ["/motion/Ancient/HongZhaoYuanCamera.vmd"], , ["/motion/Ancient/ZuiLinCamera.vmd"], 
+            ["/motion/Ancient/HongZhaoYuanCamera.vmd"], ["/motion/Ancient/ZuiLinCamera.vmd"], 
             ["/motion/Ancient/LianRenXinCamera.vmd"],
             // Popular
             ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
@@ -227,6 +236,15 @@ class BugByDaylight {
     initCamera() {
         this.mCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 5000);
         this.mCamera.position.set(0, 20, 50);
+
+        // 创建控件并绑定在相机上
+        this.mOrbitControl = new THREE.OrbitControls(this.mCamera, this.mRenderer.domElement);
+        this.mOrbitControl.target = new THREE.Vector3(0, 10, 0);
+        this.mOrbitControl.autoRotate = false;
+        this.mOrbitControl.minDistance = 1;
+        this.mOrbitControl.maxDistance = 150;
+        this.mOrbitControl.update();
+        this.mOrbitControl.maxPolarAngle = Math.PI / 2;
     }
 
     initScene() {
@@ -237,15 +255,6 @@ class BugByDaylight {
         this.mAxis = new THREE.AxesHelper(500);
         this.mAxis.material.visible = false;
         this.mScene.add(this.mAxis);
-
-        // 创建控件并绑定在相机上
-        this.mOrbitControl = new THREE.OrbitControls(this.mCamera, this.mRenderer.domElement);
-        this.mOrbitControl.target = new THREE.Vector3(0, 10, 0);
-        this.mOrbitControl.autoRotate = false;
-        this.mOrbitControl.minDistance = 1;
-        this.mOrbitControl.maxDistance = 150;
-        this.mOrbitControl.update();
-        this.mOrbitControl.maxPolarAngle = Math.PI / 2;
 
         this.mLoadingManager = new THREE.LoadingManager();
         this.mLoadingManager.onLoad = function () {
@@ -563,7 +572,7 @@ class BugByDaylight {
             self.mMMDAnimHelper.audioManager.audio.stop();
         self.mMMDAnimHelper = null;
 
-        self.mLastModelIndex = character.value;
+        self.mLastModelIndex = character;
         self.mMMDReady = false;
         self.mClock = undefined;
         self.mCamera = null;
