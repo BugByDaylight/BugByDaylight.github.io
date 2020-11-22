@@ -157,7 +157,7 @@ class BugByDaylight {
         ];
         this.mSceneFiles = [
             "/model/Scene/ancient_garden/stage.pmx", "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
-            "/model/Scene/Raccoon_City_Streets/Raccoon_City_Stage.pmx", "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
+            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
             "/model/Scene/Exhibition_Hall/room.pmx", "/model/Scene/Desert_Camp/Desert_Camp.pmx", "/model/Scene/Countryside_Road/1.pmx", 
             "/model/Scene/MidLakePavilion/MidLakePavilion.pmx", "/model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
             "/model/Scene/Musume_Forest/stage.pmd", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/DOAX2_Pool/DOAX2_Pool.pmx",
@@ -314,7 +314,7 @@ class BugByDaylight {
 
         this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.8);
         this.mSpotLight.position.set(0, 75, -45);
-        this.mSpotLight.angle = Math.PI / 6; // 设置聚光光源发散角度
+        this.mSpotLight.angle = Math.PI / 8; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
         this.mSpotLight.receiveShadow = true;
         this.mSpotLight.shadow.camera.near = 0.5;
