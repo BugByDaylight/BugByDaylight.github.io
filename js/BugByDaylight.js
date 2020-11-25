@@ -11,8 +11,8 @@ class BugByDaylight {
             // Dead by Bug
             ["凤敏", "梅格·托马斯", "🐰妈", "🐷妹（电锯惊魂）", "鬼面（惊声尖叫）", "佛莱迪（猛鬼街）","迈克尔·迈尔斯（月光光心慌慌）", "皮脸（德州电锯杀人狂）"], 
             // 卡婊危机
-            ["吉尔-生化危机1", "吉尔-生化危机3重置版", "吉尔-生化危机5", "克莱尔（便装）", "Helena-生化危机6", "雪梨-生化危机6", 
-            "挨打·王-生化危机4", "Rebecca-生化危机0", "Vector-浣熊市行动", "汉克（生化危机2）", "Iron_Maiden(生化危机4)"], 
+            ["吉尔-生化危机1", "吉尔-生化危机3重置版", "吉尔-生化危机5", "克莱尔", "克莱尔（便装）", "Helena-生化危机6", "雪梨-生化危机6", "挨打·王-生化危机6",
+            "挨打·王-生化危机4", "Rebecca-生化危机0", "Vector-浣熊市行动", "汉克（生化危机2）", "威斯克(生化危机5)", "Excella Gionne(生化危机5)", "Elza Walker(生化危机1.5)"], 
             // 最终幻想
             ["尤娜（婚纱）", "尤娜", "蒂法（旗袍）"], 
             // 铁拳
@@ -71,10 +71,11 @@ class BugByDaylight {
             "/model/DBD/amanda/Amanda.pmx", "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Freddy/Freddy.pmx", 
             "/model/DBD/MichealMyers/MichealMyers.pmx", "/model/DBD/Leatherface/Leatherface.pmx"], 
             // 卡婊危机
-            ["/model/RE/jill1/Jill.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", 
+            ["/model/RE/jill1/Jill.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Claire_Prisioner/Claire.pmx", 
             "/model/RE/claire/ClaireCasual.pmx", "/model/RE/helena/Helena_TallOaks.pmx", "/model/RE/sherry/Sherry.pmx", 
-            "/model/RE/ada/Ada.pmx", "/model/RE/Rebecca/Rebecca_Chambers.pmx", "/model/RE/vector/Vector.pmd", 
-            "/model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "/model/RE/RE4_Iron_Maiden/RE4_Iron_Maiden.pmx"], 
+            "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx", "/model/RE/ada/Ada.pmx", "/model/RE/Rebecca/Rebecca_Chambers.pmx", "/model/RE/vector/Vector.pmd", 
+            "/model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "/model/RE/Albert_Wesker/Albert_Wesker.pmx", "/model/RE/Excella_Gionne/Excella_Gionne.pmx", 
+            "/model/RE/Elza_Walker_RE1_5/elza_walker_no_vest.pmx"], 
             // 最终幻想
             ["/model/FF/yuna/pmx/yuna.pmx", "/model/FF/yuna(Default)/yuna_gunner.pmd", "/model/FF/Tifa/Tifa.pmx"], 
             // 铁拳
@@ -163,7 +164,8 @@ class BugByDaylight {
         ];
         this.mSceneFiles = [
             "/model/Scene/ancient_garden/stage.pmx", "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
-            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
+            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Raccoon_City_street_2/City.pmx", "/model/Scene/Spencer_Mansion/Spencer_Mansion.pmx", 
+            "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
             "/model/Scene/Exhibition_Hall/room.pmx", "/model/Scene/Desert_Camp/Desert_Camp.pmx", "/model/Scene/Countryside_Road/1.pmx", 
             "/model/Scene/MidLakePavilion/MidLakePavilion.pmx", "/model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
             "/model/Scene/Musume_Forest/stage.pmd", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/DOAX2_Pool/DOAX2_Pool.pmx",
