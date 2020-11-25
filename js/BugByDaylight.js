@@ -146,14 +146,20 @@ class BugByDaylight {
             // ancient
             ["/motion/Ancient/LuoHuaQinMotion.vmd"], ["/motion/Ancient/QianSiXiMotion.vmd"], 
             ["/motion/Ancient/HongZhaoYuanMotion.vmd"], ["/motion/Ancient/ZuiLinMotion.vmd"], 
-            ["/motion/Ancient/LianRenXinMotion.vmd"],
+            ["/motion/Ancient/LianRenXinMotion.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
+            ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanMotion.vmd"], 
+            ["/motion/Ancient/XingyunLin.vmd"],["/motion/Ancient/QianDengYuanMotion.vmd"], 
+            ["/motion/Ancient/BanHuShaMotion.vmd"],
             // Popular
             ["/motion/Popular/LearnCatMotion.vmd"], ["/motion/Popular/HaiCaoMotion.vmd"], 
-            ["/motion/Popular/LittleAppleMotion.vmd"], 
+            ["/motion/Popular/LittleAppleMotion.vmd"], ["/motion/Popular/JiLeMotion.vmd"], 
             // Jp&Korea
             ["/motion/JP&Korea/BarBarBarMotion3.vmd"], ["/motion/JP&Korea/WhatYouWaitingForMotion.vmd"], 
+            ["/motion/JP&Korea/BirthdayMotion.vmd"], ["/motion/JP&Korea/BangBangMotion.vmd"], 
+            ["/motion/JP&Korea/BoPeepBoPeepMotion.vmd"], 
             // Funny
-            ["/motion/Funny/CoffinDance/CORONA-CHAN.vmd"], ["/motion/Funny/MaBaoguo/MaBaoguo.vmd"]
+            ["/motion/Funny/CoffinDance/CORONA-CHAN.vmd"], ["/motion/Funny/MaBaoguo/MaBaoguo.vmd"],
+            ["/motion/Funny/CaiXukun/caixukun.vmd"], ["/motion/Funny/BadWater/BadBadWaterMotion.vmd"]
         ];
         this.mSceneFiles = [
             "/model/Scene/ancient_garden/stage.pmx", "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
@@ -167,25 +173,33 @@ class BugByDaylight {
             // ancient
             ["/motion/Ancient/LuoHuaQinCamera.vmd"], ["/motion/Ancient/QianSiXiCamera.vmd"], 
             ["/motion/Ancient/HongZhaoYuanCamera.vmd"], ["/motion/Ancient/ZuiLinCamera.vmd"], 
-            ["/motion/Ancient/LianRenXinCamera.vmd"],
+            ["/motion/Ancient/LianRenXinCamera.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
+            ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanCamera.vmd"], 
+            ["/motion/Ancient/XingyunLinCamera.vmd"], ["/motion/Ancient/QianDengYuanCamera.vmd"], 
+            ["/motion/Ancient/BanHuShaCamera.vmd"], 
             // Popular
             ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
-            ["/motion/Popular/LittleAppleCamera.vmd"], 
+            ["/motion/Popular/LittleAppleCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
             // Jp&Korea
             ["/motion/JP&Korea/BarBarBarCamera.vmd"], ["/motion/JP&Korea/WhatYouWaitingForCamera.vmd"], 
+            ["/motion/JP&Korea/BirthdayCamera.vmd"], ["/motion/JP&Korea/BangBangCamera.vmd"], 
+            ["/motion/JP&Korea/BoPeepBoPeepCamera.vmd"], 
             // Funny
-            ["/motion/Funny/CoffinDance/CAMERA.vmd"], ["/motion/Funny/MaBaoguo/MaBaoguoCamera.vmd"]
+            ["/motion/Funny/CoffinDance/CAMERA.vmd"], ["/motion/DefaultCamera.vmd"],
+            ["/motion/Funny/CaiXukun/caixukunCamera.vmd"], ["/motion/DefaultCamera.vmd"]
         ];
         this.mMusicFiles = [
             // ancient
             "/music/LuoHuaQin.mp3", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
-            "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", 
+            "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", "/music/XiaoQiuYueMing.mp3", 
+            "/music/YueZhongTian.mp3", "/music/XiaShan.mp3", "/music/XingYunLing.mp3", 
+            "/music/QianDengYuan.mp3", "/music/BanHuSha.mp3", 
             // Popular
-            "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", 
+            "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", "/music/JiLeJinTu.mp3", 
             // Jp&Korea
-            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3", 
+            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3", "/music/Birthday.mp3", "/music/BangBang.mp3", "/music/BoPeepBoPeep.mp3", 
             // Funny
-            "/music/CoffinDance.mp3", "/music/MaBaoguo.mp3"
+            "/music/CoffinDance.mp3", "/music/MaBaoguo.mp3", "/music/caixukun.mp3", "/music/BadBadWater.mp3"
         ];
         this.mDebug = false;
         this.mAutoCamera = true;
