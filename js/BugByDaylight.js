@@ -1,6 +1,15 @@
 class BugByDaylight {
     constructor() {
         this.COFFIN_DANCE_INDEX = 10;
+        this.FIREWORM_LIGHT_NUM = 10;
+        this.DAY_AMBIENT_COLOR = 0xaaaaaa;
+        this.NIGHT_AMBIENT_COLOR = 0x333333;
+        this.DAY_DIRECTION_LIGHT_COLOR = 0x777777;
+        this.NIGHT_DIRECTION_LIGHT_COLOR = 0x333333;
+        this.DAY_SPOTLIGHT_COLOR = 0xbbbbbb;
+        this.NIGHT_SPOTLIGHT_COLOR = 0x555555;
+        this.mDaySkyboxPath = "/texture/SkyBox/seaside/";
+        this.mNightSkyboxPath = "/texture/SkyBox/night/";
         this.mClock = undefined;
         this.mModelGames = [
             "游戏类型", "黎明杀🐔", "生化危机", "最终幻想", "铁拳", "绝地求生", "漫威", "古墓丽影", "模拟人生", "卡通人物", "死或生", "银河战士", "X-战警", "星际争霸"
@@ -163,12 +172,14 @@ class BugByDaylight {
             ["/motion/Funny/CaiXukun/caixukun.vmd"], ["/motion/Funny/BadWater/BadBadWaterMotion.vmd"]
         ];
         this.mSceneFiles = [
-            "/model/Scene/ancient_garden/stage.pmx", "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
-            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Raccoon_City_street_2/City.pmx", "/model/Scene/Spencer_Mansion/Spencer_Mansion.pmx", 
+            "/model/Scene/DOAX2_Pool/DOAX2_Pool_Move.pmx", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/Hot_Spring/Hot_Spring.pmx", 
+            "/model/Scene/ancient_garden/stage.pmx", 
+            "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
+            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Raccoon_City_street_2/City.pmx", "/model/Scene/Spencer_Mansion/Spencer_with_desk.pmx", 
             "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
             "/model/Scene/Exhibition_Hall/room.pmx", "/model/Scene/Desert_Camp/Desert_Camp.pmx", "/model/Scene/Countryside_Road/1.pmx", 
             "/model/Scene/MidLakePavilion/MidLakePavilion.pmx", "/model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
-            "/model/Scene/Musume_Forest/stage.pmd", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/DOAX2_Pool/DOAX2_Pool.pmx",
+            "/model/Scene/Musume_Forest/stage.pmd", 
             "/model/Scene/JP_Yard/Stage.pmd", "/model/Scene/Summer_Apartment/Summer_Apartment.pmx"
         ];
         this.mCameraFiles = [
@@ -218,7 +229,8 @@ class BugByDaylight {
         this.initThree();
         this.initCamera();
         this.initScene();
-        this.initLight();
+        this.initSkyBox();
+        this.initLight(false);  // default night
         this.initModel();
     }
 
@@ -283,6 +295,23 @@ class BugByDaylight {
         }
         this.mTextureLoader = new THREE.TextureLoader(this.mLoadingManager);
 
+        // // 创建video对象
+        // this.mVideo = document.createElement('video');
+        // this.mVideo.src = "/motion/Funny/MaBaoguo/mabaoguo.mp4"; // 设置视频地址
+        // // this.mVideo.autoplay = "autoplay"; // 要设置播放
+        // // video对象作为VideoTexture参数创建纹理对象
+        // var videoTexture = new THREE.VideoTexture(this.mVideo)
+        // var vdieoGeometry = new THREE.PlaneGeometry(9.5, 6.4); // 矩形平面
+        // var videoMaterial = new THREE.MeshPhongMaterial({
+        //     map: videoTexture, // 设置纹理贴图
+        // }); // 材质对象Material
+        // var videoMesh = new THREE.Mesh(vdieoGeometry, videoMaterial); // 网格模型对象Mesh
+        // videoMesh.position.set(-43.75, 14.7, -41);
+        // videoMesh.rotateY(38 * (Math.PI / 180))
+        // this.mScene.add(videoMesh); // 网格模型添加到场景中
+    }
+
+    initSkyBox(day) {
         // skybox
         var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
         // const cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -295,9 +324,12 @@ class BugByDaylight {
         //     '/texture/SkyBox/negz.jpg', 
         // ]);
         var materialArray = [];
-        const path = "/texture/SkyBox/";
         var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"]; 
         var format = ".jpg";
+        var path = this.mDaySkyboxPath
+        if (!day) {
+            path = this.mNightSkyboxPath
+        }
         for (var i = 0; i < 6; i++)
             materialArray.push(new THREE.MeshBasicMaterial({
                 map: this.mTextureLoader.load(path + directions[i] + format),
@@ -311,11 +343,19 @@ class BugByDaylight {
         // this.mScene.background = skyBoxTexture;
     }
 
-    initLight() {
-        this.mAmbientLight = new THREE.AmbientLight(0xaaaaaa, 1);
+    initLight(day) {
+        if (day) {
+            this.mAmbientLight = new THREE.AmbientLight(this.DAY_AMBIENT_COLOR, 1);
+        } else {
+            this.mAmbientLight = new THREE.AmbientLight(this.NIGHT_AMBIENT_COLOR, 1);
+        }
         this.mScene.add(this.mAmbientLight);
 
-        this.mDirectionalLight = new THREE.DirectionalLight(0x777777, 1.0);
+        if (day) {
+            this.mDirectionalLight = new THREE.DirectionalLight(this.DAY_DIRECTION_LIGHT_COLOR, 1.0);
+        } else {
+            this.mDirectionalLight = new THREE.DirectionalLight(this.NIGHT_DIRECTION_LIGHT_COLOR, 1.0);
+        }
         this.mDirectionalLight.position.set(400, 400, 400);
         this.mDirectionalLight.target.position.set(0, 0, 0);
         // this.mDirectionalLight.shadowCameraVisible = true;
@@ -328,7 +368,11 @@ class BugByDaylight {
         this.mDirectionalLight.shadow.camera.right = 1200;
         this.mScene.add(this.mDirectionalLight);
 
-        this.mSpotLight = new THREE.SpotLight(0xcccccc, 0.8);
+        if (day) {
+            this.mSpotLight = new THREE.SpotLight(this.DAY_SPOTLIGHT_COLOR, 0.2);
+        } else {
+            this.mSpotLight = new THREE.SpotLight(this.NIGHT_SPOTLIGHT_COLOR, 0.2);
+        }
         this.mSpotLight.position.set(0, 75, -45);
         this.mSpotLight.angle = Math.PI / 8; // 设置聚光光源发散角度
         this.mSpotLight.castShadow = true;
@@ -346,29 +390,46 @@ class BugByDaylight {
         const flareColor = new THREE.Color(0xffffff);
         flareColor.setHSL(0.55, 0.9, 1.0);
         // need new version of Lensflare and three.js
-        // var lensFlare = new Lensflare();
-        // lensFlare.addElement(new LensflareElement(lensFlareTex1, 512, 0));
-        // lensFlare.addElement(new LensflareElement(lensFlareTex2, 512, 0));
-        // lensFlare.addElement(new LensflareElement(lensFlareTex3, 60, 0.6));
-        // this.mDirectionalLight.add(lensFlare);
+        // var this.mLensFlare = new Lensflare();
+        // this.mLensFlare.addElement(new LensflareElement(lensFlareTex1, 512, 0));
+        // this.mLensFlare.addElement(new LensflareElement(lensFlareTex2, 512, 0));
+        // this.mLensFlare.addElement(new LensflareElement(lensFlareTex3, 60, 0.6));
+        // this.mDirectionalLight.add(this.mLensFlare);
 
-        var lensFlare = new THREE.Lensflare();
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex0, 500, 0.0, flareColor));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 60, 0.6));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 0.7));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 120, 0.9));
-        lensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 1.0));
-        lensFlare.position.copy(this.mSpotLight.position);
-        // this.mDirectionalLight.add(lensFlare);
+        this.mLensFlare = new THREE.Lensflare();
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex0, 500, 0.0, flareColor));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex2, 512, 0.0));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 60, 0.6));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 0.7));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 120, 0.9));
+        this.mLensFlare.addElement(new THREE.LensflareElement(lensFlareTex3, 70, 1.0));
+        this.mLensFlare.position.copy(this.mSpotLight.position);
+        // this.mDirectionalLight.add(this.mLensFlare);
+        this.mScene.add(this.mLensFlare);
 
-        this.mScene.add(lensFlare);
+        // fireworm light
+        if (!day) {
+            this.mFireWormLights = [];
+            var fireWormGeo = new THREE.SphereGeometry(0.1, 0.1, 0.1);
+            var distance = 7;
+            var fireWormPos = new THREE.Vector3();
+            for (var i = 0; i < this.FIREWORM_LIGHT_NUM; i++) {
+                var light = new THREE.PointLight(0xffffff, 2.0, distance);
+                fireWormPos.set(Math.random(), Math.random(), Math.random()).normalize();
+                light.color.setRGB(fireWormPos.x, fireWormPos.y, fireWormPos.z);
+                this.mScene.add(light);
+                this.mFireWormLights.push(light);
+
+                var material = new THREE.MeshBasicMaterial({color: light.color});
+                var emitter = new THREE.Mesh(fireWormGeo, material);
+                light.add(emitter);
+            }
+        }
     }
 
     initModel() {
-        const self = this;
         // mesh
         this.mMeshLineMaterial = new THREE.LineBasicMaterial({color: 0x000000, opacity: 0.2});
         this.mMeshLineMaterial.visible = false;
@@ -429,24 +490,24 @@ class BugByDaylight {
         //     })
         // ];
 
-        var xilouLoader = new THREE.FBXLoader();
-        xilouLoader.setCrossOrigin("Anonymous");
-        xilouLoader.load("/model/FBX/PBR_XiLou/XiLou.fbx", function(object) {
-            object.traverse(function(child) {
-                if (child.isMesh) {    //  instanceof THREE.Mesh
-                    child.material = xilouMaterials;
-                    child.castShadow = true;
-                    child.receiveShadow = true; // 接收阴影
-                }
-            });
-            object.position.z -= 70;
-            object.scale.set(0.1, 0.1, 0.1)
-            object.rotateY(-Math.PI / 2);
+        // var xilouLoader = new THREE.FBXLoader();
+        // xilouLoader.setCrossOrigin("Anonymous");
+        // xilouLoader.load("/model/FBX/PBR_XiLou/XiLou.fbx", function(object) {
+        //     object.traverse(function(child) {
+        //         if (child.isMesh) {    //  instanceof THREE.Mesh
+        //             child.material = xilouMaterials;
+        //             child.castShadow = true;
+        //             child.receiveShadow = true; // 接收阴影
+        //         }
+        //     });
+        //     object.position.z -= 70;
+        //     object.scale.set(0.1, 0.1, 0.1)
+        //     object.rotateY(-Math.PI / 2);
 
-            self.mScene.add(object);
+        //     self.mScene.add(object);
 
-            self.render();
-        })
+        //     self.render();
+        // })
 
         // load mmd scene
         this.mMmdSceneLoader = new THREE.MMDLoader();
@@ -513,6 +574,7 @@ class BugByDaylight {
                     
                     self.mMMDReady = true;
                     self.mContinuous = true;
+                    // self.mVideo.play();
                     self.render();
                 }, self.onProgress.bind(self), self.onError);
             }, self.onProgress.bind(self), self.onError);
@@ -615,6 +677,8 @@ class BugByDaylight {
                 this.mPhysicsHelper.update();
         }
 
+        this.updateLights();
+
         this.mRenderer.clear();
         this.mRenderer.render(this.mScene, this.mCamera);
 
@@ -626,6 +690,20 @@ class BugByDaylight {
             requestAnimationFrame(function(){ 
                 self.render(); 
             });
+        }
+    }
+
+    updateLights() {
+        if (null == this.mFireWormLights) {
+            return ;
+        }
+        var time = Date.now() * 0.0006;
+        for (var i = 0, il = this.mFireWormLights.length; i < il; i++) {
+            var light = this.mFireWormLights[i];
+            var x = Math.sin(time + i * 7.0) * 24 * Math.abs(Math.sin(time / i / 7.0));
+            var y = Math.cos(time + i * 5.0) * 15 * Math.abs(Math.sin(time / i / 13.0)) + 6;
+            var z = Math.cos(time + i * 3.0) * 24 * Math.abs(Math.sin(time / i / 17.0));
+            light.position.set(x, y, z);
         }
     }
 
@@ -743,6 +821,30 @@ class BugByDaylight {
         this.mMMDAnimHelper.doCameraAnimation = this.mAutoCamera;
     }
 
+    updateDayOrNight(checked) {
+        if (null != this.mAmbientLight) {
+            this.deleteGroup(this.mAmbientLight);
+        }
+        if (null != this.mDirectionalLight) {
+            this.deleteGroup(this.mDirectionalLight);
+        }
+        if (null != this.mSpotLight) {
+            this.deleteGroup(this.mSpotLight);
+        }
+        if (null != this.mLensFlare) {
+            this.deleteGroup(this.mLensFlare);
+        }
+        if (null != this.mFireWormLights) {
+            this.deleteGroup(this.mFireWormLights);
+        }
+        if (null != this.mSkyBox) {
+            this.deleteGroup(this.mSkyBox);
+        }
+
+        this.initSkyBox(!checked);
+        this.initLight(!checked);
+    }
+
     updateDebugStatus(checked) {
         this.mShowAssist = checked;
         this.mMeshLineMaterial.visible = checked;
@@ -767,6 +869,29 @@ class BugByDaylight {
                 group.geometry.dispose();
                 group.geometry = null;
             }
+            if (null != group.material) {
+                if (Array.isArray(group.material)) {
+                    group.material.forEach(mat => {
+                        mat.dispose();
+                        mat = null;
+                    });
+                } else {
+                    group.material.dispose();
+                    group.material = null;
+                }
+            }
+            this.mScene.remove(group);
+            return ;
+        }
+        if (group instanceof THREE.AmbientLight || group instanceof THREE.DirectionalLight 
+            || group instanceof THREE.SpotLight || group instanceof THREE.PointLight) {
+            this.mScene.remove(group);
+            return ;
+        }
+        if (Array.isArray(group)) {
+            for (var i = 0, len = group.length; i < len; i++) {
+                this.deleteGroup(group[i]);
+            }
             return ;
         }
         // 删除掉所有的模型组内的mesh
@@ -778,11 +903,12 @@ class BugByDaylight {
                 }
 
                 if (null != item.material) {
-                    // item.material.dispose(); // 删除材质
+                    item.material.dispose(); // 删除材质
                     item.material = null;
                 }
             }
         });
+        this.mScene.remove(group);
     }
 
     onDestroy() {
@@ -791,6 +917,14 @@ class BugByDaylight {
             deleteGroup(children[i]);
         }
     }
+
+    sleep(milliseconds) {
+        const date = Date.now();
+        let currentDate = null;
+        do {
+          currentDate = Date.now();
+        } while (currentDate - date < milliseconds);
+      }
 }
 
 export {BugByDaylight};
