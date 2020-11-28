@@ -226,12 +226,24 @@ class BugByDaylight {
     }
 
     init() {
+        var curHour = (new Date()).getHours();
+        var day = (curHour < 18 && curHour > 7);
+
+        this.initUI(day);
         this.initThree();
         this.initCamera();
         this.initScene();
-        this.initSkyBox();
-        this.initLight(false);  // default night
+        this.initSkyBox(day);
+        this.initLight(day);  // default night
         this.initModel();
+    }
+
+    initUI(day) {
+        document.getElementById("daynight_switch").checked = !day;
+        if (day) 
+            document.getElementById("day_or_night").innerHTML = "白天";
+        else
+            document.getElementById("day_or_night").innerHTML = "晚上";
     }
 
     initThree() {
@@ -840,6 +852,10 @@ class BugByDaylight {
         if (null != this.mSkyBox) {
             this.deleteGroup(this.mSkyBox);
         }
+        if (!checked) 
+            document.getElementById("day_or_night").innerHTML = "白天";
+        else
+            document.getElementById("day_or_night").innerHTML = "晚上";
 
         this.initSkyBox(!checked);
         this.initLight(!checked);
