@@ -169,6 +169,7 @@ class BugByDaylight {
             ["/motion/Popular/LearnCatMotion.vmd"], ["/motion/Popular/HaiCaoMotion.vmd"], 
             ["/motion/Popular/LittleAppleMotion.vmd"], ["/motion/Popular/JiLeMotion.vmd"], 
             // Jp&Korea
+            ["/motion/JP&Korea/Onlymyrailgun1.vmd"], ["/motion/JP&Korea/みつあみの猫.vmd"], 
             ["/motion/JP&Korea/BarBarBarMotion3.vmd"], ["/motion/JP&Korea/WhatYouWaitingForMotion.vmd"], 
             ["/motion/JP&Korea/BirthdayMotion.vmd"], ["/motion/JP&Korea/BangBangMotion.vmd"], 
             ["/motion/JP&Korea/BoPeepBoPeepMotion.vmd"], 
@@ -185,7 +186,8 @@ class BugByDaylight {
             "/model/Scene/Exhibition_Hall/room.pmx", "/model/Scene/Desert_Camp/Desert_Camp.pmx", "/model/Scene/Countryside_Road/1.pmx", 
             "/model/Scene/MidLakePavilion/MidLakePavilion.pmx", "/model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
             "/model/Scene/Musume_Forest/stage.pmd", 
-            "/model/Scene/JP_Yard/Stage.pmd", "/model/Scene/Summer_Apartment/Summer_Apartment.pmx"
+            "/model/Scene/JP_Yard/Stage.pmd", "/model/Scene/Summer_Apartment/Summer_Apartment.pmx",
+            "/model/Scene/Tokyo_Stage/Tokyo.pmx", "/model/Scene/Snow_Field/Snow_Field.pmx"
         ];
         this.mCameraFiles = [
             // ancient
@@ -199,6 +201,7 @@ class BugByDaylight {
             ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
             ["/motion/Popular/LittleAppleCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
             // Jp&Korea
+            ["/motion/JP&Korea/OnlymyrailgunCamera.vmd"], ["/motion/JP&Korea/みつあみの猫Camera.vmd"], 
             ["/motion/JP&Korea/BarBarBarCamera.vmd"], ["/motion/JP&Korea/WhatYouWaitingForCamera.vmd"], 
             ["/motion/JP&Korea/BirthdayCamera.vmd"], ["/motion/JP&Korea/BangBangCamera.vmd"], 
             ["/motion/JP&Korea/BoPeepBoPeepCamera.vmd"], 
@@ -215,6 +218,7 @@ class BugByDaylight {
             // Popular
             "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", "/music/JiLeJinTu.mp3", 
             // Jp&Korea
+            "/music/Only_my_railgun.mp3", "/music/Mitsumai_no_Neko.mp3", 
             "/music/BarBarBar.mp3", "/music/WaitingFor.mp3", "/music/Birthday.mp3", "/music/BangBang.mp3", "/music/BoPeepBoPeep.mp3", 
             // Funny
             "/music/CoffinDance.mp3", "/music/MaBaoguo.mp3", "/music/caixukun.mp3", "/music/BadBadWater.mp3"
@@ -825,7 +829,7 @@ class BugByDaylight {
                 if (null != this.mWater.material) {
                     this.mWater.material.uniforms.time.value += delta;
                 }
-                if (null != this.mWaterSplash.material) {
+                if (null != this.mWaterSplash && null != this.mWaterSplash.material) {
                     this.mWaterSplash.material.uniforms.time.value += delta;
                 }
                 if (null != this.mWater.material && null != this.mWaterSplash.material) {
