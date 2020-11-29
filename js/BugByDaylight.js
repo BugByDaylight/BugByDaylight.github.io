@@ -2,12 +2,17 @@ class BugByDaylight {
     constructor() {
         this.COFFIN_DANCE_INDEX = 10;
         this.FIREWORM_LIGHT_NUM = 10;
+        this.WATER_SPLASH_MAX_NUM = 30;
+        this.WATER_SPLASH_PARTICLE_NUM = 400;   // for each splash
+        this.WATER_SPLASH_SIZE = 0.04;
+        this.WATER_SIZE = 64;
         this.DAY_AMBIENT_COLOR = 0xaaaaaa;
         this.NIGHT_AMBIENT_COLOR = 0x333333;
         this.DAY_DIRECTION_LIGHT_COLOR = 0x777777;
         this.NIGHT_DIRECTION_LIGHT_COLOR = 0x333333;
         this.DAY_SPOTLIGHT_COLOR = 0xbbbbbb;
         this.NIGHT_SPOTLIGHT_COLOR = 0x555555;
+        this.mSplashIndex = 0;
         this.mDaySkyboxPath = "/texture/SkyBox/seaside/";
         this.mNightSkyboxPath = "/texture/SkyBox/night/";
         this.mClock = undefined;
@@ -236,6 +241,8 @@ class BugByDaylight {
         this.initSkyBox(day);
         this.initLight(day);  // default night
         this.initModel();
+        this.initWater();
+        this.initWaterSplash();
     }
 
     initUI(day) {
@@ -251,6 +258,7 @@ class BugByDaylight {
         this.mRenderer = new THREE.WebGLRenderer({
             antialias : true, alpha: true
         });
+        this.mRenderTarget = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight);
         this.mRenderer.shadowMap.enabled = true; // 麻痹的这一个d搞了我一下午，为什么编译器不会报错，引擎的问题还是js的问题
         this.mRenderer.shadowMap.type = THREE.PCFSoftShadowMap; // 默认的是THREE.PCFShadowMap，没有设置的这个清晰 
         this.mRenderer.shadowCameraNear = 0.5;
@@ -531,6 +539,120 @@ class BugByDaylight {
         this.loadMMD(this.mModelFiles[0][0], 1, this.mMotionFiles[0], this.mCameraFiles[0], this.mMusicFiles[0]);
     }
 
+    initWater() {
+        var circleWaveTriggerTimesArray = [];
+        var circleWaveCentersArray = [];
+        var directionWaveVectors = [
+            (new THREE.Vector2(0.0, 0.7)).normalize(),
+            (new THREE.Vector2(-1.0, 1.0)).normalize(),
+            (new THREE.Vector2(-0.2, -1.0)).normalize(),
+            (new THREE.Vector2(-1.0, -1.0)).normalize(),
+            (new THREE.Vector2(1.0, 0.5)).normalize()
+        ];
+        var directionWaveMaxNum = directionWaveVectors.length;
+
+        for (var i = 0; i < this.WATER_SPLASH_MAX_NUM; i++) {
+            circleWaveTriggerTimesArray.push(0);
+            circleWaveCentersArray.push(new THREE.Vector2());
+        }
+
+        var vertReader = new XMLHttpRequest();
+        var fragReader = new XMLHttpRequest();
+        vertReader.open('get', './shader/water.vs', false);
+        fragReader.open('get', './shader/water.fs', false);
+        vertReader.send();
+        fragReader.send();
+        var vertShader = vertReader.responseText;
+        var fragShader = fragReader.responseText;
+
+        this.mWater = new THREE.Mesh(
+            new THREE.PlaneBufferGeometry(this.WATER_SIZE, this.WATER_SIZE, 512, 512),
+            new THREE.ShaderMaterial({
+                uniforms: {
+                    size: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
+                    time: {value: 0},
+                    tDiffuse: {value: this.mRenderTarget.texture},
+                    tWaterMap: {value: this.mTextureLoader.load("/texture/Water/water.jpg")},
+                    tWaterNormalMap: {value: this.mTextureLoader.load("/texture/Water/waternormals.jpg")},
+                    circleWaveCenters: {value: circleWaveCentersArray},
+                    circleWaveTriggerTimes: {value: circleWaveTriggerTimesArray},
+                    circleWaveNum: {value: 0},
+                    directionWaveVectors: {value: directionWaveVectors},
+                    directionWaveNum: {value: directionWaveMaxNum}
+                },
+                vertexShader: vertShader.replace('<maxCircleWaveNum>', 
+                    this.WATER_SPLASH_MAX_NUM).replace('<maxDirectionWaveNum>', directionWaveMaxNum),
+                fragmentShader: fragShader,
+                transparent: true
+            })
+        );
+        this.mWater.rotation.x = -90 * Math.PI / 180;
+        this.mWater.position.set(0, 1.5, 7);
+        this.mScene.add(this.mWater);
+    }
+
+    initWaterSplash() {
+        this.WaterHitCheckBoneIndices = [
+            8,
+            9
+        ];
+        this.mPreviousBonePositions = [];
+        for (var i = 0, len = this.WaterHitCheckBoneIndices.length; i < len; i++) {
+            this.mPreviousBonePositions.push(new THREE.Vector3());
+        }
+        
+        var splashVector = new THREE.Vector3(8, 10, 8);
+        var count = this.WATER_SPLASH_MAX_NUM * this.WATER_SPLASH_PARTICLE_NUM;
+        var geometry = new THREE.InstancedBufferGeometry();
+        geometry.copy(new THREE.SphereBufferGeometry(this.WATER_SPLASH_SIZE));
+
+        var translateArray = new Float32Array(count * 3);
+        var vectorArray = new Float32Array(count * 3);
+        var inputTimeArray = new Float32Array(count);
+
+        for (var i = 0; i < count; i ++) {
+            translateArray[ i * 3 + 0 ] = 0;
+            translateArray[ i * 3 + 1 ] = 0;
+            translateArray[ i * 3 + 2 ] = 0;
+        }
+
+        for (var i = 0; i < count; i++) {
+            vectorArray[ i * 3 + 0 ] = ( Math.random() - 0.5 ) * splashVector.x;
+            vectorArray[ i * 3 + 1 ] = ( Math.random() + 0.5 ) * splashVector.y;
+            vectorArray[ i * 3 + 2 ] = ( Math.random() - 0.5 ) * splashVector.z;
+        }
+
+        for (var i = 0; i < count; i ++) {
+            inputTimeArray[ i ] = 0;
+        }
+
+        geometry.addAttribute('translate', new THREE.InstancedBufferAttribute(translateArray, 3, 1));
+        geometry.addAttribute('vector', new THREE.InstancedBufferAttribute(vectorArray, 3, 1 ));
+        geometry.addAttribute('inputTime', new THREE.InstancedBufferAttribute(inputTimeArray, 1, 1));
+
+        var vertReader = new XMLHttpRequest();
+        var fragReader = new XMLHttpRequest();
+        vertReader.open('get', './shader/waterSplash.vs', false);
+        fragReader.open('get', './shader/waterSplash.fs', false);
+        vertReader.send();
+        fragReader.send();
+        var vertShader = vertReader.responseText;
+        var fragShader = fragReader.responseText;
+
+        var material = new THREE.ShaderMaterial({
+            uniforms: {
+                time: {value: 0}
+            },
+            vertexShader: vertShader,
+            fragmentShader: fragShader,
+            depthTest: true,
+            depthWrite: true
+        });
+
+        this.mWaterSplash = new THREE.Mesh(geometry, material);
+        this.mScene.add(this.mWaterSplash);
+    }
+
     loadMMDScene(path, scale) {
         const self = this;
         this.mMmdSceneLoader.load(path, null, function(object) {
@@ -559,6 +681,12 @@ class BugByDaylight {
             self.mMMDAnimHelper.add(object);
             self.mMMDAnimHelper.setAnimation(object);
             self.mLastModel = object;
+
+            // var pos = new THREE.Vector3();
+            // for (var i = 0; i < 211; i++) {
+            //     object.skeleton.bones[i].getWorldPosition(pos)
+            //     console.log("bone[" + i + "].pos.y = " + pos.y);
+            // }
 
             // 骨骼辅助显示
             self.mIkHelper = new THREE.CCDIKHelper(object);
@@ -635,7 +763,12 @@ class BugByDaylight {
     sceneSelect(sceneId) {
         this.mLastSceneIndex = sceneId;
         this.deleteGroup(this.mLastScene);
-        this.mScene.remove(this.mLastScene);
+        this.deleteGroup(this.mWater);
+        this.deleteGroup(this.mWaterSplash);
+        if (0 == sceneId) { // only add water in the first scene
+            this.initWater();
+            this.initWaterSplash();
+        }
 
         this.loadMMDScene(this.mSceneFiles[sceneId], 1);
     }
@@ -687,12 +820,25 @@ class BugByDaylight {
             }
             if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
                 this.mPhysicsHelper.update();
+
+            if (null != this.mWater) {
+                if (null != this.mWater.material) {
+                    this.mWater.material.uniforms.time.value += delta;
+                }
+                if (null != this.mWaterSplash.material) {
+                    this.mWaterSplash.material.uniforms.time.value += delta;
+                }
+                if (null != this.mWater.material && null != this.mWaterSplash.material) {
+                    this.checkWaterHit();
+                }
+            }
         }
 
         this.updateLights();
 
         this.mRenderer.clear();
         this.mRenderer.render(this.mScene, this.mCamera);
+        // this.mRenderer.setFaceCulling(THREE.CullFaceBack);
 
         if (null != this.mStats)
             this.mStats.update();
@@ -703,6 +849,55 @@ class BugByDaylight {
                 self.render(); 
             });
         }
+    }
+
+    checkWaterHit() {
+        var waterHeightThreshold = 0.6;
+        var moveThreshold = 0.1;
+        var pos = new THREE.Vector3();
+
+        for (var i = 0, len = this.WaterHitCheckBoneIndices.length; i < len; i++) {
+            var boneIndex = this.WaterHitCheckBoneIndices[i];
+            var previousPosition = this.mPreviousBonePositions[i];
+
+            this.mLastModel.skeleton.bones[boneIndex].getWorldPosition(pos);
+
+            if ((previousPosition.y >= waterHeightThreshold && pos.y < waterHeightThreshold) ||
+                 (previousPosition.y < waterHeightThreshold && pos.y >= waterHeightThreshold) ||
+                 (pos.y < waterHeightThreshold && this.getLength(previousPosition, pos) > moveThreshold)) {
+                this.addRipple(pos.x, pos.z);
+            }
+
+            previousPosition.copy( pos );
+        }
+    }
+
+    getLength(p1, p2) {
+        return Math.sqrt(Math.pow(p1.x - p2.x, 2.0) + Math.pow(p1.y - p2.y, 2.0) + Math.pow(p1.z - p2.z, 2.0));
+    }
+
+    addRipple(x, y) {
+        var uniforms = this.mWater.material.uniforms;
+        var currentTime = uniforms.time.value;
+
+        uniforms.circleWaveTriggerTimes.value[this.mSplashIndex] = currentTime;
+        uniforms.circleWaveCenters.value[this.mSplashIndex].set(x / (this.WATER_SIZE * 0.5), -y / (this.WATER_SIZE * 0.5));
+        uniforms.circleWaveNum.value = this.WATER_SPLASH_MAX_NUM;
+
+        for (var i = 0; i < this.WATER_SPLASH_PARTICLE_NUM; i++) {
+            var index = this.mSplashIndex * this.WATER_SPLASH_PARTICLE_NUM + i;
+
+            this.mWaterSplash.geometry.attributes.inputTime.array[index + i] = currentTime;
+            this.mWaterSplash.geometry.attributes.translate.array[index * 3 + 0] = x;
+            this.mWaterSplash.geometry.attributes.translate.array[index * 3 + 1] = 0;
+            this.mWaterSplash.geometry.attributes.translate.array[index * 3 + 2] = y;
+        }
+
+        this.mWaterSplash.geometry.attributes.inputTime.needsUpdate = true;
+        this.mWaterSplash.geometry.attributes.translate.needsUpdate = true;
+
+        if (++this.mSplashIndex >= this.WATER_SPLASH_MAX_NUM) 
+            this.mSplashIndex = 0;
     }
 
     updateLights() {
@@ -795,6 +990,7 @@ class BugByDaylight {
         this.mCamera.aspect = window.innerWidth / window.innerHeight;
         this.mCamera.updateProjectionMatrix();
         this.mRenderer.setSize(window.innerWidth, window.innerHeight);
+        this.mRenderTarget.setSize(window.innerWidth, window.innerHeight);
     }
 
     onKeyPress(event) {
@@ -896,7 +1092,12 @@ class BugByDaylight {
                     group.material = null;
                 }
             }
+            if (null != group.texture) {
+                group.texture.dispose();
+                group.texture = null;
+            }
             this.mScene.remove(group);
+            group = null;
             return ;
         }
         if (group instanceof THREE.AmbientLight || group instanceof THREE.DirectionalLight 
@@ -922,6 +1123,12 @@ class BugByDaylight {
                     item.material.dispose(); // 删除材质
                     item.material = null;
                 }
+
+                if (null != item.texture) {
+                    item.texture.dispose(); // 删除材质
+                    item.texture = null;
+                }
+                item = null;
             }
         });
         this.mScene.remove(group);
