@@ -6,6 +6,7 @@ class BugByDaylight {
         this.WATER_SPLASH_PARTICLE_NUM = 400;   // for each splash
         this.WATER_SPLASH_SIZE = 0.04;
         this.WATER_SIZE = 64;
+        this.WATER_HEIGHT = 1;
         this.DAY_AMBIENT_COLOR = 0xaaaaaa;
         this.NIGHT_AMBIENT_COLOR = 0x333333;
         this.DAY_DIRECTION_LIGHT_COLOR = 0x777777;
@@ -13,6 +14,8 @@ class BugByDaylight {
         this.DAY_SPOTLIGHT_COLOR = 0xbbbbbb;
         this.NIGHT_SPOTLIGHT_COLOR = 0x555555;
         this.mSplashIndex = 0;
+        this.mWaterHitCheckBoneIndices = [];
+        this.mPreviousBonePositions = [];
         this.mDaySkyboxPath = "/texture/SkyBox/seaside/";
         this.mNightSkyboxPath = "/texture/SkyBox/night/";
         this.mClock = undefined;
@@ -591,20 +594,11 @@ class BugByDaylight {
             })
         );
         this.mWater.rotation.x = -90 * Math.PI / 180;
-        this.mWater.position.set(0, 1.5, 7);
+        this.mWater.position.set(0, 1, 7);
         this.mScene.add(this.mWater);
     }
 
     initWaterSplash() {
-        this.WaterHitCheckBoneIndices = [
-            8,
-            9
-        ];
-        this.mPreviousBonePositions = [];
-        for (var i = 0, len = this.WaterHitCheckBoneIndices.length; i < len; i++) {
-            this.mPreviousBonePositions.push(new THREE.Vector3());
-        }
-        
         var splashVector = new THREE.Vector3(8, 10, 8);
         var count = this.WATER_SPLASH_MAX_NUM * this.WATER_SPLASH_PARTICLE_NUM;
         var geometry = new THREE.InstancedBufferGeometry();
@@ -686,11 +680,20 @@ class BugByDaylight {
             self.mMMDAnimHelper.setAnimation(object);
             self.mLastModel = object;
 
-            // var pos = new THREE.Vector3();
-            // for (var i = 0; i < 211; i++) {
-            //     object.skeleton.bones[i].getWorldPosition(pos)
-            //     console.log("bone[" + i + "].pos.y = " + pos.y);
-            // }
+            var pos = new THREE.Vector3();
+            for (var i = 0; i < object.skeleton.bones.length; i++) {
+                object.skeleton.bones[i].getWorldPosition(pos);
+                if (pos.y <= 0) {
+                    continue ;
+                }
+                if (pos.y < self.WATER_HEIGHT) {
+                    self.mWaterHitCheckBoneIndices.push(i);
+                }
+                console.log("bone[" + i + "].pos.y = " + pos.y);
+            }
+            for (var i = 0, len = self.mWaterHitCheckBoneIndices.length; i < len; i++) {
+                self.mPreviousBonePositions.push(new THREE.Vector3());
+            }
 
             // 骨骼辅助显示
             self.mIkHelper = new THREE.CCDIKHelper(object);
@@ -856,12 +859,12 @@ class BugByDaylight {
     }
 
     checkWaterHit() {
-        var waterHeightThreshold = 0.6;
+        var waterHeightThreshold = this.WATER_HEIGHT;
         var moveThreshold = 0.1;
         var pos = new THREE.Vector3();
 
-        for (var i = 0, len = this.WaterHitCheckBoneIndices.length; i < len; i++) {
-            var boneIndex = this.WaterHitCheckBoneIndices[i];
+        for (var i = 0, len = this.mWaterHitCheckBoneIndices.length; i < len; i++) {
+            var boneIndex = this.mWaterHitCheckBoneIndices[i];
             var previousPosition = this.mPreviousBonePositions[i];
 
             this.mLastModel.skeleton.bones[boneIndex].getWorldPosition(pos);
