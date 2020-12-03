@@ -55,7 +55,7 @@ class BugByDaylight {
             // DOA 6
             ["雷芳(李小龙)", "雷芳(辫子)", "雷芳(长发)", 
             "Luna_Pomelo", 
-            // 穂乃果
+            // 穂香
             "honoka（牛仔1）", "honoka（牛仔2）", "honoka（牛仔3）", "honoka_c1（校园）", 
             "honoka（粉和服）", "honoka（旗袍）", "honoka（喇叭袖）", 
             // 玛丽·螺丝
@@ -80,9 +80,15 @@ class BugByDaylight {
             // X战警
             ["金刚狼(夹克)"]
         ];
+        this.mRandomRecomIndex = Math.floor(Math.random() * 10);    // 0 ~ 9
+        this.mRecommendModels = [
+            "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", 
+            "/model/DOA/Honoka/Honoka_Casual/Honoka_C13_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C14_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C15_Base.pmx", 
+            "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx", "/model/DOA/Leifang/Leifang_BruceLee/Leifang.pmx"
+        ];
         this.mModelFiles = [
-            // Test
-            ["/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx"],
+            // Default
+            [this.mRecommendModels[this.mRandomRecomIndex]],
             // Dead by Bug
             ["/model/DBD/fengmin/Feng.pmx", "/model/DBD/meg/meg.pmx", "/model/DBD/huntress/Huntress.pmx", 
             "/model/DBD/amanda/Amanda.pmx", "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Freddy/Freddy.pmx", 
@@ -121,7 +127,7 @@ class BugByDaylight {
             "/model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_B.pmx", 
             // 露娜
             "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", 
-            // 穂乃果 Honoka
+            // 穂香 Honoka
             "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", 
             "/model/DOA/Honoka/Honoka_Stu/honoka_c1.pmx", "/model/DOA/Honoka/Honoka_Kimono_Pink/Honoka_Kimono.pmx", "/model/DOA/Honoka/Honoka_Chinese_New_Year/Honoka_Mandarin1.pmx",
             "/model/DOA/Honoka/Honoka_Fairy_Tail_Mashup/Honoka_Fairy_Tail_Mashup.pmx",
@@ -167,7 +173,7 @@ class BugByDaylight {
             ["/motion/Ancient/LianRenXinMotion.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
             ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanMotion.vmd"], 
             ["/motion/Ancient/XingyunLin.vmd"],["/motion/Ancient/QianDengYuanMotion.vmd"], 
-            ["/motion/Ancient/BanHuShaMotion.vmd"],
+            ["/motion/Ancient/BanHuShaMotion.vmd"], ["/motion/Ancient/YuShengYanMotion.vmd"],
             // Popular
             ["/motion/Popular/LearnCatMotion.vmd"], ["/motion/Popular/HaiCaoMotion.vmd"], 
             ["/motion/Popular/LittleAppleMotion.vmd"], ["/motion/Popular/JiLeMotion.vmd"], 
@@ -199,7 +205,7 @@ class BugByDaylight {
             ["/motion/Ancient/LianRenXinCamera.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
             ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanCamera.vmd"], 
             ["/motion/Ancient/XingyunLinCamera.vmd"], ["/motion/Ancient/QianDengYuanCamera.vmd"], 
-            ["/motion/Ancient/BanHuShaCamera.vmd"], 
+            ["/motion/Ancient/BanHuShaCamera.vmd"], ["/motion/Ancient/YuShengYanCamera.vmd"], 
             // Popular
             ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
             ["/motion/Popular/LittleAppleCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
@@ -217,7 +223,7 @@ class BugByDaylight {
             "/music/LuoHuaQin.mp3", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
             "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", "/music/XiaoQiuYueMing.mp3", 
             "/music/YueZhongTian.mp3", "/music/XiaShan.mp3", "/music/XingYunLing.mp3", 
-            "/music/QianDengYuan.mp3", "/music/BanHuSha.mp3", 
+            "/music/QianDengYuan.mp3", "/music/BanHuSha.mp3", "/music/YuShengYan.mp3", 
             // Popular
             "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", "/music/JiLeJinTu.mp3", 
             // Jp&Korea
@@ -835,7 +841,7 @@ class BugByDaylight {
                 if (null != this.mWaterSplash && null != this.mWaterSplash.material) {
                     this.mWaterSplash.material.uniforms.time.value += delta;
                 }
-                if (null != this.mWater.material && null != this.mWaterSplash.material) {
+                if (null != this.mWater.material && null != this.mWaterSplash && null != this.mWaterSplash.material) {
                     this.checkWaterHit();
                 }
             }
