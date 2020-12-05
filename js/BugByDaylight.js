@@ -6,7 +6,7 @@ class BugByDaylight {
         this.WATER_SPLASH_PARTICLE_NUM = 400;   // for each splash
         this.WATER_SPLASH_SIZE = 0.04;
         this.WATER_SIZE = 66;
-        this.WATER_HEIGHT = 0.5;
+        this.WATER_HEIGHT = 0.7;
         this.DAY_AMBIENT_COLOR = 0xaaaaaa;
         this.NIGHT_AMBIENT_COLOR = 0x333333;
         this.DAY_DIRECTION_LIGHT_COLOR = 0x777777;
@@ -676,6 +676,7 @@ class BugByDaylight {
         if (null == self.mCamera) {
             self.initCamera();  // have to reinit camera since pourVmdIntoCamera
         }
+        self.mWaterHitCheckBoneIndices = [];    // clear
         self.mAbortLoader = false;
         self.mMMDAnimHelper = new THREE.MMDHelper();
         self.mMmdLoaderRequest = this.mMmdLoader.load(modelPath, motionPath, function(object) {
