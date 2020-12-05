@@ -5,8 +5,8 @@ class BugByDaylight {
         this.WATER_SPLASH_MAX_NUM = 30;
         this.WATER_SPLASH_PARTICLE_NUM = 400;   // for each splash
         this.WATER_SPLASH_SIZE = 0.04;
-        this.WATER_SIZE = 64;
-        this.WATER_HEIGHT = 1;
+        this.WATER_SIZE = 66;
+        this.WATER_HEIGHT = 0.5;
         this.DAY_AMBIENT_COLOR = 0xaaaaaa;
         this.NIGHT_AMBIENT_COLOR = 0x333333;
         this.DAY_DIRECTION_LIGHT_COLOR = 0x777777;
@@ -82,9 +82,9 @@ class BugByDaylight {
         ];
         this.mRandomRecomIndex = Math.floor(Math.random() * 10);    // 0 ~ 9
         this.mRecommendModels = [
-            "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", 
-            "/model/DOA/Honoka/Honoka_Casual/Honoka_C13_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C14_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C15_Base.pmx", 
-            "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx", "/model/DOA/Leifang/Leifang_BruceLee/Leifang.pmx"
+            "/model/DBD/fengmin/Feng.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", 
+            "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C13_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C14_Base.pmx", 
+            "/model/DOA/Honoka/Honoka_Casual/Honoka_C15_Base.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx"
         ];
         this.mModelFiles = [
             // Default
@@ -187,7 +187,7 @@ class BugByDaylight {
             ["/motion/Funny/CaiXukun/caixukun.vmd"], ["/motion/Funny/BadWater/BadBadWaterMotion.vmd"]
         ];
         this.mSceneFiles = [
-            "/model/Scene/DOAX2_Pool/DOAX2_Pool_Move.pmx", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/Hot_Spring/Hot_Spring.pmx", 
+            "/model/Scene/DOAX2_Pool/final.pmx", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/Hot_Spring/Hot_Spring.pmx", 
             "/model/Scene/ancient_garden/stage.pmx", 
             "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
             "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Raccoon_City_street_2/City.pmx", "/model/Scene/Spencer_Mansion/Spencer_with_desk.pmx", 
@@ -600,7 +600,7 @@ class BugByDaylight {
             })
         );
         this.mWater.rotation.x = -90 * Math.PI / 180;
-        this.mWater.position.set(0, 1, 7);
+        this.mWater.position.set(-1, this.WATER_HEIGHT, 7);
         this.mScene.add(this.mWater);
     }
 
