@@ -31,9 +31,9 @@ class BugByDaylight {
             ["吉尔-生化危机1", "吉尔-生化危机3重置版", "吉尔-生化危机5", "克莱尔", "克莱尔（便装）", "Helena-生化危机6", "雪梨-生化危机6", "挨打·王-生化危机6",
             "挨打·王-生化危机4", "Rebecca-生化危机0", "Vector-浣熊市行动", "汉克（生化危机2）", "威斯克(生化危机5)", "Excella Gionne(生化危机5)", "Elza Walker(生化危机1.5)"], 
             // 最终幻想
-            ["尤娜（婚纱）", "尤娜", "蒂法（旗袍）"], 
+            ["蒂法", "蒂法（紫裙）", "蒂法（旗袍）", "尤娜（婚纱）", "尤娜"], 
             // 铁拳
-            ["Miharu_Hirano"], 
+            ["平野美晴", "克里斯蒂·蒙特罗", "Josie Rizal(菲律宾)"], 
             // 绝地求生
             ["吃鸡男", "吃鸡女(Base)", "吃鸡女(Avatar01)", "Suzy_Brown", "707", "Benedict"], 
             // 漫威
@@ -50,7 +50,7 @@ class BugByDaylight {
             "泠鸢-汉服", "泠鸢", "泠鸢-朋克",
             "TDA", "Lulua", "Lulua_TypeA",
             "Alice", "Athena", "Reisalin_Stout_Black", 
-            "弹力女侠", "Sly_Cooper", "Lisbeth"
+            "弹力女侠", "Sly_Cooper", "Lisbeth", "Haku_Street_Dancer"
             ], 
             // DOA 6
             ["雷芳(李小龙)", "雷芳(辫子)", "雷芳(长发)", 
@@ -100,9 +100,10 @@ class BugByDaylight {
             "/model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "/model/RE/Albert_Wesker/Albert_Wesker.pmx", "/model/RE/Excella_Gionne/Excella_Gionne.pmx", 
             "/model/RE/Elza_Walker_RE1_5/elza_walker_no_vest.pmx"], 
             // 最终幻想
-            ["/model/FF/yuna/pmx/yuna.pmx", "/model/FF/yuna(Default)/yuna_gunner.pmd", "/model/FF/Tifa/Tifa.pmx"], 
+            ["/model/FF/Tifa/Tifa.pmx", "/model/FF/Tifa_Purple_Dress/Tifa.pmx", "/model/FF/Tifa_Cheongsam/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
+            "/model/FF/yuna(Default)/yuna_gunner.pmd"], 
             // 铁拳
-            ["/model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx"], 
+            ["/model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx", "/model/Tekken/Christie_Monteiro/Legacy-gacy.pmx", "/model/Tekken/Josie_Rizal/Bears.pmx"], 
             // 绝地求生
             ["/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/PUBG_F_Avatar01/F_Avatar_01.pmx",
             "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx"], 
@@ -119,7 +120,8 @@ class BugByDaylight {
             "/model/Cartoon/Yousa/Yousa_v2/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa_punk.pmx", 
             "/model/Cartoon/TDA_Twinkle_Party_Miku/Twinkle_Party.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1_TypeA.pmx",
             "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
-            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx"
+            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx", 
+            "/model/Cartoon/TDA_Haku/Haku_Street_Dancer.pmx"
             ], 
             // DOA 6
             // 雷芳
