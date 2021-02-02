@@ -48,6 +48,7 @@ class BugByDaylight {
             [
             // 泠鸢
             "泠鸢-汉服", "泠鸢", "泠鸢-朋克",
+            "兰若1", "兰若2",
             "TDA", "Lulua", "Lulua_TypeA",
             "Alice", "Athena", "Reisalin_Stout_Black", 
             "弹力女侠", "Sly_Cooper", "Lisbeth", "Haku_Street_Dancer"
@@ -118,6 +119,7 @@ class BugByDaylight {
             // 动画
             [
             "/model/Cartoon/Yousa/Yousa_v2/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa_punk.pmx", 
+            "/model/Cartoon/LanRuo/LanRuo1/lanruo_Apose.pmx",  "/model/Cartoon/LanRuo/LanRuo2/lanre_Apose.pmx", 
             "/model/Cartoon/TDA_Twinkle_Party_Miku/Twinkle_Party.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1_TypeA.pmx",
             "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
             "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx", 
@@ -176,6 +178,7 @@ class BugByDaylight {
             ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanMotion.vmd"], 
             ["/motion/Ancient/XingyunLin.vmd"],["/motion/Ancient/QianDengYuanMotion.vmd"], 
             ["/motion/Ancient/BanHuShaMotion.vmd"], ["/motion/Ancient/YuShengYanMotion.vmd"],
+            ["/motion/Ancient/ChuJianMotion.vmd"],
             // Popular
             ["/motion/Popular/LearnCatMotion.vmd"], ["/motion/Popular/HaiCaoMotion.vmd"], 
             ["/motion/Popular/LittleAppleMotion.vmd"], ["/motion/Popular/JiLeMotion.vmd"], 
@@ -208,6 +211,7 @@ class BugByDaylight {
             ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanCamera.vmd"], 
             ["/motion/Ancient/XingyunLinCamera.vmd"], ["/motion/Ancient/QianDengYuanCamera.vmd"], 
             ["/motion/Ancient/BanHuShaCamera.vmd"], ["/motion/Ancient/YuShengYanCamera.vmd"], 
+            ["/motion/Ancient/ChuJianCamera.vmd"], 
             // Popular
             ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
             ["/motion/Popular/LittleAppleCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
@@ -226,6 +230,7 @@ class BugByDaylight {
             "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", "/music/XiaoQiuYueMing.mp3", 
             "/music/YueZhongTian.mp3", "/music/XiaShan.mp3", "/music/XingYunLing.mp3", 
             "/music/QianDengYuan.mp3", "/music/BanHuSha.mp3", "/music/YuShengYan.mp3", 
+            "/music/RuMengLin.mp3", 
             // Popular
             "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", "/music/JiLeJinTu.mp3", 
             // Jp&Korea
@@ -836,6 +841,8 @@ class BugByDaylight {
             }
             if (this.mPhysicsHelper != undefined && this.mPhysicsHelper.visible) 
                 this.mPhysicsHelper.update();
+            if (null != this.mIkHelper && this.mIkHelper.visible) 
+                this.mIkHelper.update();
 
             if (null != this.mWater) {
                 if (null != this.mWater.material) {
