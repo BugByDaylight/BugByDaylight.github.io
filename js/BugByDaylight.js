@@ -83,161 +83,161 @@ class BugByDaylight {
         ];
         this.mRandomRecomIndex = Math.floor(Math.random() * 10);    // 0 ~ 9
         this.mRecommendModels = [
-            "/model/DBD/fengmin/Feng.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", 
-            "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C13_Base.pmx", "/model/DOA/Honoka/Honoka_Casual/Honoka_C14_Base.pmx", 
-            "/model/DOA/Honoka/Honoka_Casual/Honoka_C15_Base.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx"
+            "./model/DBD/fengmin/Feng.pmx", "./model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "./model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", 
+            "./model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", "./model/DOA/Honoka/Honoka_Casual/Honoka_C13_Base.pmx", "./model/DOA/Honoka/Honoka_Casual/Honoka_C14_Base.pmx", 
+            "./model/DOA/Honoka/Honoka_Casual/Honoka_C15_Base.pmx", "./model/RE/jill3/JillRE3remake.pmx", "./model/RE/jill5/Jill.pmx", "./model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx"
         ];
         this.mModelFiles = [
             // Default
             [this.mRecommendModels[this.mRandomRecomIndex]],
             // Dead by Bug
-            ["/model/DBD/fengmin/Feng.pmx", "/model/DBD/meg/meg.pmx", "/model/DBD/huntress/Huntress.pmx", 
-            "/model/DBD/amanda/Amanda.pmx", "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Freddy/Freddy.pmx", 
-            "/model/DBD/MichealMyers/MichealMyers.pmx", "/model/DBD/Leatherface/Leatherface.pmx"], 
+            ["./model/DBD/fengmin/Feng.pmx", "./model/DBD/meg/meg.pmx", "./model/DBD/huntress/Huntress.pmx", 
+            "./model/DBD/amanda/Amanda.pmx", "./model/DBD/Ghostface/ghostface.pmx", "./model/DBD/Freddy/Freddy.pmx", 
+            "./model/DBD/MichealMyers/MichealMyers.pmx", "./model/DBD/Leatherface/Leatherface.pmx"], 
             // 卡婊危机
-            ["/model/RE/jill1/Jill.pmx", "/model/RE/jill3/JillRE3remake.pmx", "/model/RE/jill5/Jill.pmx", "/model/RE/Claire_Prisioner/Claire.pmx", 
-            "/model/RE/claire/ClaireCasual.pmx", "/model/RE/helena/Helena_TallOaks.pmx", "/model/RE/sherry/Sherry.pmx", 
-            "/model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx", "/model/RE/ada/Ada.pmx", "/model/RE/Rebecca/Rebecca_Chambers.pmx", "/model/RE/vector/Vector.pmd", 
-            "/model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "/model/RE/Albert_Wesker/Albert_Wesker.pmx", "/model/RE/Excella_Gionne/Excella_Gionne.pmx", 
-            "/model/RE/Elza_Walker_RE1_5/elza_walker_no_vest.pmx"], 
+            ["./model/RE/jill1/Jill.pmx", "./model/RE/jill3/JillRE3remake.pmx", "./model/RE/jill5/Jill.pmx", "./model/RE/Claire_Prisioner/Claire.pmx", 
+            "./model/RE/claire/ClaireCasual.pmx", "./model/RE/helena/Helena_TallOaks.pmx", "./model/RE/sherry/Sherry.pmx", 
+            "./model/RE/Ada_RE6_Spy/AdaRE6_Spy.pmx", "./model/RE/ada/Ada.pmx", "./model/RE/Rebecca/Rebecca_Chambers.pmx", "./model/RE/vector/Vector.pmd", 
+            "./model/RE/RE2_Remake_Hunk/RE2_Remake_Hunk.pmx", "./model/RE/Albert_Wesker/Albert_Wesker.pmx", "./model/RE/Excella_Gionne/Excella_Gionne.pmx", 
+            "./model/RE/Elza_Walker_RE1_5/elza_walker_no_vest.pmx"], 
             // 最终幻想
-            ["/model/FF/Tifa/Tifa.pmx", "/model/FF/Tifa_Purple_Dress/Tifa.pmx", "/model/FF/Tifa_Cheongsam/Tifa.pmx", "/model/FF/yuna/pmx/yuna.pmx", 
-            "/model/FF/yuna(Default)/yuna_gunner.pmd"], 
+            ["./model/FF/Tifa/Tifa.pmx", "./model/FF/Tifa_Purple_Dress/Tifa.pmx", "./model/FF/Tifa_Cheongsam/Tifa.pmx", "./model/FF/yuna/pmx/yuna.pmx", 
+            "./model/FF/yuna(Default)/yuna_gunner.pmd"], 
             // 铁拳
-            ["/model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx", "/model/Tekken/Christie_Monteiro/Legacy-gacy.pmx", "/model/Tekken/Josie_Rizal/Bears.pmx"], 
+            ["./model/Tekken/Miharu_Hirano/Miharu_Hirano.pmx", "./model/Tekken/Christie_Monteiro/Legacy-gacy.pmx", "./model/Tekken/Josie_Rizal/Bears.pmx"], 
             // 绝地求生
-            ["/model/PUBG/PUGB_Male/Male.pmx", "/model/PUBG/PUBG_Female_Base/Female.pmx", "/model/PUBG/PUBG_F_Avatar01/F_Avatar_01.pmx",
-            "/model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", "/model/PUBG/CSO2_707/707.pmx", "/model/PUBG/FEAROnline_Benedict/Benedict.pmx"], 
+            ["./model/PUBG/PUGB_Male/Male.pmx", "./model/PUBG/PUBG_Female_Base/Female.pmx", "./model/PUBG/PUBG_F_Avatar01/F_Avatar_01.pmx",
+            "./model/PUBG/CF_Suzy_Miss_A/Suzy_Brown.pmx", "./model/PUBG/CSO2_707/707.pmx", "./model/PUBG/FEAROnline_Benedict/Benedict.pmx"], 
             // 漫威
-            ["/model/Marvel/Ironman/Ironman.pmx", "/model/Marvel/Black_Widow_FF/FF.pmx", "/model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx",
-            "/model/Marvel/Supergirl/Hitomi_Supergirl.pmx", "/model/Marvel/Doctor_Strange/Doctor_Strange.pmx", "/model/Marvel/Antman/Antman.pmx",
-            "/model/Marvel/Superman/Superman.pmx", "/model/Marvel/Ultron/Marvel_Ultron.pmx"],
+            ["./model/Marvel/Ironman/Ironman.pmx", "./model/Marvel/Black_Widow_FF/FF.pmx", "./model/Marvel/Black_Widow_Team_Suit/Team-Suit.pmx",
+            "./model/Marvel/Supergirl/Hitomi_Supergirl.pmx", "./model/Marvel/Doctor_Strange/Doctor_Strange.pmx", "./model/Marvel/Antman/Antman.pmx",
+            "./model/Marvel/Superman/Superman.pmx", "./model/Marvel/Ultron/Marvel_Ultron.pmx"],
             // 古墓丽影
-            ["/model/TR/Lara_Croft/Lara_Croft.pmx"],
+            ["./model/TR/Lara_Croft/Lara_Croft.pmx"],
             // Sim4
-            ["/model/Sim/Petra/Petra.pmx"],
+            ["./model/Sim/Petra/Petra.pmx"],
             // 动画
             [
-            "/model/Cartoon/Yousa/Yousa_v2/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa.pmx", "/model/Cartoon/Yousa/Yousa_Punk/yousa_punk.pmx", 
-            "/model/Cartoon/LanRuo/LanRuo1/lanruo_Apose.pmx",  "/model/Cartoon/LanRuo/LanRuo2/lanre_Apose.pmx", 
-            "/model/Cartoon/TDA_Twinkle_Party_Miku/Twinkle_Party.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1.pmx", "/model/Cartoon/lulua_Ver1/lulua_Ver1_TypeA.pmx",
-            "/model/Cartoon/Alice/Alice.pmx", "/model/Cartoon/Athena/Athena.pmx", "/model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
-            "/model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "/model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "/model/Cartoon/Lisbeth/Lisbeth.pmx", 
-            "/model/Cartoon/TDA_Haku/Haku_Street_Dancer.pmx"
+            "./model/Cartoon/Yousa/Yousa_v2/yousa.pmx", "./model/Cartoon/Yousa/Yousa_Punk/yousa.pmx", "./model/Cartoon/Yousa/Yousa_Punk/yousa_punk.pmx", 
+            "./model/Cartoon/LanRuo/LanRuo1/lanruo_Apose.pmx",  "./model/Cartoon/LanRuo/LanRuo2/lanre_Apose.pmx", 
+            "./model/Cartoon/TDA_Twinkle_Party_Miku/Twinkle_Party.pmx", "./model/Cartoon/lulua_Ver1/lulua_Ver1.pmx", "./model/Cartoon/lulua_Ver1/lulua_Ver1_TypeA.pmx",
+            "./model/Cartoon/Alice/Alice.pmx", "./model/Cartoon/Athena/Athena.pmx", "./model/Cartoon/Reisalin_Stout/Reisalin_Stout_Black.pmx", 
+            "./model/Cartoon/Helen_Parr/Mrs_Incredible.pmx", "./model/Cartoon/Sly_Cooper/Sly_Cooper.pmx", "./model/Cartoon/Lisbeth/Lisbeth.pmx", 
+            "./model/Cartoon/TDA_Haku/Haku_Street_Dancer.pmx"
             ], 
             // DOA 6
             // 雷芳
-            ["/model/DOA/Leifang/Leifang_BruceLee/Leifang.pmx", "/model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_A.pmx", 
-            "/model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_B.pmx", 
+            ["./model/DOA/Leifang/Leifang_BruceLee/Leifang.pmx", "./model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_A.pmx", 
+            "./model/DOA/Leifang/Leifang_Five_Brilliant_Colors/Leifang_Five_Brilliant_Colors_Hair_B.pmx", 
             // 露娜
-            "/model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", 
+            "./model/DOA/Luna_Pomelo/Luna_Pomelo.pmx", 
             // 穂香 Honoka
-            "/model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", "/model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", 
-            "/model/DOA/Honoka/Honoka_Stu/honoka_c1.pmx", "/model/DOA/Honoka/Honoka_Kimono_Pink/Honoka_Kimono.pmx", "/model/DOA/Honoka/Honoka_Chinese_New_Year/Honoka_Mandarin1.pmx",
-            "/model/DOA/Honoka/Honoka_Fairy_Tail_Mashup/Honoka_Fairy_Tail_Mashup.pmx",
+            "./model/DOA/Honoka/Honoka_Jeans/honoka_c13.pmx", "./model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt2.pmx", "./model/DOA/Honoka/Honoka_Jeans/honoka_c13_Alt3.pmx", 
+            "./model/DOA/Honoka/Honoka_Stu/honoka_c1.pmx", "./model/DOA/Honoka/Honoka_Kimono_Pink/Honoka_Kimono.pmx", "./model/DOA/Honoka/Honoka_Chinese_New_Year/Honoka_Mandarin1.pmx",
+            "./model/DOA/Honoka/Honoka_Fairy_Tail_Mashup/Honoka_Fairy_Tail_Mashup.pmx",
             // 玛丽·螺丝
-            "/model/DOA/Marie_Rose/Marie/Marie_Rose_otaku.pmx", "/model/DOA/Marie_Rose/Marie_Rose_C/Marie_Rose_C.pmx", "/model/DOA/Marie_Rose/Marie_Rose_Furisode/Marie_Rose.pmx",
-            "/model/DOA/Marie_Rose/Marie_Rose_CP/Marie_Chinese_Dress.pmx", "/model/DOA/Marie_Rose/Marie_Rose_Jeans/MarieRose_Overalls.pmx", 
-            "/model/DOA/Marie_Rose/Marie_Rose_Fraise_Noel/Marie.pmx", "/model/DOA/Marie_Rose/Marie_Rose_Bunny/Marie_Rose_Bunny.pmx",
-            "/model/DOA/Marie_Rose/Marie_Rose_School/Marie_Rose_School.pmx",
+            "./model/DOA/Marie_Rose/Marie/Marie_Rose_otaku.pmx", "./model/DOA/Marie_Rose/Marie_Rose_C/Marie_Rose_C.pmx", "./model/DOA/Marie_Rose/Marie_Rose_Furisode/Marie_Rose.pmx",
+            "./model/DOA/Marie_Rose/Marie_Rose_CP/Marie_Chinese_Dress.pmx", "./model/DOA/Marie_Rose/Marie_Rose_Jeans/MarieRose_Overalls.pmx", 
+            "./model/DOA/Marie_Rose/Marie_Rose_Fraise_Noel/Marie.pmx", "./model/DOA/Marie_Rose/Marie_Rose_Bunny/Marie_Rose_Bunny.pmx",
+            "./model/DOA/Marie_Rose/Marie_Rose_School/Marie_Rose_School.pmx",
             // 霞 Kasumi
-            "/model/DOA/Kasumi/Kasumi_Default/Kasumi.pmx", "/model/DOA/Kasumi/Kasumi_Furisode/Kasumi_Furisode.pmx", "/model/DOA/Kasumi/Kasumi_Casual/Kasumi_Casual_Ponytail.pmx", 
-            "/model/DOA/Kasumi/Kasumi_Casual/Kasumi_Casual_Long_Hair.pmx", "/model/DOA/Kasumi/Kasumi_Overall/Kasumi_Overall.pmx", 
+            "./model/DOA/Kasumi/Kasumi_Default/Kasumi.pmx", "./model/DOA/Kasumi/Kasumi_Furisode/Kasumi_Furisode.pmx", "./model/DOA/Kasumi/Kasumi_Casual/Kasumi_Casual_Ponytail.pmx", 
+            "./model/DOA/Kasumi/Kasumi_Casual/Kasumi_Casual_Long_Hair.pmx", "./model/DOA/Kasumi/Kasumi_Overall/Kasumi_Overall.pmx", 
             // 不知火舞 Mai Shiranui
-            "/model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", 
+            "./model/DOA/Mai_Shiranui/Mai_Shiranui.pmx", 
             // 红叶 Momiji
-            "/model/DOA/Momiji/Momiji_Santa/Momiji_Santa.pmx", "/model/DOA/Momiji/Momiji_Cheerleader/Momiji_Cheerleader.pmx", "/model/DOA/Momiji/Momiji_Cop/Momiji.pmx", 
+            "./model/DOA/Momiji/Momiji_Santa/Momiji_Santa.pmx", "./model/DOA/Momiji/Momiji_Cheerleader/Momiji_Cheerleader.pmx", "./model/DOA/Momiji/Momiji_Cop/Momiji.pmx", 
             // 绫音 Ayane
-            "/model/DOA/Ayane/Ayane_Default/Ayane.pmx", "/model/DOA/Ayane/Ayane_c19_seaside_eden_swimsuit/Ayane_Seaside_Eden_Swimsuit.pmx",
-            "/model/DOA/Ayane/Ayane_FF5/Ayane_FF5.pmx", "/model/DOA/Ayane/Ayane_Furisode_Kimono_Twilight_Butterfly/Ayane_Furisode_Kimono_Twilight_Butterfly.pmx",
+            "./model/DOA/Ayane/Ayane_Default/Ayane.pmx", "./model/DOA/Ayane/Ayane_c19_seaside_eden_swimsuit/Ayane_Seaside_Eden_Swimsuit.pmx",
+            "./model/DOA/Ayane/Ayane_FF5/Ayane_FF5.pmx", "./model/DOA/Ayane/Ayane_Furisode_Kimono_Twilight_Butterfly/Ayane_Furisode_Kimono_Twilight_Butterfly.pmx",
             // 八田美咲 Misaki
-            "/model/DOA/Misaki/Misaki_Furisode_Kimono_Morning_Star/Misaki_Furisode_Kimono_Morning_Star.pmx", "/model/DOA/Misaki/Misaki_School/Misaki_School.pmx",
+            "./model/DOA/Misaki/Misaki_Furisode_Kimono_Morning_Star/Misaki_Furisode_Kimono_Morning_Star.pmx", "./model/DOA/Misaki/Misaki_School/Misaki_School.pmx",
             // 环 
-            "/model/DOA/Tamaki/Tamaki_Mona_Costume/Tamaki_Mona_Costume.pmx", "/model/DOA/Tamaki/Tamaki_Indigo_Peacock/Tamaki_Indigo_Peacock.pmx", 
+            "./model/DOA/Tamaki/Tamaki_Mona_Costume/Tamaki_Mona_Costume.pmx", "./model/DOA/Tamaki/Tamaki_Indigo_Peacock/Tamaki_Indigo_Peacock.pmx", 
             ],
             // Metroid 银河战士
-            ["/model/Metroid/SamusAran/Samus_Casual.pmd", "/model/Metroid/SamusAran/ZeroSuitSamus.pmd"], 
+            ["./model/Metroid/SamusAran/Samus_Casual.pmd", "./model/Metroid/SamusAran/ZeroSuitSamus.pmd"], 
             // X战警
-            ["/model/X-Men/Wolverine_Logan_Jacket_Outfit/Wolverine_Jacket.pmx"],
+            ["./model/X-Men/Wolverine_Logan_Jacket_Outfit/Wolverine_Jacket.pmx"],
             // 其他游戏
 
         ];
         this.mModelForCoffinDanceFiles = [
-            "/model/DBD/Ghostface/ghostface.pmx", "/model/DBD/Leatherface/Leatherface.pmx", "/model/DBD/MichealMyers/MichealMyers.pmx", 
-            "/model/DBD/Freddy/Freddy.pmx", 
+            "./model/DBD/Ghostface/ghostface.pmx", "./model/DBD/Leatherface/Leatherface.pmx", "./model/DBD/MichealMyers/MichealMyers.pmx", 
+            "./model/DBD/Freddy/Freddy.pmx", 
         ];
         this.mMotionForCoffinDanceFiles = [
-            ["/motion/CoffinDance/MAN1.vmd"], ["/motion/CoffinDance/MAN2.vmd"], ["/motion/CoffinDance/MAN3.vmd"], 
-            ["/motion/CoffinDance/MAN4.vmd"], 
+            ["./motion/CoffinDance/MAN1.vmd"], ["./motion/CoffinDance/MAN2.vmd"], ["./motion/CoffinDance/MAN3.vmd"], 
+            ["./motion/CoffinDance/MAN4.vmd"], 
         ]
         this.mMotionFiles = [
             // ancient
-            ["/motion/Ancient/LuoHuaQinMotion.vmd"], ["/motion/Ancient/QianSiXiMotion.vmd"], 
-            ["/motion/Ancient/HongZhaoYuanMotion.vmd"], ["/motion/Ancient/ZuiLinMotion.vmd"], 
-            ["/motion/Ancient/LianRenXinMotion.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
-            ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanMotion.vmd"], 
-            ["/motion/Ancient/XingyunLin.vmd"],["/motion/Ancient/QianDengYuanMotion.vmd"], 
-            ["/motion/Ancient/BanHuShaMotion.vmd"], ["/motion/Ancient/YuShengYanMotion.vmd"],
-            ["/motion/Ancient/ChuJianMotion.vmd"],
+            ["./motion/Ancient/LuoHuaQinMotion.vmd"], ["./motion/Ancient/QianSiXiMotion.vmd"], 
+            ["./motion/Ancient/HongZhaoYuanMotion.vmd"], ["./motion/Ancient/ZuiLinMotion.vmd"], 
+            ["./motion/Ancient/LianRenXinMotion.vmd"], ["./motion/Ancient/XiaoQiuYueMing.vmd"],
+            ["./motion/Ancient/YueZhongTianMotion.vmd"], ["./motion/Ancient/XiaShanMotion.vmd"], 
+            ["./motion/Ancient/XingyunLin.vmd"],["./motion/Ancient/QianDengYuanMotion.vmd"], 
+            ["./motion/Ancient/BanHuShaMotion.vmd"], ["./motion/Ancient/YuShengYanMotion.vmd"],
+            ["./motion/Ancient/ChuJianMotion.vmd"],
             // Popular
-            ["/motion/Popular/LearnCatMotion.vmd"], ["/motion/Popular/HaiCaoMotion.vmd"], 
-            ["/motion/Popular/LittleAppleMotion.vmd"], ["/motion/Popular/JiLeMotion.vmd"], 
+            ["./motion/Popular/LearnCatMotion.vmd"], ["./motion/Popular/HaiCaoMotion.vmd"], 
+            ["./motion/Popular/LittleAppleMotion.vmd"], ["./motion/Popular/JiLeMotion.vmd"], 
             // Jp&Korea
-            ["/motion/JP&Korea/Onlymyrailgun1.vmd"], ["/motion/JP&Korea/みつあみの猫.vmd"], 
-            ["/motion/JP&Korea/BarBarBarMotion3.vmd"], ["/motion/JP&Korea/WhatYouWaitingForMotion.vmd"], 
-            ["/motion/JP&Korea/BirthdayMotion.vmd"], ["/motion/JP&Korea/BangBangMotion.vmd"], 
-            ["/motion/JP&Korea/BoPeepBoPeepMotion.vmd"], 
+            ["./motion/JP&Korea/Onlymyrailgun1.vmd"], ["./motion/JP&Korea/みつあみの猫.vmd"], 
+            ["./motion/JP&Korea/BarBarBarMotion3.vmd"], ["./motion/JP&Korea/WhatYouWaitingForMotion.vmd"], 
+            ["./motion/JP&Korea/BirthdayMotion.vmd"], ["./motion/JP&Korea/BangBangMotion.vmd"], 
+            ["./motion/JP&Korea/BoPeepBoPeepMotion.vmd"], 
             // Funny
-            ["/motion/Funny/CoffinDance/CORONA-CHAN.vmd"], ["/motion/Funny/MaBaoguo/MaBaoguo.vmd"],
-            ["/motion/Funny/CaiXukun/caixukun.vmd"], ["/motion/Funny/BadWater/BadBadWaterMotion.vmd"]
+            ["./motion/Funny/CoffinDance/CORONA-CHAN.vmd"], ["./motion/Funny/MaBaoguo/MaBaoguo.vmd"],
+            ["./motion/Funny/CaiXukun/caixukun.vmd"], ["./motion/Funny/BadWater/BadBadWaterMotion.vmd"]
         ];
         this.mSceneFiles = [
-            "/model/Scene/DOAX2_Pool/final.pmx", "/model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "/model/Scene/Hot_Spring/Hot_Spring.pmx", 
-            "/model/Scene/ancient_garden/stage.pmx", 
-            "/model/Scene/chinese_night/merge.pmx", "/model/Scene/Girl's_Room/Girl's_Room.pmx", 
-            "/model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "/model/Scene/Raccoon_City_street_2/City.pmx", "/model/Scene/Spencer_Mansion/Spencer_with_desk.pmx", 
-            "/model/Scene/Island/Island.pmx", "/model/Scene/City_Garden/City_Garden.pmx",
-            "/model/Scene/Exhibition_Hall/room.pmx", "/model/Scene/Desert_Camp/Desert_Camp.pmx", "/model/Scene/Countryside_Road/1.pmx", 
-            "/model/Scene/MidLakePavilion/MidLakePavilion.pmx", "/model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
-            "/model/Scene/Musume_Forest/stage.pmd", 
-            "/model/Scene/JP_Yard/Stage.pmd", "/model/Scene/Summer_Apartment/Summer_Apartment.pmx",
-            "/model/Scene/Tokyo_Stage/Tokyo.pmx", "/model/Scene/Snow_Field/Snow_Field.pmx"
+            "./model/Scene/DOAX2_Pool/final.pmx", "./model/Scene/DOA5_Stage_Sakura/DOA5_Sakura.pmx", "./model/Scene/Hot_Spring/Hot_Spring.pmx", 
+            "./model/Scene/ancient_garden/stage.pmx", 
+            "./model/Scene/chinese_night/merge.pmx", "./model/Scene/Girl's_Room/Girl's_Room.pmx", 
+            "./model/Scene/Raccoon_City_Streets/raccoon_city.pmx", "./model/Scene/Raccoon_City_street_2/City.pmx", "./model/Scene/Spencer_Mansion/Spencer_with_desk.pmx", 
+            "./model/Scene/Island/Island.pmx", "./model/Scene/City_Garden/City_Garden.pmx",
+            "./model/Scene/Exhibition_Hall/room.pmx", "./model/Scene/Desert_Camp/Desert_Camp.pmx", "./model/Scene/Countryside_Road/1.pmx", 
+            "./model/Scene/MidLakePavilion/MidLakePavilion.pmx", "./model/Scene/WaterLilyPavilion/MidLakePavilion.pmx", 
+            "./model/Scene/Musume_Forest/stage.pmd", 
+            "./model/Scene/JP_Yard/Stage.pmd", "./model/Scene/Summer_Apartment/Summer_Apartment.pmx",
+            "./model/Scene/Tokyo_Stage/Tokyo.pmx", "./model/Scene/Snow_Field/Snow_Field.pmx"
         ];
         this.mCameraFiles = [
             // ancient
-            ["/motion/Ancient/LuoHuaQinCamera.vmd"], ["/motion/Ancient/QianSiXiCamera.vmd"], 
-            ["/motion/Ancient/HongZhaoYuanCamera.vmd"], ["/motion/Ancient/ZuiLinCamera.vmd"], 
-            ["/motion/Ancient/LianRenXinCamera.vmd"], ["/motion/Ancient/XiaoQiuYueMing.vmd"],
-            ["/motion/Ancient/YueZhongTianMotion.vmd"], ["/motion/Ancient/XiaShanCamera.vmd"], 
-            ["/motion/Ancient/XingyunLinCamera.vmd"], ["/motion/Ancient/QianDengYuanCamera.vmd"], 
-            ["/motion/Ancient/BanHuShaCamera.vmd"], ["/motion/Ancient/YuShengYanCamera.vmd"], 
-            ["/motion/Ancient/ChuJianCamera.vmd"], 
+            ["./motion/Ancient/LuoHuaQinCamera.vmd"], ["./motion/Ancient/QianSiXiCamera.vmd"], 
+            ["./motion/Ancient/HongZhaoYuanCamera.vmd"], ["./motion/Ancient/ZuiLinCamera.vmd"], 
+            ["./motion/Ancient/LianRenXinCamera.vmd"], ["./motion/Ancient/XiaoQiuYueMing.vmd"],
+            ["./motion/Ancient/YueZhongTianMotion.vmd"], ["./motion/Ancient/XiaShanCamera.vmd"], 
+            ["./motion/Ancient/XingyunLinCamera.vmd"], ["./motion/Ancient/QianDengYuanCamera.vmd"], 
+            ["./motion/Ancient/BanHuShaCamera.vmd"], ["./motion/Ancient/YuShengYanCamera.vmd"], 
+            ["./motion/Ancient/ChuJianCamera.vmd"], 
             // Popular
-            ["/motion/Popular/LearnCatCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
-            ["/motion/Popular/LittleAppleCamera.vmd"], ["/motion/Popular/JiLeCamera.vmd"], 
+            ["./motion/Popular/LearnCatCamera.vmd"], ["./motion/Popular/JiLeCamera.vmd"], 
+            ["./motion/Popular/LittleAppleCamera.vmd"], ["./motion/Popular/JiLeCamera.vmd"], 
             // Jp&Korea
-            ["/motion/JP&Korea/OnlymyrailgunCamera.vmd"], ["/motion/JP&Korea/みつあみの猫Camera.vmd"], 
-            ["/motion/JP&Korea/BarBarBarCamera.vmd"], ["/motion/JP&Korea/WhatYouWaitingForCamera.vmd"], 
-            ["/motion/JP&Korea/BirthdayCamera.vmd"], ["/motion/JP&Korea/BangBangCamera.vmd"], 
-            ["/motion/JP&Korea/BoPeepBoPeepCamera.vmd"], 
+            ["./motion/JP&Korea/OnlymyrailgunCamera.vmd"], ["./motion/JP&Korea/みつあみの猫Camera.vmd"], 
+            ["./motion/JP&Korea/BarBarBarCamera.vmd"], ["./motion/JP&Korea/WhatYouWaitingForCamera.vmd"], 
+            ["./motion/JP&Korea/BirthdayCamera.vmd"], ["./motion/JP&Korea/BangBangCamera.vmd"], 
+            ["./motion/JP&Korea/BoPeepBoPeepCamera.vmd"], 
             // Funny
-            ["/motion/Funny/CoffinDance/CAMERA.vmd"], ["/motion/DefaultCamera.vmd"],
-            ["/motion/Funny/CaiXukun/caixukunCamera.vmd"], ["/motion/DefaultCamera.vmd"]
+            ["./motion/Funny/CoffinDance/CAMERA.vmd"], ["./motion/DefaultCamera.vmd"],
+            ["./motion/Funny/CaiXukun/caixukunCamera.vmd"], ["./motion/DefaultCamera.vmd"]
         ];
         this.mMusicFiles = [
             // ancient
-            "/music/LuoHuaQin.mp3", "/music/QianSiXi.mp3", "/music/HongZhaoYuan.mp3", 
-            "/music/ZuiLin.mp3", "/music/LianRenXin.mp3", "/music/XiaoQiuYueMing.mp3", 
-            "/music/YueZhongTian.mp3", "/music/XiaShan.mp3", "/music/XingYunLing.mp3", 
-            "/music/QianDengYuan.mp3", "/music/BanHuSha.mp3", "/music/YuShengYan.mp3", 
-            "/music/RuMengLin.mp3", 
+            "./music/LuoHuaQin.mp3", "./music/QianSiXi.mp3", "./music/HongZhaoYuan.mp3", 
+            "./music/ZuiLin.mp3", "./music/LianRenXin.mp3", "./music/XiaoQiuYueMing.mp3", 
+            "./music/YueZhongTian.mp3", "./music/XiaShan.mp3", "./music/XingYunLing.mp3", 
+            "./music/QianDengYuan.mp3", "./music/BanHuSha.mp3", "./music/YuShengYan.mp3", 
+            "./music/RuMengLin.mp3", 
             // Popular
-            "/music/LearnCatCut.mp3", "/music/HaiCaoCut.mp3", "/music/LittleApple.mp3", "/music/JiLeJinTu.mp3", 
+            "./music/LearnCatCut.mp3", "./music/HaiCaoCut.mp3", "./music/LittleApple.mp3", "./music/JiLeJinTu.mp3", 
             // Jp&Korea
-            "/music/Only_my_railgun.mp3", "/music/Mitsumai_no_Neko.mp3", 
-            "/music/BarBarBar.mp3", "/music/WaitingFor.mp3", "/music/Birthday.mp3", "/music/BangBang.mp3", "/music/BoPeepBoPeep.mp3", 
+            "./music/Only_my_railgun.mp3", "./music/Mitsumai_no_Neko.mp3", 
+            "./music/BarBarBar.mp3", "./music/WaitingFor.mp3", "./music/Birthday.mp3", "./music/BangBang.mp3", "./music/BoPeepBoPeep.mp3", 
             // Funny
-            "/music/CoffinDance.mp3", "/music/MaBaoguo.mp3", "/music/caixukun.mp3", "/music/BadBadWater.mp3"
+            "./music/CoffinDance.mp3", "./music/MaBaoguo.mp3", "./music/caixukun.mp3", "./music/BadBadWater.mp3"
         ];
         this.mDebug = false;
         this.mAutoCamera = true;
@@ -337,7 +337,7 @@ class BugByDaylight {
 
         // // 创建video对象
         // this.mVideo = document.createElement('video');
-        // this.mVideo.src = "/motion/Funny/MaBaoguo/mabaoguo.mp4"; // 设置视频地址
+        // this.mVideo.src = "./motion/Funny/MaBaoguo/mabaoguo.mp4"; // 设置视频地址
         // // this.mVideo.autoplay = "autoplay"; // 要设置播放
         // // video对象作为VideoTexture参数创建纹理对象
         // var videoTexture = new THREE.VideoTexture(this.mVideo)
@@ -356,12 +356,12 @@ class BugByDaylight {
         var skyBoxGeo = new THREE.BoxGeometry(1000, 1000, 1000);
         // const cubeTextureLoader = new THREE.CubeTextureLoader();
         // const skyBoxTexture = cubeTextureLoader.load([
-        //     '/texture/SkyBox/posx.jpg', 
-        //     '/texture/SkyBox/negx.jpg', 
-        //     '/texture/SkyBox/posy.jpg', 
-        //     '/texture/SkyBox/negy.jpg', 
-        //     '/texture/SkyBox/posz.jpg', 
-        //     '/texture/SkyBox/negz.jpg', 
+        //     './texture/SkyBox/posx.jpg', 
+        //     './texture/SkyBox/negx.jpg', 
+        //     './texture/SkyBox/posy.jpg', 
+        //     './texture/SkyBox/negy.jpg', 
+        //     './texture/SkyBox/posz.jpg', 
+        //     './texture/SkyBox/negz.jpg', 
         // ]);
         var materialArray = [];
         var directions  = ["posx", "negx", "posy", "negy", "posz", "negz"]; 
@@ -489,11 +489,11 @@ class BugByDaylight {
 
         // // plane
         // var planeGeo = new THREE.PlaneGeometry(5000, 5000);
-        // var planeTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big.jpg');
+        // var planeTexture = this.mTextureLoader.load('./texture/Terrain/grasslight-big.jpg');
         // planeTexture.wrapS = THREE.RepeatWrapping;
         // planeTexture.wrapT = THREE.RepeatWrapping;
         // planeTexture.repeat.set(100, 100);
-        // var planeNormalTexture = this.mTextureLoader.load('/texture/Terrain/grasslight-big-nm.jpg');
+        // var planeNormalTexture = this.mTextureLoader.load('./texture/Terrain/grasslight-big-nm.jpg');
         // planeNormalTexture.wrapS = THREE.RepeatWrapping;
         // planeNormalTexture.wrapT = THREE.RepeatWrapping;
         // planeNormalTexture.repeat.set(100, 100);
@@ -510,29 +510,29 @@ class BugByDaylight {
         // // load xilou FBX
         // var xilouMaterials = [
         //     new THREE.MeshPhysicalMaterial({
-        //         map: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m1_C.jpg'), 
-        //         normalMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m1_N.jpg'),
-        //         metalnessMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m1_Ao.jpg'),
-        //         specularMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m1_S.tga')
+        //         map: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m1_C.jpg'), 
+        //         normalMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m1_N.jpg'),
+        //         metalnessMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m1_Ao.jpg'),
+        //         specularMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m1_S.tga')
         //     }), 
         //     new THREE.MeshPhysicalMaterial({
-        //         map: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m3_C.jpg'), 
-        //         normalMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m3_N.jpg'),
-        //         metalnessMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m3_Ao.jpg'),
-        //         specularMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m3_S.tga')
+        //         map: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m3_C.jpg'), 
+        //         normalMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m3_N.jpg'),
+        //         metalnessMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m3_Ao.jpg'),
+        //         specularMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m3_S.tga')
         //     }),
         //     null,
         //     new THREE.MeshPhysicalMaterial({
-        //         map: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m2_C.jpg'), 
-        //         normalMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m2_N.jpg'),
-        //         metalnessMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m2_Ao.jpg'),
-        //         specularMap: this.mTextureLoader.load('/model/FBX/PBR_XiLou/XiLou_m2_S.tga')
+        //         map: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m2_C.jpg'), 
+        //         normalMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m2_N.jpg'),
+        //         metalnessMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m2_Ao.jpg'),
+        //         specularMap: this.mTextureLoader.load('./model/FBX/PBR_XiLou/XiLou_m2_S.tga')
         //     })
         // ];
 
         // var xilouLoader = new THREE.FBXLoader();
         // xilouLoader.setCrossOrigin("Anonymous");
-        // xilouLoader.load("/model/FBX/PBR_XiLou/XiLou.fbx", function(object) {
+        // xilouLoader.load("./model/FBX/PBR_XiLou/XiLou.fbx", function(object) {
         //     object.traverse(function(child) {
         //         if (child.isMesh) {    //  instanceof THREE.Mesh
         //             child.material = xilouMaterials;
@@ -592,8 +592,8 @@ class BugByDaylight {
                     size: {value: new THREE.Vector2(window.innerWidth, window.innerHeight)},
                     time: {value: 0},
                     tDiffuse: {value: this.mRenderTarget.texture},
-                    tWaterMap: {value: this.mTextureLoader.load("/texture/Water/water.jpg")},
-                    tWaterNormalMap: {value: this.mTextureLoader.load("/texture/Water/waternormals.jpg")},
+                    tWaterMap: {value: this.mTextureLoader.load("./texture/Water/water.jpg")},
+                    tWaterNormalMap: {value: this.mTextureLoader.load("./texture/Water/waternormals.jpg")},
                     circleWaveCenters: {value: circleWaveCentersArray},
                     circleWaveTriggerTimes: {value: circleWaveTriggerTimesArray},
                     circleWaveNum: {value: 0},
